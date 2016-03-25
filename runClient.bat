@@ -1,0 +1,3 @@
+CLS
+gradlew runClient
+PAUSE
