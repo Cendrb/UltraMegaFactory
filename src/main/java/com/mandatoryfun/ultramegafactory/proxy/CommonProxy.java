@@ -14,6 +14,7 @@ public class CommonProxy {
     public void preInit(FMLPreInitializationEvent e) {
         ModItems.init();
         ModBlocks.init();
+        System.out.println("JOHNCENA");
     }
 
     public void init(FMLInitializationEvent e) {

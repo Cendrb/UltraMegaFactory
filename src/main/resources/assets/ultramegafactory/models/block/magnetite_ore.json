@@ -1,6 +1,6 @@
 {
   "parent": "block/cube_all",
   "textures": {
-    "all": "ultramegafactory:item/john_cena"
+    "all": "ultramegafactory:items/john_cena"
   }
 }

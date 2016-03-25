@@ -11,8 +11,6 @@ import net.minecraft.client.renderer.block.model.ModelResourceLocation;
  */
 public class ItemRenderRegister {
 
-    static ItemModelMesher mesher = Minecraft.getMinecraft().getRenderItem().getItemModelMesher();
-
     public static void init()
     {
         register(ModItems.johnCena, 0);
@@ -20,6 +18,7 @@ public class ItemRenderRegister {
 
     private static void register(ItemGeneric item, int meta)
     {
-        mesher.register(item, meta, new ModelResourceLocation(item.getIdentifier(), "inventory"));
+        System.out.println(item.getIdentifier());
+        Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register(item, meta, new ModelResourceLocation(item.getIdentifier(), "inventory"));
     }
 }

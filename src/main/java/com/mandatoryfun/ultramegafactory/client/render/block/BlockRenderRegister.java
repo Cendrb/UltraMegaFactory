@@ -12,15 +12,12 @@ import net.minecraft.item.Item;
  */
 public class BlockRenderRegister {
 
-
-    static ItemModelMesher mesher = Minecraft.getMinecraft().getRenderItem().getItemModelMesher();
-
     public static void init() {
         register(ModBlocks.magnetiteOre, 0);
     }
 
     private static void register(BlockGeneric block, int meta) {
-        mesher.register(Item.getItemFromBlock(block), meta, new ModelResourceLocation(block.getIdentifier(), "inventory"));
+        Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register(Item.getItemFromBlock(block), meta, new ModelResourceLocation(block.getIdentifier(), "inventory"));
     }
 
 }
