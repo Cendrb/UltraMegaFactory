@@ -1,6 +1,6 @@
-package com.wester_west.creativetabs;
+package com.example.ultramegafactory.creativetabs;
 
-import com.wester_west.item.MItems;
+import com.example.ultramegafactory.init.ModItems;
 
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
@@ -16,7 +16,7 @@ public class CreativeTabItem extends CreativeTabs
 	@Override
 	public Item getTabIconItem()
 	{
-		return MItems.oStick;
+		return ModItems.oStick;
 	}
 
 }

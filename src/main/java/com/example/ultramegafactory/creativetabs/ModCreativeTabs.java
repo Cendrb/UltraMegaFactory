@@ -1,8 +1,8 @@
-package com.wester_west.creativetabs;
+package com.example.ultramegafactory.creativetabs;
 
 import net.minecraft.creativetab.CreativeTabs;
 
-public class MCreativeTabs
+public class ModCreativeTabs
 {
 	public static CreativeTabs tabBlock;
 	public static CreativeTabs tabItems;

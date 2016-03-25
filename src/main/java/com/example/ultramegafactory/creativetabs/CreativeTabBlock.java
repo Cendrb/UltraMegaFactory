@@ -1,6 +1,6 @@
-package com.wester_west.creativetabs;
+package com.example.ultramegafactory.creativetabs;
 
-import com.wester_west.blocks.MBlocks;
+import com.example.ultramegafactory.init.ModBlocks;
 
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
@@ -16,7 +16,7 @@ public class CreativeTabBlock extends CreativeTabs
 	@Override
 	public Item getTabIconItem()
 	{
-		return Item.getItemFromBlock(MBlocks.MagnetiteOre);
+		return Item.getItemFromBlock(ModBlocks.MagnetiteOre);
 	}
 
 }

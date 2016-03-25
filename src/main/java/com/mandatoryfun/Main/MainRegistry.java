@@ -1,18 +1,14 @@
 package com.wester_west.Main;
 
 
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockOre;
+import com.example.ultramegafactory.init.ModBlocks;
 import net.minecraft.init.Blocks;
-import net.minecraft.item.ItemStack;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.chunk.storage.ExtendedBlockStorage;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.terraingen.PopulateChunkEvent;
 
-import com.wester_west.blocks.MBlocks;
 import com.wester_west.creativetabs.MCreativeTabs;
-import com.wester_west.item.MItems;
+import com.example.ultramegafactory.init.ModItems;
 import com.wester_west.lib.RefStrings;
 import com.wester_west.world.MWorld;
 
@@ -39,8 +35,8 @@ public class MainRegistry
 	{
 		MCreativeTabs.initializeTabs();
 		MWorld.mainRegistry();
-		MItems.mainRegistry();
-		MBlocks.mainRegistry();
+		ModItems.mainRegistry();
+		ModBlocks.mainRegistry();
 		CraftingManager.mainRegistry();
 		proxy.registerRenderInfo();
 		

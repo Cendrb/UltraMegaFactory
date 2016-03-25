@@ -2,18 +2,13 @@ package com.wester_west.world;
 
 import java.util.Random;
 
-import com.wester_west.blocks.MBlocks;
+import com.example.ultramegafactory.init.ModBlocks;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockOre;
 import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
-import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.chunk.IChunkProvider;
-import net.minecraft.world.chunk.storage.ExtendedBlockStorage;
 import net.minecraft.world.gen.feature.WorldGenMinable;
-import net.minecraftforge.event.terraingen.OreGenEvent;
-import net.minecraftforge.event.terraingen.PopulateChunkEvent;
 import cpw.mods.fml.common.IWorldGenerator;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 
@@ -64,10 +59,10 @@ public class ChewOre implements IWorldGenerator {
 
 	private void generateOverworld(Random random, int chunkX, int chunkZ, World world)
 	{
-		addOre(MBlocks.MagnetiteOre, Blocks.stone, random, world, chunkX, chunkZ, 5, 100, 1, 7, 10);
-		addOre(MBlocks.LimoniteOre, Blocks.stone, random, world, chunkX, chunkZ, 5, 100, 2, 10, 20);
-		addOre(MBlocks.HematiteOre, Blocks.stone, random, world, chunkX, chunkZ, 5, 100, 4, 8, 20);
-		//addOre(MBlocks.Basalt, Blocks.stone, random, world, chunkX, chunkZ, 0, 5, 1279, 1280, 1000);
+		addOre(ModBlocks.MagnetiteOre, Blocks.stone, random, world, chunkX, chunkZ, 5, 100, 1, 7, 10);
+		addOre(ModBlocks.LimoniteOre, Blocks.stone, random, world, chunkX, chunkZ, 5, 100, 2, 10, 20);
+		addOre(ModBlocks.HematiteOre, Blocks.stone, random, world, chunkX, chunkZ, 5, 100, 4, 8, 20);
+		//addOre(ModBlocks.Basalt, Blocks.stone, random, world, chunkX, chunkZ, 0, 5, 1279, 1280, 1000);
 	}
 
 	private void generateNether(Random random, int chunkX, int chunkZ, World world) 

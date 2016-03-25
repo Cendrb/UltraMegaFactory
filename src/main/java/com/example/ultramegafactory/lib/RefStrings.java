@@ -1,4 +1,4 @@
-package com.wester_west.lib;
+package com.example.ultramegafactory.lib;
 
 public class RefStrings
 {
