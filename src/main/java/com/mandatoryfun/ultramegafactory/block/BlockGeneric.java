@@ -24,10 +24,10 @@ public class BlockGeneric extends Block {
     }
 
     public BlockGeneric(String unlocalizedName, Material material, float hardness, float resistance) {
-        super(material);
-        setHardness(hardness);
-        setResistance(resistance);
-        setCreativeTab(ModCreativeTabs.tabBlock);
+            super(material);
+            setHardness(hardness);
+            setResistance(resistance);
+            setCreativeTab(ModCreativeTabs.tabBlock);
         setUnlocalizedName(unlocalizedName);
     }
 
