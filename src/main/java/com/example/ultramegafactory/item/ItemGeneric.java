@@ -1,4 +1,4 @@
-package com.example.ultramegafactory.items;
+package com.example.ultramegafactory.item;
 
 import com.cendrb.rododendron.creative_tab.CreativeTabRodo;
 import com.cendrb.rododendron.reference.Reference;

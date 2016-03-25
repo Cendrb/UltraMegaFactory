@@ -1,4 +1,4 @@
-package com.example.ultramegafactory.creativetabs;
+package com.example.ultramegafactory.creativetab;
 
 import com.example.ultramegafactory.init.ModBlocks;
 

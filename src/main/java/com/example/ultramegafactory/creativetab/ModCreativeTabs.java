@@ -1,4 +1,4 @@
-package com.example.ultramegafactory.creativetabs;
+package com.example.ultramegafactory.creativetab;
 
 import net.minecraft.creativetab.CreativeTabs;
 
