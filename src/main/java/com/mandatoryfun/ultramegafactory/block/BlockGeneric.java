@@ -43,7 +43,7 @@ public class BlockGeneric extends Block {
     @Override
     public Block setUnlocalizedName(String name) {
         pureName = name;
-        return super.setUnlocalizedName(RefStrings.MODID + "_" + name);
+        return super.setUnlocalizedName(name);
     }
 
     public String getIdentifier()
