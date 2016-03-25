@@ -1,4 +1,4 @@
-package com.wester_west.world;
+/*package com.mandatoryfun.Main;
 
 import net.minecraft.init.Blocks;
 import net.minecraft.world.chunk.Chunk;
@@ -25,4 +25,4 @@ public class MWorld
 		
 		GameRegistry.registerWorldGenerator(worldGenClass, weightedProbability);
 	}
-}
+}*/

@@ -1,8 +1,8 @@
-package com.wester_west.world;
+/*package com.mandatoryfun.Main;
 
 import java.util.Random;
 
-import com.example.ultramegafactory.init.ModBlocks;
+import com.mandatoryfun.ultramegafactory.init.ModBlocks;
 
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
@@ -71,3 +71,4 @@ public class ChewOre implements IWorldGenerator {
 	}
 
 }
+*/
