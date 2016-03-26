@@ -1,0 +1,5 @@
+magnetite_ore.json{
+  "variants": {
+    "normal": { "model": "ultramegafactory:tetrahedrite_ore" }
+  }
+}

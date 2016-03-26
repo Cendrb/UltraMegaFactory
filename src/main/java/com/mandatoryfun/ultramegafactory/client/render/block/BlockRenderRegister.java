@@ -13,11 +13,35 @@ import net.minecraft.item.Item;
 public class BlockRenderRegister {
 
     public static void init() {
-        register(ModBlocks.magnetiteOre, 0);
+        register(ModBlocks.Ore.magnetite);
+        register(ModBlocks.Ore.hematite);
+        register(ModBlocks.Ore.siderite);
+        register(ModBlocks.Ore.pyrite);
+
+        register(ModBlocks.Ore.malachite);
+        register(ModBlocks.Ore.chalcopyrite);
+        register(ModBlocks.Ore.cuprite);
+        register(ModBlocks.Ore.tetrahedrite);
+
+        register(ModBlocks.Ore.cassiterite);
+        register(ModBlocks.Ore.teallite);
+
+        register(ModBlocks.Ore.galena);
+
+        register(ModBlocks.Ore.sphalerite);
+
+        register(ModBlocks.Ore.lignite);
+        register(ModBlocks.Ore.bituminousCoal);
+
+        register(ModBlocks.Ore.limestone);
     }
 
     private static void register(BlockGeneric block, int meta) {
         Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register(Item.getItemFromBlock(block), meta, new ModelResourceLocation(block.getIdentifier(), "inventory"));
+    }
+
+    private static void register(BlockGeneric block) {
+        register(block, 0);
     }
 
 }

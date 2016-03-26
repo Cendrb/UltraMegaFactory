@@ -1,4 +1,22 @@
 item.john_cena.name=John Cena
 
+tile.bituminous_coal.name=Bituminous Coal
+tile.cassiterite_ore.name=Cassiterite Ore
+tile.cuprite_ore.name=Cuprite Ore
+tile.galena_ore.name=Galena Ore
+tile.hematite_ore.name=Hematite Ore
+tile.lignite.name=Lignite
+tile.limestone.name=Limestone
 tile.magnetite_ore.name=Magnetite Ore
+tile.malachite_ore.name=Malachite Ore
+tile.pyrite_ore.name=Pyrite Ore
+tile.siderite_ore.name=Siderite Ore
+tile.sphalerite_ore.name=Sphalerite Ore
+tile.teallite_ore.name=Teallite Ore
+tile.tetrahedrite_ore.name=Tetrahedrite Ore
+
 tile.redstone_ore.name=Stalinite Ore
+
+itemGroup.UMFBlocks=UMF Blocks
+itemGroup.UMFItems=UMF Items
+itemGroup.UMFTools=UMF Tools

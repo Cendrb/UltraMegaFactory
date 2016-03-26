@@ -24,10 +24,10 @@ public class BlockGeneric extends Block {
     }
 
     public BlockGeneric(String unlocalizedName, Material material, float hardness, float resistance) {
-            super(material);
-            setHardness(hardness);
-            setResistance(resistance);
-            setCreativeTab(ModCreativeTabs.tabBlock);
+        super(material);
+        setHardness(hardness);
+        setResistance(resistance);
+        setCreativeTab(ModCreativeTabs.tabBlock);
         setUnlocalizedName(unlocalizedName);
     }
 
@@ -46,12 +46,11 @@ public class BlockGeneric extends Block {
         return super.setUnlocalizedName(name);
     }
 
-    public String getIdentifier()
-    {
+    public String getIdentifier() {
         return RefStrings.MODID + ":" + pureName;
     }
-    public String getPureName()
-    {
+
+    public String getPureName() {
         return pureName;
     }
 }

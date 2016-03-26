@@ -23,7 +23,9 @@ public class ModBlocks {
         public static BlockGenericOre cassiterite;
         public static BlockGenericOre teallite;
 
-        public static BlockGenericOre galenite;
+        public static BlockGenericOre galena;
+
+        public static BlockGenericOre sphalerite;
 
         public static BlockGenericOre lignite;
         public static BlockGenericOre bituminousCoal;
@@ -46,7 +48,9 @@ public class ModBlocks {
         Ore.cassiterite = registerOre("cassiterite_ore", "SnO\u2082", "", 3, 1);
         Ore.teallite = registerOre("teallite_ore", "PbSnS\u2082", "", 3, 1);
 
-        Ore.galenite = registerOre("galenite_ore", "PbS", "", 3, 1);
+        Ore.galena = registerOre("galena_ore", "PbS", "", 3, 1);
+
+        Ore.sphalerite = registerOre("sphalerite_ore", "ZnS", "", 3, 1);
 
         Ore.lignite = registerOre("lignite", "brown coal", "", 3, 1);
         Ore.bituminousCoal = registerOre("bituminous_coal", "black coal", "", 3, 1);

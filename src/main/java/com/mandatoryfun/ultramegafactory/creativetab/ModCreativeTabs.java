@@ -8,8 +8,8 @@ public class ModCreativeTabs {
     public static CreativeTabs tabTools;
 
     public static void init() {
-        tabBlock = new CreativeTabBlock("BlockTab");
-        tabItems = new CreativeTabItem("ItemTab");
-        tabTools = new CreativeTabTool("ToolTab");
+        tabBlock = new CreativeTabBlock("UMFBlocks");
+        tabItems = new CreativeTabItem("UMFItems");
+        tabTools = new CreativeTabTool("UMFTools");
     }
 }
