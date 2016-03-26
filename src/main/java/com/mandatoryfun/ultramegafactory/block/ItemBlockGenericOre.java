@@ -1,6 +1,7 @@
 package com.mandatoryfun.ultramegafactory.block;
 
 import net.minecraft.block.Block;
+import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 
@@ -24,6 +25,12 @@ public class ItemBlockGenericOre extends ItemBlockGeneric {
     public void addInformation(ItemStack stack, EntityPlayer playerIn, List<String> tooltip, boolean advanced) {
         if (blockGenericOre != null) {
             tooltip.add(blockGenericOre.getFormula());
+            if(GuiScreen.isShiftKeyDown())
+            {
+                tooltip.add(blockGenericOre.getDescription());
+            }
+            else
+                tooltip.add("Press SHIFT for more information");
         }
         super.addInformation(stack, playerIn, tooltip, advanced);
     }
