@@ -11,6 +11,7 @@ import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraft.world.chunk.IChunkGenerator;
 import net.minecraft.world.chunk.IChunkProvider;
 import net.minecraft.world.gen.feature.WorldGenMinable;
+import net.minecraft.world.gen.feature.WorldGenSpikes;
 import net.minecraftforge.fml.common.IWorldGenerator;
 
 import javax.annotation.Nullable;
@@ -25,7 +26,6 @@ public class OreGenerator implements IWorldGenerator {
             case -1:
                 generateNether(random, chunkX * 16, chunkZ * 16, world);
                 break;
-
             case 0:
                 BiomeGenBase biome = world.getBiomeGenForCoords(new BlockPos(chunkX * 16, 0, chunkZ * 16));
                 generateOverworld(random, chunkX * 16, chunkZ * 16, world, biome);
