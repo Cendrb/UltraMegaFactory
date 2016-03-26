@@ -25,11 +25,11 @@ public class ItemBlockGenericOre extends ItemBlockGeneric {
     public void addInformation(ItemStack stack, EntityPlayer playerIn, List<String> tooltip, boolean advanced) {
         if (blockGenericOre != null) {
             tooltip.add(blockGenericOre.getFormula());
-            if(GuiScreen.isShiftKeyDown())
-            {
-                tooltip.add(blockGenericOre.getDescription());
-            }
-            else
+            if (GuiScreen.isShiftKeyDown()) {
+                String[] descriptions = blockGenericOre.getDescription();
+                for (int i = 0; i < descriptions.length; i++)
+                    tooltip.add(descriptions[i]);
+            } else
                 tooltip.add("Press SHIFT for more information");
         }
         super.addInformation(stack, playerIn, tooltip, advanced);

@@ -35,28 +35,33 @@ public class ModBlocks {
 
 
     public static void init() {
-        Ore.magnetite = registerOre("magnetite_ore", "Fe\u2083O\u2084", "", 3, 1);
-        Ore.hematite = registerOre("hematite_ore", "Fe\u2082O\u2083", "", 3, 1);
-        Ore.siderite = registerOre("siderite_ore", "FeCO\u2083", "", 3, 1);
-        Ore.pyrite = registerOre("pyrite_ore", "FeS\u2082", "", 3, 1);
+        Ore.magnetite = registerOre("magnetite_ore", "Fe\u2083O\u2084", constructArray("Iron ore", "Can be found under seas and beaches"), 3, 1);
+        Ore.hematite = registerOre("hematite_ore", "Fe\u2082O\u2083", constructArray("Iron ore", "Can be found under hot sands (mostly deserts)"), 3, 1);
+        Ore.siderite = registerOre("siderite_ore", "FeCO\u2083", constructArray("Iron ore", "Can be found everywhere! Yayy!"), 3, 1);
+        Ore.pyrite = registerOre("pyrite_ore", "FeS\u2082", constructArray("Iron ore", "Can be found together with gold ore, beware looks kinda similar"), 3, 1);
 
-        Ore.malachite = registerOre("malachite_ore", "Cu\u2082CO\u2083(OH)\u2082", "", 3, 1);
-        Ore.chalcopyrite = registerOre("chalcopyrite_ore", "CuFeS\u2082", "", 3, 1);
-        Ore.cuprite = registerOre("cuprite_ore", "Cu\u2082O", "", 3, 1);
-        Ore.tetrahedrite = registerOre("tetrahedrite_ore", "Fe\u2081\u2082Sb\u2084S\u2081\u2083", "", 3, 1);
+        Ore.malachite = registerOre("malachite_ore", "Cu\u2082CO\u2083(OH)\u2082", constructArray("Copper ore", "Can be found together with cuprite"), 3, 1);
+        Ore.chalcopyrite = registerOre("chalcopyrite_ore", "CuFeS\u2082", constructArray("Copper and iron ore", "Can be found in coal seams bellow the surface together with pyrite"), 3, 1);
+        Ore.cuprite = registerOre("cuprite_ore", "Cu\u2082O", constructArray(""), 3, 1);
+        Ore.tetrahedrite = registerOre("tetrahedrite_ore", "Fe\u2081\u2082Sb\u2084S\u2081\u2083", constructArray(""), 3, 1);
 
-        Ore.cassiterite = registerOre("cassiterite_ore", "SnO\u2082", "", 3, 1);
-        Ore.teallite = registerOre("teallite_ore", "PbSnS\u2082", "", 3, 1);
+        Ore.cassiterite = registerOre("cassiterite_ore", "SnO\u2082", constructArray(""), 3, 1);
+        Ore.teallite = registerOre("teallite_ore", "PbSnS\u2082", constructArray(""), 3, 1);
 
-        Ore.galena = registerOre("galena_ore", "PbS", "", 3, 1);
+        Ore.galena = registerOre("galena_ore", "PbS", constructArray(""), 3, 1);
 
-        Ore.sphalerite = registerOre("sphalerite_ore", "ZnS", "", 3, 1);
+        Ore.sphalerite = registerOre("sphalerite_ore", "ZnS", constructArray(""), 3, 1);
 
-        Ore.lignite = registerOre("lignite", "brown coal", "", 3, 1);
-        Ore.bituminousCoal = registerOre("bituminous_coal", "black coal", "", 3, 1);
+        Ore.lignite = registerOre("lignite", "brown coal", constructArray(""), 3, 1);
+        Ore.bituminousCoal = registerOre("bituminous_coal", "black coal", constructArray(""), 3, 1);
 
-        Ore.limestone = registerOre("limestone", "CaCO\u2083", "", 3, 0);
+        Ore.limestone = registerOre("limestone", "CaCO\u2083", constructArray(""), 3, 0);
 
+    }
+
+    private static String[] constructArray(String... strings)
+    {
+        return strings;
     }
 
     private static BlockGeneric register(BlockGeneric block)
@@ -64,7 +69,7 @@ public class ModBlocks {
         GameRegistry.registerBlock(block, block.getPureName());
         return block;
     }
-    private static BlockGenericOre registerOre(String unlocalizedName, String formula, String description, float hardness, int toolLevel)
+    private static BlockGenericOre registerOre(String unlocalizedName, String formula, String[] description, float hardness, int toolLevel)
     {
         BlockGenericOre block;
         GameRegistry.registerBlock(block = new BlockGenericOre(unlocalizedName, Material.rock, hardness, 15, "pickaxe", toolLevel, formula, description), ItemBlockGenericOre.class, block.getPureName());
