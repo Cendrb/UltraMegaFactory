@@ -7,12 +7,14 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraft.world.chunk.IChunkGenerator;
 import net.minecraft.world.chunk.IChunkProvider;
 import net.minecraft.world.gen.feature.WorldGenMinable;
 import net.minecraftforge.fml.common.IWorldGenerator;
 
 import javax.annotation.Nullable;
+import java.util.ArrayList;
 import java.util.Random;
 
 public class OreGenerator implements IWorldGenerator {
@@ -25,8 +27,8 @@ public class OreGenerator implements IWorldGenerator {
                 break;
 
             case 0:
-                world.getBiomeGenForCoords(new BlockPos(chunkX * 16, 0, chunkZ * 16));
-                generateOverworld(random, chunkX * 16, chunkZ * 16, world);
+                BiomeGenBase biome = world.getBiomeGenForCoords(new BlockPos(chunkX * 16, 0, chunkZ * 16));
+                generateOverworld(random, chunkX * 16, chunkZ * 16, world, biome);
                 break;
 
             case 1:
@@ -55,17 +57,26 @@ public class OreGenerator implements IWorldGenerator {
     }
 
 
-    private void generateEnd(Random random, int chunkX, int chunkZ, World world) {
+    private void generateEnd(Random random, int worldX, int chunkZ, World world) {
 
     }
 
-    private void generateOverworld(Random random, int chunkX, int chunkZ, World world) {
-        addOre(ModBlocks.Ore.magnetite.getDefaultState(), Blocks.stone, random, world, chunkX, chunkZ, 5, 100, 1, 7, 10);
-        addOre(ModBlocks.Ore.cassiterite.getDefaultState(), Blocks.stone, random, world, chunkX, chunkZ, 5, 100, 2, 10, 20);
-        addOre(ModBlocks.Ore.hematite.getDefaultState(), Blocks.stone, random, world, chunkX, chunkZ, 5, 100, 4, 8, 20);
+    private void generateOverworld(Random random, int worldX, int chunkZ, World world, BiomeGenBase biome) {
+        if (isBiome(biome, 0, 10, 24, 16, 25, 26))
+            addOre(ModBlocks.Ore.magnetite.getDefaultState(), Blocks.stone, random, world, worldX, chunkZ, 5, 100, 2, 8, 30);
+        addOre(ModBlocks.Ore.cassiterite.getDefaultState(), Blocks.stone, random, world, worldX, chunkZ, 5, 100, 2, 10, 20);
+        addOre(ModBlocks.Ore.hematite.getDefaultState(), Blocks.stone, random, world, worldX, chunkZ, 5, 100, 4, 8, 20);
     }
 
-    private void generateNether(Random random, int chunkX, int chunkZ, World world) {
+    private void generateNether(Random random, int worldX, int chunkZ, World world) {
 
+    }
+
+    private boolean isBiome(BiomeGenBase input, int... allowedBiomeIds) {
+        ArrayList<BiomeGenBase> allowedBiomes = new ArrayList<>();
+        for (int biomeId : allowedBiomeIds)
+            allowedBiomes.add(BiomeGenBase.getBiome(biomeId));
+
+        return allowedBiomes.contains(input);
     }
 }
