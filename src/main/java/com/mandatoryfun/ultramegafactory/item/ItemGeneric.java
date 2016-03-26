@@ -18,7 +18,6 @@ public class ItemGeneric extends Item {
 
     public ItemGeneric(String unlocalizedName) {
         super();
-        setNoRepair();
         setCreativeTab(ModCreativeTabs.tabItems);
         pureName = unlocalizedName;
         setUnlocalizedName(unlocalizedName);
