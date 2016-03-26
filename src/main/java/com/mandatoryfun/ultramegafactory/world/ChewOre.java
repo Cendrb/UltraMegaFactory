@@ -38,7 +38,7 @@ public class ChewOre implements IWorldGenerator {
 		}
 	}
 
-	private void addOre(IBlockState block, Block blockspawn, Random random, World world, int posX, int posZ, int minY, int maxY, int minVein, int maxVein, int spawnChance)
+	private void addOre(IBlockState block, final Block blockspawn, Random random, World world, int posX, int posZ, int minY, int maxY, int minVein, int maxVein, int spawnChance)
 	{
 		for(int i = 0; i < spawnChance; i++)
 		{
