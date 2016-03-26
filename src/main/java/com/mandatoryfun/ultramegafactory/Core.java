@@ -11,8 +11,6 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 
 @Mod(modid = RefStrings.MODID, version = RefStrings.VERSION, name = RefStrings.NAME)
 public class Core {
-    public static final String MODID = "ultramegafactory";
-    public static final String VERSION = "1.0";
 
     @SidedProxy(clientSide = RefStrings.CLIENTSIDE, serverSide = RefStrings.SERVERSIDE, modId = RefStrings.MODID)
     public static CommonProxy proxy;

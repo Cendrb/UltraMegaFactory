@@ -1,5 +1,6 @@
 package com.mandatoryfun.ultramegafactory.proxy;
 
+import com.mandatoryfun.ultramegafactory.creativetab.ModCreativeTabs;
 import com.mandatoryfun.ultramegafactory.init.ModBlocks;
 import com.mandatoryfun.ultramegafactory.init.ModItems;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
@@ -14,6 +15,7 @@ public class CommonProxy {
     public void preInit(FMLPreInitializationEvent e) {
         ModItems.init();
         ModBlocks.init();
+        ModCreativeTabs.init();
     }
 
     public void init(FMLInitializationEvent e) {
