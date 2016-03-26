@@ -3,6 +3,7 @@ package com.mandatoryfun.ultramegafactory.proxy;
 import com.mandatoryfun.ultramegafactory.creativetab.ModCreativeTabs;
 import com.mandatoryfun.ultramegafactory.init.ModBlocks;
 import com.mandatoryfun.ultramegafactory.init.ModItems;
+import com.mandatoryfun.ultramegafactory.world.ModWorld;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
@@ -19,7 +20,7 @@ public class CommonProxy {
     }
 
     public void init(FMLInitializationEvent e) {
-
+        ModWorld.init();
     }
 
     public void postInit(FMLPostInitializationEvent e) {

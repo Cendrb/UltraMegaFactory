@@ -1,5 +1,7 @@
 {
   "variants": {
-    "normal": { "model": "ultramegafactory:limestone" }
+    "normal": {
+      "model": "ultramegafactory:limestone"
+    }
   }
 }

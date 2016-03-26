@@ -1,5 +1,7 @@
 {
   "variants": {
-    "normal": { "model": "ultramegafactory:siderite_ore" }
+    "normal": {
+      "model": "ultramegafactory:siderite_ore"
+    }
   }
 }

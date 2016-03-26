@@ -1,5 +1,7 @@
 {
   "variants": {
-    "normal": { "model": "ultramegafactory:hematite_ore" }
+    "normal": {
+      "model": "ultramegafactory:hematite_ore"
+    }
   }
 }

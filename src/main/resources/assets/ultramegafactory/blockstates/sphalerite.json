@@ -1,5 +1,7 @@
 {
   "variants": {
-    "normal": { "model": "ultramegafactory:sphalerite_ore" }
+    "normal": {
+      "model": "ultramegafactory:sphalerite_ore"
+    }
   }
 }

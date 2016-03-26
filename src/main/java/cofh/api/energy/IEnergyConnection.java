@@ -7,15 +7,14 @@ import net.minecraft.util.EnumFacing;
  * accept it; otherwise just use IEnergyHandler.
  * <p>
  * Note that {@link IEnergyHandler} is an extension of this.
- * 
+ *
  * @author King Lemming
- * 
  */
 public interface IEnergyConnection {
 
-	/**
-	 * Returns TRUE if the TileEntity can connect on a given side.
-	 */
-	boolean canConnectEnergy(EnumFacing from);
+    /**
+     * Returns TRUE if the TileEntity can connect on a given side.
+     */
+    boolean canConnectEnergy(EnumFacing from);
 
 }

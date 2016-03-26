@@ -1,5 +1,7 @@
 {
   "variants": {
-    "normal": { "model": "ultramegafactory:chalcopyrite_ore" }
+    "normal": {
+      "model": "ultramegafactory:chalcopyrite_ore"
+    }
   }
 }

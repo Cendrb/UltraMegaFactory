@@ -1,5 +1,7 @@
 {
   "variants": {
-    "normal": { "model": "ultramegafactory:galena_ore" }
+    "normal": {
+      "model": "ultramegafactory:galena_ore"
+    }
   }
 }

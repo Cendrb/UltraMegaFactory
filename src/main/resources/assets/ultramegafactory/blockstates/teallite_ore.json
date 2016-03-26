@@ -1,5 +1,7 @@
 {
   "variants": {
-    "normal": { "model": "ultramegafactory:teallite_ore" }
+    "normal": {
+      "model": "ultramegafactory:teallite_ore"
+    }
   }
 }

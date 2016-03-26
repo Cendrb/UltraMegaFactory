@@ -1,5 +1,7 @@
 {
   "variants": {
-    "normal": { "model": "ultramegafactory:cuprite_ore" }
+    "normal": {
+      "model": "ultramegafactory:cuprite_ore"
+    }
   }
 }

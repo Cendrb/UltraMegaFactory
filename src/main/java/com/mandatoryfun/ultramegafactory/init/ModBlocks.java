@@ -2,38 +2,11 @@ package com.mandatoryfun.ultramegafactory.init;
 
 import com.mandatoryfun.ultramegafactory.block.BlockGeneric;
 import com.mandatoryfun.ultramegafactory.block.BlockGenericOre;
-import com.mandatoryfun.ultramegafactory.block.ItemBlockGeneric;
 import com.mandatoryfun.ultramegafactory.block.ItemBlockGenericOre;
-import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
 public class ModBlocks {
-    public static class Ore {
-        public static BlockGenericOre magnetite;
-        public static BlockGenericOre hematite;
-        public static BlockGenericOre siderite;
-        public static BlockGenericOre pyrite;
-
-        public static BlockGenericOre malachite;
-        public static BlockGenericOre chalcopyrite;
-        public static BlockGenericOre cuprite;
-        public static BlockGenericOre tetrahedrite;
-
-        public static BlockGenericOre cassiterite;
-        public static BlockGenericOre teallite;
-
-        public static BlockGenericOre galena;
-
-        public static BlockGenericOre sphalerite;
-
-        public static BlockGenericOre lignite;
-        public static BlockGenericOre bituminousCoal;
-
-        public static BlockGenericOre limestone;
-    }
-
-
     public static void init() {
         Ore.magnetite = registerOre("magnetite_ore", "Fe\u2083O\u2084", constructArray("Iron ore", "Can be found under seas and beaches"), 3, 1);
         Ore.hematite = registerOre("hematite_ore", "Fe\u2082O\u2083", constructArray("Iron ore", "Can be found under hot sands (mostly deserts)"), 3, 1);
@@ -59,20 +32,42 @@ public class ModBlocks {
 
     }
 
-    private static String[] constructArray(String... strings)
-    {
+    private static String[] constructArray(String... strings) {
         return strings;
     }
 
-    private static BlockGeneric register(BlockGeneric block)
-    {
+    private static BlockGeneric register(BlockGeneric block) {
         GameRegistry.registerBlock(block, block.getPureName());
         return block;
     }
-    private static BlockGenericOre registerOre(String unlocalizedName, String formula, String[] description, float hardness, int toolLevel)
-    {
+
+    private static BlockGenericOre registerOre(String unlocalizedName, String formula, String[] description, float hardness, int toolLevel) {
         BlockGenericOre block;
         GameRegistry.registerBlock(block = new BlockGenericOre(unlocalizedName, Material.rock, hardness, 15, "pickaxe", toolLevel, formula, description), ItemBlockGenericOre.class, block.getPureName());
         return block;
+    }
+
+    public static class Ore {
+        public static BlockGenericOre magnetite;
+        public static BlockGenericOre hematite;
+        public static BlockGenericOre siderite;
+        public static BlockGenericOre pyrite;
+
+        public static BlockGenericOre malachite;
+        public static BlockGenericOre chalcopyrite;
+        public static BlockGenericOre cuprite;
+        public static BlockGenericOre tetrahedrite;
+
+        public static BlockGenericOre cassiterite;
+        public static BlockGenericOre teallite;
+
+        public static BlockGenericOre galena;
+
+        public static BlockGenericOre sphalerite;
+
+        public static BlockGenericOre lignite;
+        public static BlockGenericOre bituminousCoal;
+
+        public static BlockGenericOre limestone;
     }
 }

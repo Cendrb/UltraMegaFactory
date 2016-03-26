@@ -1,5 +1,7 @@
 {
   "variants": {
-    "normal": { "model": "ultramegafactory:magnetite_ore" }
+    "normal": {
+      "model": "ultramegafactory:magnetite_ore"
+    }
   }
 }

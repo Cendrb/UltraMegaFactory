@@ -1,5 +1,7 @@
 {
   "variants": {
-    "normal": { "model": "ultramegafactory:lignite" }
+    "normal": {
+      "model": "ultramegafactory:lignite"
+    }
   }
 }

@@ -1,5 +1,7 @@
 {
   "variants": {
-    "normal": { "model": "ultramegafactory:pyrite_ore" }
+    "normal": {
+      "model": "ultramegafactory:pyrite_ore"
+    }
   }
 }

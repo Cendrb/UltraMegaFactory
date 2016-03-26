@@ -34,12 +34,11 @@ public class BlockGenericOre extends BlockGeneric {
         this.description = description;
     }
 
-    public String getFormula()
-    {
+    public String getFormula() {
         return formula;
     }
-    public String[] getDescription()
-    {
+
+    public String[] getDescription() {
         return description;
     }
 }

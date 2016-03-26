@@ -1,5 +1,7 @@
 {
   "variants": {
-    "normal": { "model": "ultramegafactory:bituminous_coal" }
+    "normal": {
+      "model": "ultramegafactory:bituminous_coal"
+    }
   }
 }
