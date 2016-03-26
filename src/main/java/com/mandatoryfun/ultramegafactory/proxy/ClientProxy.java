@@ -20,7 +20,6 @@ public class ClientProxy extends CommonProxy {
         super.init(e);
         ItemRenderRegister.init();
         BlockRenderRegister.init();
-        System.out.println("JOHNCENA client");
     }
 
     @Override

@@ -16,7 +16,6 @@ public class ServerProxy extends CommonProxy {
     @Override
     public void init(FMLInitializationEvent e) {
         super.init(e);
-        System.out.println("JOHNCENA server");
     }
 
     @Override
