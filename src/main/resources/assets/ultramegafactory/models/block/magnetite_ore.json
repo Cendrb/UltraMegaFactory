@@ -1,6 +1,6 @@
 {
   "parent": "block/cube_all",
   "textures": {
-    "all": "ultramegafactory:items/john_cena"
+    "all": "ultramegafactory:block/MagnetiteOre"
   }
 }
