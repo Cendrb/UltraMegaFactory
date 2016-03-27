@@ -21,7 +21,7 @@ public final class ModItems {
         Ingot.lead = register("lead_ingot", "Pb", "Who is the leader now?");
         Ingot.cobalt = register("cobalt_ingot", "Co", "Totally useless", "Microsoft\u00AE");
         Ingot.chrome = register("chrome_ingot", "Cr", "Used to browse internet");
-        Ingot.nickel = register("nickel_ingot", "Ni", "Metal made from Minecraft\u00AE nicks", "Minecraft is trademark of Microsoft, which made MSmistake and Falldows");
+        Ingot.nickel = register("nickel_ingot", "Ni", "Metal made from Minecraft\u00AE nicks", "Minecraft is trademark of Microsoft, which also made MSMistake and Falldows");
 
         Ingot.bronze = register("bronze_ingot", "3 Cu and 1 Sn", "You get the third place Lame!");
         Ingot.electrum = register("electrum_ingot", "Au and Ag", "Really good conductor of", "...wait for it...", "electricity!");
