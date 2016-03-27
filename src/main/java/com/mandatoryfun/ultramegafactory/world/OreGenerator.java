@@ -73,7 +73,7 @@ public class OreGenerator implements IWorldGenerator {
     }
 
     private boolean isBiome(BiomeGenBase input, int... allowedBiomeIds) {
-        ArrayList<BiomeGenBase> allowedBiomes = new ArrayList<>();
+        ArrayList<BiomeGenBase> allowedBiomes = new ArrayList();
         for (int biomeId : allowedBiomeIds)
             allowedBiomes.add(BiomeGenBase.getBiome(biomeId));
 
