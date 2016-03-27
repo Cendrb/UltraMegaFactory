@@ -13,7 +13,6 @@ public class ModBlocks {
         public static BlockGenericOre siderite;
         public static BlockGenericOre pyrite;
 
-        public static BlockGenericOre malachite;
         public static BlockGenericOre chalcopyrite;
         public static BlockGenericOre cuprite;
         public static BlockGenericOre tetrahedrite;
@@ -36,24 +35,28 @@ public class ModBlocks {
     }
 
     public static void init() {
-        Ore.magnetite = registerOre("magnetite_ore", "Fe\u2083O\u2084", constructArray("Iron ore", "Can be found under seas and beaches"), 3, 1);
-        Ore.hematite = registerOre("hematite_ore", "Fe\u2082O\u2083", constructArray("Iron ore", "Can be found under hot sands (mostly deserts)"), 3, 1);
-        Ore.siderite = registerOre("siderite_ore", "FeCO\u2083", constructArray("Iron ore", "Can be found everywhere! YaY!"), 3, 1);
-        Ore.pyrite = registerOre("pyrite_ore", "FeS\u2082", constructArray("Iron ore", "Can be found together with gold ore", "beware looks kinda similar"), 3, 1);
+        // add calcite?
+        // add gems ruby Al2O3Cr - source of chromium, sapphire
+        // which to put into the nether? - sulfur-ish ones?
+        // add end ores
 
-        Ore.malachite = registerOre("malachite_ore", "Cu\u2082CO\u2083(OH)\u2082", constructArray("Copper ore", "Can be found together with cuprite"), 3, 1);
-        Ore.chalcopyrite = registerOre("chalcopyrite_ore", "CuFeS\u2082", constructArray("Copper and iron ore", "Can be found in coal seams bellow", "the surface together with pyrite"), 3, 1);
-        Ore.cuprite = registerOre("cuprite_ore", "Cu\u2082O", constructArray("Copper ore", "Can be found under savannas"), 3, 1);
-        Ore.tetrahedrite = registerOre("tetrahedrite_ore", "Fe\u2081\u2082Sb\u2084S\u2081\u2083", constructArray("Copper ore", "Can be found under mountain massifs"), 3, 1);
+        Ore.magnetite = registerOre("magnetite_ore", "Fe\u2083O\u2084", constructArray("Iron ore", "The best one out there", "Can be found under seas and beaches"), 3, 1);
+        Ore.hematite = registerOre("hematite_ore", "Fe\u2082O\u2083", constructArray("Iron ore", "Only slightly worse than magnetite", "Can be found under seas and beaches"), 3, 1);
+        Ore.siderite = registerOre("siderite_ore", "FeCO\u2083", constructArray("Iron ore", "Much more energy consumptive than magnetite and hematite", "Can be found everywhere! YaY!"), 3, 1);
+        Ore.pyrite = registerOre("pyrite_ore", "FeS\u2082", constructArray("Iron sulfide", "Mainly used to create sulfuric acid", "Can be found together with gold ore/sphalerite", "beware looks kinda similar"), 3, 1);
 
-        Ore.cassiterite = registerOre("cassiterite_ore", "SnO\u2082", constructArray("Tin ore", "Can be found in exotic jungle places"), 3, 1);
-        Ore.teallite = registerOre("teallite_ore", "PbSnS\u2082", constructArray("Tin ore", "Can be found in granite"), 3, 1);
+        Ore.chalcopyrite = registerOre("chalcopyrite_ore", "CuFeS\u2082", constructArray("Major copper ore", "Can be found everywhere together with pyrite"), 3, 1);
+        Ore.cuprite = registerOre("cuprite_ore", "Cu\u2082O", constructArray("Minor copper ore", "Can be found under savannas"), 3, 1);
+        Ore.tetrahedrite = registerOre("tetrahedrite_ore", "Fe\u2081\u2082Sb\u2084S\u2081\u2083", constructArray("Minor copper ore, source of antimony", "Can be found everywhere"), 3, 1);
 
-        Ore.galena = registerOre("galena_ore", "PbS", constructArray("Lead ore", "Toxic - Do not eat or drink!", "Can be found with sphalerite in mountain massifs"), 3, 1);
+        Ore.cassiterite = registerOre("cassiterite_ore", "SnO\u2082", constructArray("Major tin ore", "Can be found in exotic jungle places"), 3, 1);
+        Ore.teallite = registerOre("teallite_ore", "PbSnS\u2082", constructArray("Minor tin ore", "Can be found everywhere"), 3, 1);
 
-        Ore.sphalerite = registerOre("sphalerite_ore", "ZnS", constructArray("Zinc ore", "Can be found with galena in mountain massifs"), 3, 1);
+        Ore.galena = registerOre("galena_ore", "PbS", constructArray("Major lead ore, source of silver", "Toxic - Do not eat or drink!", "Can be found with sphalerite in mountain massifs"), 3, 1);
 
-        Ore.bauxite = registerOre("bauxite_ore", "Al(OH)\u2083", constructArray("Main source of aluminium with small amounts of titan", "Can be found below savannas, plains and jungles"), 3, 1);
+        Ore.sphalerite = registerOre("sphalerite_ore", "ZnS", constructArray("Major zinc ore", "Can be found with galena in mountain massifs"), 3, 1);
+
+        Ore.bauxite = registerOre("bauxite_ore", "Al(OH)\u2083", constructArray("Major aluminium ore, source of titanium", "Can be found below savannas, plains and jungles"), 3, 1);
         Ore.kaolinite = registerOre("kaolinite_ore", "Al\u2082Si\u2082O\u2085(OH)\u2084", constructArray(""), 3, 1);
 
         Ore.lignite = registerOre("lignite", "brown coal", constructArray("Less power effective than bitumen", "Can be found under swamps"), 3, 1);
