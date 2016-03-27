@@ -11,7 +11,6 @@ import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraft.world.chunk.IChunkGenerator;
 import net.minecraft.world.chunk.IChunkProvider;
 import net.minecraft.world.gen.feature.WorldGenMinable;
-import net.minecraft.world.gen.feature.WorldGenSpikes;
 import net.minecraftforge.fml.common.IWorldGenerator;
 
 import javax.annotation.Nullable;
@@ -61,11 +60,18 @@ public class OreGenerator implements IWorldGenerator {
 
     }
 
-    private void generateOverworld(Random random, int worldX, int chunkZ, World world, BiomeGenBase biome) {
+    private void generateOverworld(Random random, int worldX, int worldZ, World world, BiomeGenBase biome) {
         if (isBiome(biome, 0, 10, 24, 16, 25, 26))
-            addOre(ModBlocks.Ore.magnetite.getDefaultState(), Blocks.stone, random, world, worldX, chunkZ, 5, 60, 2, 8, 5);
-            addOre(ModBlocks.Ore.cassiterite.getDefaultState(), Blocks.stone, random, world, worldX, chunkZ, 5, 100, 2, 10, 20);
-            addOre(ModBlocks.Ore.hematite.getDefaultState(), Blocks.stone, random, world, worldX, chunkZ, 5, 100, 4, 8, 20);
+            addOre(ModBlocks.Ore.magnetite.getDefaultState(), Blocks.stone, random, world, worldX, worldZ, 5, 60, 2, 8, 5);
+        if (isBiome(biome, 2))
+            addOre(ModBlocks.Ore.hematite.getDefaultState(), Blocks.stone, random, world, worldX, worldZ, 5, 50, 2, 6, 5);
+        addOre(ModBlocks.Ore.siderite.getDefaultState(), Blocks.stone, random, world, worldX, worldZ, 5, 40, 2, 8, 5);
+        addOre(ModBlocks.Ore.pyrite.getDefaultState(), Blocks.stone, random, world, worldX, worldZ, 5, 20, 2, 8, 4);
+
+        if (isBiome(biome, 1, 35, 36, 21, 22, 23))
+            addOre(ModBlocks.Ore.bauxite.getDefaultState(), Blocks.stone, random, world, worldX, worldZ, 5, 100, 2, 10, 20);
+
+        addOre(ModBlocks.Ore.hematite.getDefaultState(), Blocks.stone, random, world, worldX, worldZ, 5, 100, 4, 8, 20);
     }
 
     private void generateNether(Random random, int worldX, int chunkZ, World world) {
