@@ -1,5 +1,6 @@
 package com.mandatoryfun.ultramegafactory.item;
 
+import com.mandatoryfun.ultramegafactory.lib.RefStrings;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -30,5 +31,10 @@ public class ItemIngotGeneric extends ItemGeneric {
         } else
             tooltip.add("Press SHIFT for more information");
         super.addInformation(stack, playerIn, tooltip, advanced);
+    }
+
+    @Override
+    public String getIdentifier() {
+        return RefStrings.MODID + ":" + "ingot/" + getPureName();
     }
 }

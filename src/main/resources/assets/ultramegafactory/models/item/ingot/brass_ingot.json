@@ -1,0 +1,6 @@
+iron_ingot.json{
+  "parent": "ultramegafactory:item/item_generic",
+  "textures": {
+    "layer0": "ultramegafactory:item/john_cena"
+  }
+}

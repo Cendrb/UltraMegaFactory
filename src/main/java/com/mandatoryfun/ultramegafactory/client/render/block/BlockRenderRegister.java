@@ -29,8 +29,12 @@ public class BlockRenderRegister {
 
         register(ModBlocks.Ore.sphalerite);
 
+        register(ModBlocks.Ore.bauxite);
+        register(ModBlocks.Ore.kaolinite);
+
         register(ModBlocks.Ore.lignite);
         register(ModBlocks.Ore.bituminousCoal);
+        register(ModBlocks.Ore.peat);
 
         register(ModBlocks.Ore.limestone);
     }

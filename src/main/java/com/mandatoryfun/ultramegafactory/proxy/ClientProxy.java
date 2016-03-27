@@ -18,8 +18,9 @@ public class ClientProxy extends CommonProxy {
     @Override
     public void init(FMLInitializationEvent e) {
         super.init(e);
-        ItemRenderRegister.init();
         BlockRenderRegister.init();
+        ItemRenderRegister.init();
+        System.out.println("JONH CENA WWE Client INIT");
     }
 
     @Override
