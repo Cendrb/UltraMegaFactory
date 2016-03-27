@@ -1,5 +1,3 @@
-item.john_cena.name=John Cena
-
 tile.bituminous_coal.name=Bituminous Coal
 tile.cassiterite_ore.name=Cassiterite Ore
 tile.cuprite_ore.name=Cuprite Ore
@@ -15,8 +13,29 @@ tile.sphalerite_ore.name=Sphalerite Ore
 tile.teallite_ore.name=Teallite Ore
 tile.tetrahedrite_ore.name=Tetrahedrite Ore
 tile.chalcopyrite_ore.name=Chalcopyrite Ore
+tile.bauxite_ore.name=Bauxite Ore
+tile.kaolinite.name=Kaolinite
+tile.peat.name=Peat
 
-tile.redstone_ore.name=Stalinite Ore
+item.iron_ingot.name=
+item._ingot.name=
+item._ingot.name=
+item._ingot.name=
+item._ingot.name=
+item._ingot.name=
+item._ingot.name=
+item._ingot.name=
+item._ingot.name=
+item._ingot.name=
+item._ingot.name=
+item._ingot.name=
+item._ingot.name=
+item._ingot.name=
+item._ingot.name=
+item._ingot.name=
+item._ingot.name=
+item._ingot.name=
+
 
 itemGroup.UMFBlocks=UMF Blocks
 itemGroup.UMFItems=UMF Items

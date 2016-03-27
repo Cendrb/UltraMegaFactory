@@ -8,13 +8,13 @@ public final class ModItems {
 
     public static void init()
     {
-        Ingot.iron = register("iron_ingot", "Fe", "dEx");
-        Ingot.steel = register("steel_ingot", "Fe with less C", "C means communism");
-        Ingot.enrichedSteel = register("enriched_steel_ingot", "Fe with almost none of C", "C means communism");
+        Ingot.iron = register("iron_ingot", "Fe", "dEx\u00AE");
+        Ingot.steel = register("steel_ingot", "Fe with less C", "C means §4communism");
+        Ingot.enrichedSteel = register("enriched_steel_ingot", "Fe with almost none of C", "C means §4communism");
         Ingot.copper = register("copper_ingot", "Cu", "Do not mismatch with rust");
-        Ingot.tin = register("tin_ingot", "Sn", "");
-        Ingot.silver = register("silver_ingot", "Ag");
-        Ingot.aluminium = register("aluminium_ingot", "Al", "Do not cook with it!");
+        Ingot.tin = register("tin_ingot", "Sn", "You can make little tin soldiers", "If you really want", "Cat meal is packed in it");
+        Ingot.silver = register("silver_ingot", "Ag", "You can steal it", "It's very expensive!");
+        Ingot.aluminium = register("aluminium_ingot", "Al", "Do not cook with it!", "If you do not know why", "Ask Uncle Google");
         Ingot.titanium = register("titanium_ingot", "Ti", "Super amazing light but extremely durable metal", "Expensive as fuck");
         Ingot.zinc = register("zinc_ingot", "Zn", "Fairly reactive, ask Alessandro Volta");
         Ingot.antimony = register("antimony_ingot", "Sb", "Not that big of a deal", "But with tin and lead useful for batteries");
@@ -26,7 +26,7 @@ public final class ModItems {
         Ingot.bronze = register("bronze_ingot", "3 Cu and 1 Sn", "You get the third place Lame!");
         Ingot.electrum = register("electrum_ingot", "Au and Ag", "Really good conductor of", "...wait for it...", "electricity!");
         Ingot.brass = register("brass_ingot", "Cu and Zn");
-        Ingot.PbSnSbAlloy = register("PbSnSb_alloy", "Pb, Sn and Sb", "Also called battery alloy", "");
+        Ingot.PbSnSbAlloy = register("PbSnSb_alloy_ingot", "Pb, Sn and Sb", "Also called battery alloy", "");
 
     }
 

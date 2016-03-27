@@ -39,10 +39,10 @@ public class ModBlocks {
         Ore.magnetite = registerOre("magnetite_ore", "Fe\u2083O\u2084", constructArray("Iron ore", "Can be found under seas and beaches"), 3, 1);
         Ore.hematite = registerOre("hematite_ore", "Fe\u2082O\u2083", constructArray("Iron ore", "Can be found under hot sands (mostly deserts)"), 3, 1);
         Ore.siderite = registerOre("siderite_ore", "FeCO\u2083", constructArray("Iron ore", "Can be found everywhere! YaY!"), 3, 1);
-        Ore.pyrite = registerOre("pyrite_ore", "FeS\u2082", constructArray("Iron ore", "Can be found together with gold ore, beware looks kinda similar"), 3, 1);
+        Ore.pyrite = registerOre("pyrite_ore", "FeS\u2082", constructArray("Iron ore", "Can be found together with gold ore", "beware looks kinda similar"), 3, 1);
 
         Ore.malachite = registerOre("malachite_ore", "Cu\u2082CO\u2083(OH)\u2082", constructArray("Copper ore", "Can be found together with cuprite"), 3, 1);
-        Ore.chalcopyrite = registerOre("chalcopyrite_ore", "CuFeS\u2082", constructArray("Copper and iron ore", "Can be found in coal seams bellow the surface together with pyrite"), 3, 1);
+        Ore.chalcopyrite = registerOre("chalcopyrite_ore", "CuFeS\u2082", constructArray("Copper and iron ore", "Can be found in coal seams bellow", "the surface together with pyrite"), 3, 1);
         Ore.cuprite = registerOre("cuprite_ore", "Cu\u2082O", constructArray("Copper ore", "Can be found under savannas"), 3, 1);
         Ore.tetrahedrite = registerOre("tetrahedrite_ore", "Fe\u2081\u2082Sb\u2084S\u2081\u2083", constructArray("Copper ore", "Can be found under mountain massifs"), 3, 1);
 
