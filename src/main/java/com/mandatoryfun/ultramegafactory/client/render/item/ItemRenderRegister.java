@@ -4,6 +4,7 @@ import com.mandatoryfun.ultramegafactory.init.ModItems;
 import com.mandatoryfun.ultramegafactory.item.ItemGeneric;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
+import net.minecraft.util.ResourceLocation;
 
 /**
  * Created by cendr_000 on 25.03.2016.

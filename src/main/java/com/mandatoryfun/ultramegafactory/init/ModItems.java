@@ -12,13 +12,13 @@ public final class ModItems {
         //raw metals
 
         Ingot.iron = registerIngot("iron_ingot", "Fe", "dEx\u00AE");
-        Ingot.steel = registerIngot("steel_ingot", "Fe with less C", "C means §4communism");
-        Ingot.enrichedSteel = registerIngot("enriched_steel_ingot", "Fe with almost none of C", "C means §4communism");
+        Ingot.steel = registerIngot("steel_ingot", "Fe with less C", "C means \u0A74communism");
+        Ingot.enrichedSteel = registerIngot("enriched_steel_ingot", "Fe with almost none of C", "C means \u0A74communism");
         Ingot.copper = registerIngot("copper_ingot", "Cu", "Do not mismatch with rust");
         Ingot.tin = registerIngot("tin_ingot", "Sn", "You can make little tin soldiers", "If you really want", "Cat meal is packed in it");
         Ingot.silver = registerIngot("silver_ingot", "Ag", "You can steal it", "It's very expensive!");
         Ingot.aluminium = registerIngot("aluminium_ingot", "Al", "Do not cook with it!", "If you do not know why", "Ask Uncle Google");
-        Ingot.titanium = registerIngot("titanium_ingot", "Ti", "Super amazing light but extremely durable metal", "Expensive as Valve\u00AE");
+        Ingot.titanium = registerIngot("titanium_ingot", "Ti", "Light but durable metal", "Expensive as Valve\u00AE");
         Ingot.zinc = registerIngot("zinc_ingot", "Zn", "Fairly reactive, ask Alessandro Volta");
         Ingot.antimony = registerIngot("antimony_ingot", "Sb", "Not that big of a deal", "But with tin and lead useful for batteries");
         Ingot.lead = registerIngot("lead_ingot", "Pb", "Who is the leader now?");

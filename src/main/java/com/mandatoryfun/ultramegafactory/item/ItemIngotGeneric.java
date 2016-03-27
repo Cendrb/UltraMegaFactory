@@ -32,9 +32,4 @@ public class ItemIngotGeneric extends ItemGeneric {
             tooltip.add("Press SHIFT for more information");
         super.addInformation(stack, playerIn, tooltip, advanced);
     }
-
-    @Override
-    public String getIdentifier() {
-        return RefStrings.MODID + ":" + "ingot/" + getPureName();
-    }
 }
