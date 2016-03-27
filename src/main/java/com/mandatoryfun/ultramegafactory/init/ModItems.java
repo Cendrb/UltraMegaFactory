@@ -6,8 +6,6 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 
 public final class ModItems {
 
-    public static ItemGeneric johnCena;
-
     public static void init()
     {
         Ingot.iron = register("iron_ingot", "Fe", "dEx");
@@ -17,16 +15,18 @@ public final class ModItems {
         Ingot.tin = register("tin_ingot", "Sn", "");
         Ingot.silver = register("silver_ingot", "Ag");
         Ingot.aluminium = register("aluminium_ingot", "Al", "Do not cook with it!");
-        Ingot.titanium = register("titanium_ingot", "Ti", "More expensive way to achieve durability of steel");
+        Ingot.titanium = register("titanium_ingot", "Ti", "Super amazing light but extremely durable metal", "Expensive as fuck");
         Ingot.zinc = register("zinc_ingot", "Zn", "Fairly reactive, ask Alessandro Volta");
-        Ingot.antimony = register("antimony_ingot", "Sb", "Not that big deal", "But with tin and lead useful", "for charging your Hungary ovens");
-        Ingot.cobalt = register("cobalt_ingot", "Co", "Totally useless", "It is an actual Microsoft game");
+        Ingot.antimony = register("antimony_ingot", "Sb", "Not that big of a deal", "But with tin and lead useful for batteries");
+        Ingot.lead = register("lead_ingot", "Pb", "Who is the leader now?");
+        Ingot.cobalt = register("cobalt_ingot", "Co", "Totally useless", "Microsoft\u00AE");
         Ingot.chrome = register("chrome_ingot", "Cr", "Used to browse internet");
         Ingot.nickel = register("nickel_ingot", "Ni", "Metal made from Minecraft nicks");
 
-        Ingot.steel = register("bronze_ingot", "3 Cu and 1 Sn", "You get the third place Lame!");
-        Ingot.steel = register("steel_ingot", "Fe with less C");
-        Ingot.steel = register("steel_ingot", "Fe with less C");
+        Ingot.bronze = register("bronze_ingot", "3 Cu and 1 Sn", "You get the third place Lame!");
+        Ingot.electrum = register("electrum_ingot", "Au and Ag", "Really good conductor of", "...wait for it...", "electricity!");
+        Ingot.brass = register("brass_ingot", "420 Cu and 69 Zn");
+        Ingot.PbSnSbAlloy = register("PbSnSb_alloy", "Pb, Sn and Sb", "Also called battery alloy");
 
     }
 
@@ -54,7 +54,7 @@ public final class ModItems {
         public static ItemIngotGeneric bronze;
         public static ItemIngotGeneric electrum;
         public static ItemIngotGeneric brass;
-        public static ItemIngotGeneric PbSnSb_alloy;
+        public static ItemIngotGeneric PbSnSbAlloy;
     }
 
     private static ItemGeneric register(String unlocalizedName) {

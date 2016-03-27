@@ -11,7 +11,7 @@ import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 public class ItemRenderRegister {
 
     public static void init() {
-        register(ModItems.johnCena, 0);
+
     }
 
     private static void register(ItemGeneric item, int meta) {
