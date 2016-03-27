@@ -25,8 +25,12 @@ public class ModBlocks {
 
         public static BlockGenericOre sphalerite;
 
+        public static BlockGenericOre bauxite;
+        public static BlockGenericOre kaolinite;
+
         public static BlockGenericOre lignite;
         public static BlockGenericOre bituminousCoal;
+        public static BlockGenericOre peat;
 
         public static BlockGenericOre limestone;
     }
@@ -49,8 +53,12 @@ public class ModBlocks {
 
         Ore.sphalerite = registerOre("sphalerite_ore", "ZnS", constructArray("Zinc ore", "Can be found with galena in mountain massifs"), 3, 1);
 
+        Ore.bauxite = registerOre("bauxite_ore", "Al(OH)\u2083", constructArray("Main source of aluminium with small amounts of titan", "Can be found below savannas, plains and jungles"), 3, 1);
+        Ore.kaolinite = registerOre("kaolinite_ore", "Al\u2082Si\u2082O\u2085(OH)\u2084", constructArray(""), 3, 1);
+
         Ore.lignite = registerOre("lignite", "brown coal", constructArray("Less power effective than bitumen", "Can be found under swamps"), 3, 1);
         Ore.bituminousCoal = registerOre("bituminous_coal", "black coal", constructArray("More power effective than lignite", "Can be found on the bottom of the Minecraft world"), 3, 1);
+        Ore.peat = registerOre("peat", "", constructArray("PEAT!!!"), 3, 0);
 
         Ore.limestone = registerOre("limestone", "CaCO\u2083", constructArray("Used to make lime", "Not an actual ore ;-)"), 3, 0);
 
