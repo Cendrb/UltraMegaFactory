@@ -1,3 +1,5 @@
+
+#ores
 tile.bituminous_coal.name=Bituminous Coal
 tile.cassiterite_ore.name=Cassiterite Ore
 tile.cuprite_ore.name=Cuprite Ore
@@ -17,26 +19,29 @@ tile.bauxite_ore.name=Bauxite Ore
 tile.kaolinite.name=Kaolinite
 tile.peat.name=Peat
 
-item.iron_ingot.name=
-item._ingot.name=
-item._ingot.name=
-item._ingot.name=
-item._ingot.name=
-item._ingot.name=
-item._ingot.name=
-item._ingot.name=
-item._ingot.name=
-item._ingot.name=
-item._ingot.name=
-item._ingot.name=
-item._ingot.name=
-item._ingot.name=
-item._ingot.name=
-item._ingot.name=
-item._ingot.name=
-item._ingot.name=
+#ingots
+item.iron_ingot.name=Iron Ingot
+item.steel_ingot.name=Steel Ingot
+item.enriched_steel_ingot.name=Enriched Steel Ingot
+item.copper_ingot.name=Copper Ingot
+item.tin_ingot.name=Tin Ingot
+item.silver_ingot.name=Silver Ingot
+item.aluminium_ingot.name=Aluminium Ingot
+item.titanium_ingot.name=Titanium Ingot
+item.zinc_ingot.name=Zinc Ingot
+item.antimony_ingot.name=Antimony Ingot
+item.lead_ingot.name=Lead Ingot
+item.cobalt_ingot.name=Cobalt Ingot
+item.chrome_ingot.name=Chrome Ingot
+item.nickel_ingot.name=Nickel Ingot
 
+#alloys
+item.bronze_ingot.name=Bronze Ingot
+item.electrum_ingot.name=Electrum Ingot
+item.brass_ingot.name=Brass Ingot
+item.PbSnSb_alloy_ingot.name=PbSnSb Alloy Ingot
 
+#creative tabs
 itemGroup.UMFBlocks=UMF Blocks
 itemGroup.UMFItems=UMF Items
 itemGroup.UMFTools=UMF Tools
