@@ -2,13 +2,15 @@ package com.mandatoryfun.ultramegafactory.init;
 
 import com.mandatoryfun.ultramegafactory.item.ItemGeneric;
 import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.oredict.OreDictionary;
 
 public final class ModItems {
 
     public static ItemGeneric johnCena;
 
-    public static void init() {
-        johnCena = register("john_cena");
+    public static void init()
+    {
+
     }
 
     private static ItemGeneric register(String unlocalizedName) {

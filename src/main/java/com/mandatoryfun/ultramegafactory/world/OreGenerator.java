@@ -63,9 +63,9 @@ public class OreGenerator implements IWorldGenerator {
 
     private void generateOverworld(Random random, int worldX, int chunkZ, World world, BiomeGenBase biome) {
         if (isBiome(biome, 0, 10, 24, 16, 25, 26))
-            addOre(ModBlocks.Ore.magnetite.getDefaultState(), Blocks.stone, random, world, worldX, chunkZ, 5, 100, 2, 8, 30);
-        addOre(ModBlocks.Ore.cassiterite.getDefaultState(), Blocks.stone, random, world, worldX, chunkZ, 5, 100, 2, 10, 20);
-        addOre(ModBlocks.Ore.hematite.getDefaultState(), Blocks.stone, random, world, worldX, chunkZ, 5, 100, 4, 8, 20);
+            addOre(ModBlocks.Ore.magnetite.getDefaultState(), Blocks.stone, random, world, worldX, chunkZ, 5, 60, 2, 8, 5);
+            addOre(ModBlocks.Ore.cassiterite.getDefaultState(), Blocks.stone, random, world, worldX, chunkZ, 5, 100, 2, 10, 20);
+            addOre(ModBlocks.Ore.hematite.getDefaultState(), Blocks.stone, random, world, worldX, chunkZ, 5, 100, 4, 8, 20);
     }
 
     private void generateNether(Random random, int worldX, int chunkZ, World world) {
