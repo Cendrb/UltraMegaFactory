@@ -1,5 +1,5 @@
 {
-  "parent": "ultramegafactory:block/bituminous_coal",
+  "parent": "ultramegafactory:block/bitumen_ore",
   "display": {
     "thirdperson": {
       "rotation": [

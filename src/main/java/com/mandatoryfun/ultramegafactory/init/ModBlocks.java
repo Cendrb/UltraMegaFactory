@@ -1,9 +1,6 @@
 package com.mandatoryfun.ultramegafactory.init;
 
-import com.mandatoryfun.ultramegafactory.block.BlockGeneric;
-import com.mandatoryfun.ultramegafactory.block.BlockGenericOre;
-import com.mandatoryfun.ultramegafactory.block.BlockKaolineOre;
-import com.mandatoryfun.ultramegafactory.block.ItemBlockGenericOre;
+import com.mandatoryfun.ultramegafactory.block.*;
 import net.minecraft.block.material.Material;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
@@ -39,7 +36,9 @@ public class ModBlocks {
         public static BlockGenericOre limestone;
     }
 
-        public static BlockKaolineOre kaoline_ore;
+    public static BlockKaolineOre kaolineOre;
+
+    public static BlockBlastFurnaceController blastFurnaceController;
 
     public static void init() {
         // add gems ruby Al2O3Cr - source of chromium, sapphire
@@ -66,15 +65,18 @@ public class ModBlocks {
 
         Ore.bauxite = registerOre("bauxite_ore", "Al(OH)\u2083", constructArray("Major aluminium ore, source of titanium", "Can be found below savannas, plains and jungles"), 3, 1);
 
-        Ore.lignite = registerOre("lignite", "brown coal", constructArray("Less power effective than bitumen", "Can be found under swamps"), 3, 1);
-        Ore.bituminousCoal = registerOre("bituminous_coal", "bitumen/black coal", constructArray("More power effective than lignite", "Can be found at the bottom of the Minecraft world"), 3, 1);
+        Ore.lignite = registerOre("lignite_ore", "brown coal", constructArray("Less power effective than bitumen", "Can be found under swamps"), 3, 1);
+        Ore.bituminousCoal = registerOre("bitumen_ore", "bituminous coal/black coal", constructArray("More power effective than lignite", "Can be found at the bottom of the Minecraft world"), 3, 1);
         Ore.peat = registerOre("peat", "PEAT!!!", constructArray(), 3, 0);
 
         Ore.limestone = registerOre("limestone", "CaCO\u2083", constructArray("Used to make lime", "Not an actual ore ;-)"), 3, 0);
 
 
-        //kaoline
-        kaoline_ore = (BlockKaolineOre) register(new BlockKaolineOre());
+        // kaoline
+        kaolineOre = (BlockKaolineOre) register(new BlockKaolineOre());
+
+        // blast furnace
+        // crashes the game blastFurnaceController = (BlockBlastFurnaceController) register(new BlockBlastFurnaceController());
     }
 
     private static String[] constructArray(String... strings) {

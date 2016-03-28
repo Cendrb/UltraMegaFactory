@@ -1,7 +1,10 @@
 package com.mandatoryfun.ultramegafactory;
 
+import com.mandatoryfun.ultramegafactory.handler.TooltipHandler;
 import com.mandatoryfun.ultramegafactory.lib.RefStrings;
 import com.mandatoryfun.ultramegafactory.proxy.CommonProxy;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.SidedProxy;
@@ -29,6 +32,7 @@ public class Core {
     public void init(FMLInitializationEvent e) {
         proxy.init(e);
         System.out.println("INIT for " + RefStrings.NAME);
+        // MinecraftForge.EVENT_BUS.register(new TooltipHandler());
         // crafting recipes, new handlers
     }
 

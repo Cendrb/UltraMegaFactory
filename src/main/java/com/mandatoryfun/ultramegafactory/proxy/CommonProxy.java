@@ -1,9 +1,12 @@
 package com.mandatoryfun.ultramegafactory.proxy;
 
 import com.mandatoryfun.ultramegafactory.creativetab.ModCreativeTabs;
+import com.mandatoryfun.ultramegafactory.handler.TooltipHandler;
 import com.mandatoryfun.ultramegafactory.init.ModBlocks;
 import com.mandatoryfun.ultramegafactory.init.ModItems;
 import com.mandatoryfun.ultramegafactory.world.ModWorld;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;

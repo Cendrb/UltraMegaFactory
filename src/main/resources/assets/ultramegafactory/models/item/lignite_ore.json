@@ -1,5 +1,5 @@
 {
-  "parent": "ultramegafactory:block/lignite",
+  "parent": "ultramegafactory:block/lignite_ore",
   "display": {
     "thirdperson": {
       "rotation": [
