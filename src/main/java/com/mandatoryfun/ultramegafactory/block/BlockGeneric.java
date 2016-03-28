@@ -4,7 +4,11 @@ import com.mandatoryfun.ultramegafactory.creativetab.ModCreativeTabs;
 import com.mandatoryfun.ultramegafactory.lib.RefStrings;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.state.IBlockState;
+import net.minecraft.item.Item;
 import net.minecraftforge.fml.common.registry.GameData;
+
+import java.util.Random;
 
 /**
  * Created by cendr_000 on 3. 7. 2015.

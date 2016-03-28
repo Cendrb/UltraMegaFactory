@@ -7,6 +7,8 @@ public class BlastFurnaceRecipe {
 
     private int energyCost;
     private int reuqiredTemperature;
+    private float reducingAgentPerOre;
+    private float limePerOre;
 
     public BlastFurnaceRecipe()
     {
