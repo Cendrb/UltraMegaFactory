@@ -15,7 +15,7 @@ tile.teallite_ore.name=Teallite Ore
 tile.tetrahedrite_ore.name=Tetrahedrite Ore
 tile.chalcopyrite_ore.name=Chalcopyrite Ore
 tile.bauxite_ore.name=Bauxite Ore
-tile.kaolinite.name=Kaolinite
+tile.kaoline_ore.name=Kaolinite
 tile.peat.name=Peat
 
 #ingots
