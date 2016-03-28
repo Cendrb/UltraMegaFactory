@@ -33,7 +33,7 @@ item.lead_ingot.name=Lead Ingot
 item.cobalt_ingot.name=Cobalt Ingot
 item.chrome_ingot.name=Chrome Ingot
 item.nickel_ingot.name=Nickel Ingot
-tile.gold_ingot.name=Gold Ingot
+item.gold_ingot.name=Gold Ingot
 
 #alloys
 item.bronze_ingot.name=Bronze Ingot
