@@ -60,8 +60,8 @@ public class ModBlocks {
         Ore.kaolinite = registerOre("kaolinite_ore", "Al\u2082Si\u2082O\u2085(OH)\u2084", constructArray(""), 3, 1);
 
         Ore.lignite = registerOre("lignite", "brown coal", constructArray("Less power effective than bitumen", "Can be found under swamps"), 3, 1);
-        Ore.bituminousCoal = registerOre("bituminous_coal", "black coal", constructArray("More power effective than lignite", "Can be found on the bottom of the Minecraft world"), 3, 1);
-        Ore.peat = registerOre("peat", "", constructArray("PEAT!!!"), 3, 0);
+        Ore.bituminousCoal = registerOre("bituminous_coal", "bitumen/black coal", constructArray("More power effective than lignite", "Can be found at the bottom of the Minecraft world"), 3, 1);
+        Ore.peat = registerOre("peat", "PEAT!!!", constructArray(), 3, 0);
 
         Ore.limestone = registerOre("limestone", "CaCO\u2083", constructArray("Used to make lime", "Not an actual ore ;-)"), 3, 0);
 
