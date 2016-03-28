@@ -12,8 +12,8 @@ import java.util.List;
  */
 public class ItemIngotGeneric extends ItemGeneric {
 
-    private String formula;
-    private String[] description;
+    protected String formula;
+    protected String[] description;
 
     public ItemIngotGeneric(String unlocalizedName, String formula, String[] description) {
         super(unlocalizedName);

@@ -17,7 +17,6 @@ public class BlockRenderRegister {
         register(ModBlocks.Ore.siderite);
         register(ModBlocks.Ore.pyrite);
 
-        register(ModBlocks.Ore.malachite);
         register(ModBlocks.Ore.chalcopyrite);
         register(ModBlocks.Ore.cuprite);
         register(ModBlocks.Ore.tetrahedrite);

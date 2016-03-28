@@ -3,6 +3,7 @@ package com.mandatoryfun.ultramegafactory.init;
 import com.mandatoryfun.ultramegafactory.item.ItemDustGeneric;
 import com.mandatoryfun.ultramegafactory.item.ItemGeneric;
 import com.mandatoryfun.ultramegafactory.item.ItemIngotGeneric;
+import com.mandatoryfun.ultramegafactory.item.ItemIronIngot;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
 
@@ -12,7 +13,7 @@ public final class ModItems {
     {
         //raw metals
 
-        Ingot.iron = registerIngot("iron_ingot", "Fe", "dEx\u00AE");
+        Ingot.iron = (ItemIronIngot) register(new ItemIronIngot("iron_ingot", "Fe", constructArray("dEx\u00AE")));
         Ingot.steel = registerIngot("steel_ingot", "Fe with less C", "C means \u0A74communism");
         Ingot.enrichedSteel = registerIngot("enriched_steel_ingot", "Fe with almost none of C", "C means \u0A74communism");
         Ingot.copper = registerIngot("copper_ingot", "Cu", "Do not mismatch with rust");
@@ -42,7 +43,7 @@ public final class ModItems {
     {
         //raw metals
 
-        public static ItemIngotGeneric iron;
+        public static ItemIronIngot iron;
         public static ItemIngotGeneric steel;
         public static ItemIngotGeneric enrichedSteel;
         public static ItemIngotGeneric copper;
@@ -71,9 +72,19 @@ public final class ModItems {
 
     }
 
+    private static String[] constructArray(String... strings) {
+        return strings;
+    }
+
     private static ItemGeneric register(String unlocalizedName) {
         ItemGeneric item;
         GameRegistry.registerItem(item = new ItemGeneric(unlocalizedName), unlocalizedName);
+        return item;
+    }
+
+    private static ItemGeneric register(ItemGeneric itemGeneric) {
+        ItemGeneric item;
+        GameRegistry.registerItem(item = itemGeneric, itemGeneric.getPureName());
         return item;
     }
 
