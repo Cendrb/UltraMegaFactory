@@ -6,11 +6,16 @@ import com.mandatoryfun.ultramegafactory.block.ItemBlockGenericOre;
 import net.minecraft.block.material.Material;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
+import java.util.ArrayList;
+
 public class ModBlocks {
+    private static ArrayList<BlockGeneric> allBlocks = new ArrayList<BlockGeneric>();
+
     public static class Ore {
         public static BlockGenericOre magnetite;
         public static BlockGenericOre hematite;
         public static BlockGenericOre siderite;
+        public static BlockGenericOre limonite;
         public static BlockGenericOre pyrite;
 
         public static BlockGenericOre chalcopyrite;
@@ -40,9 +45,11 @@ public class ModBlocks {
         // which to put into the nether? - sulfur-ish ones?
         // add end ores
 
-        Ore.magnetite = registerOre("magnetite_ore", "Fe\u2083O\u2084", constructArray("Iron ore", "The best one out there", "Can be found under seas and beaches"), 3, 1);
-        Ore.hematite = registerOre("hematite_ore", "Fe\u2082O\u2083", constructArray("Iron ore", "Only slightly worse than magnetite", "Can be found under seas and beaches"), 3, 1);
-        Ore.siderite = registerOre("siderite_ore", "FeCO\u2083", constructArray("Iron ore", "Much more energy consumptive than magnetite and hematite", "Can be found everywhere! YaY!"), 3, 1);
+        Ore.magnetite = registerOre("magnetite_ore", "Fe\u2083O\u2084", constructArray("Iron ore 72% Fe", "The best one out there", "Can be found under seas and beaches"), 3, 1);
+        Ore.hematite = registerOre("hematite_ore", "Fe\u2082O\u2083", constructArray("Iron ore 70% Fe", "Only slightly worse than magnetite", "Can be found under seas and beaches"), 3, 1);
+        Ore.limonite = registerOre("limonite_ore", "FeO(OH).nH\u2082O", constructArray("Iron ore 60% Fe", "A bit worse than hematite", "Can be found everywhere"), 3, 1);
+        Ore.siderite = registerOre("siderite_ore", "FeCO\u2083", constructArray("Iron ore 48% Fe", "Much more energy consumptive than magnetite, hematite and limonite", "Can be found everywhere! YaY!"), 3, 1);
+
         Ore.pyrite = registerOre("pyrite_ore", "FeS\u2082", constructArray("Iron sulfide", "Mainly used to create sulfuric acid", "Can be found together with gold ore/sphalerite", "beware looks kinda similar"), 3, 1);
 
         Ore.chalcopyrite = registerOre("chalcopyrite_ore", "CuFeS\u2082", constructArray("Major copper ore", "Can be found everywhere together with pyrite"), 3, 1);
@@ -73,12 +80,18 @@ public class ModBlocks {
 
     private static BlockGeneric register(BlockGeneric block) {
         GameRegistry.registerBlock(block, block.getPureName());
+        allBlocks.add(block);
         return block;
     }
 
     private static BlockGenericOre registerOre(String unlocalizedName, String formula, String[] description, float hardness, int toolLevel) {
         BlockGenericOre block;
         GameRegistry.registerBlock(block = new BlockGenericOre(unlocalizedName, Material.rock, hardness, 15, "pickaxe", toolLevel, formula, description), ItemBlockGenericOre.class, block.getPureName());
+        allBlocks.add(block);
         return block;
+    }
+
+    public static ArrayList<BlockGeneric> getAllBlocks() {
+        return allBlocks;
     }
 }

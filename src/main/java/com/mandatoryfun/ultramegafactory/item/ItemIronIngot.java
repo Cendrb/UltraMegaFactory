@@ -1,5 +1,6 @@
 package com.mandatoryfun.ultramegafactory.item;
 
+import com.mojang.realmsclient.gui.ChatFormatting;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;

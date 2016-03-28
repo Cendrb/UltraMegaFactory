@@ -1,5 +1,7 @@
 package com.mandatoryfun.ultramegafactory.client.render.item;
 
+import com.mandatoryfun.ultramegafactory.block.BlockGeneric;
+import com.mandatoryfun.ultramegafactory.init.ModBlocks;
 import com.mandatoryfun.ultramegafactory.init.ModItems;
 import com.mandatoryfun.ultramegafactory.item.ItemGeneric;
 import net.minecraft.client.Minecraft;
@@ -12,25 +14,8 @@ import net.minecraft.util.ResourceLocation;
 public class ItemRenderRegister {
 
     public static void init() {
-        register(ModItems.Ingot.iron);
-        register(ModItems.Ingot.steel);
-        register(ModItems.Ingot.enrichedSteel);
-        register(ModItems.Ingot.copper);
-        register(ModItems.Ingot.tin);
-        register(ModItems.Ingot.silver);
-        register(ModItems.Ingot.aluminium);
-        register(ModItems.Ingot.titanium);
-        register(ModItems.Ingot.zinc);
-        register(ModItems.Ingot.antimony);
-        register(ModItems.Ingot.lead);
-        register(ModItems.Ingot.cobalt);
-        register(ModItems.Ingot.chrome);
-        register(ModItems.Ingot.nickel);
-        register(ModItems.Ingot.bronze);
-        register(ModItems.Ingot.electrum);
-        register(ModItems.Ingot.brass);
-        register(ModItems.Ingot.PbSnSbAlloy);
-        register(ModItems.Ingot.gold);
+        for (ItemGeneric blockGeneric : ModItems.getAllItems())
+            register(blockGeneric);
     }
 
     private static void register(ItemGeneric item) {

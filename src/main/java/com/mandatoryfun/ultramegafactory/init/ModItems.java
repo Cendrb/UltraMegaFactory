@@ -4,18 +4,23 @@ import com.mandatoryfun.ultramegafactory.item.ItemDustGeneric;
 import com.mandatoryfun.ultramegafactory.item.ItemGeneric;
 import com.mandatoryfun.ultramegafactory.item.ItemIngotGeneric;
 import com.mandatoryfun.ultramegafactory.item.ItemIronIngot;
+import com.mojang.realmsclient.gui.ChatFormatting;
 import net.minecraftforge.fml.common.registry.GameRegistry;
+
+import java.util.ArrayList;
 
 
 public final class ModItems {
+
+    private static ArrayList<ItemGeneric> allItems = new ArrayList<ItemGeneric>();
 
     public static void init()
     {
         //raw metals
 
         Ingot.iron = (ItemIronIngot) register(new ItemIronIngot("iron_ingot", "Fe", constructArray("dEx\u00AE")));
-        Ingot.steel = registerIngot("steel_ingot", "Fe with less C", "C means \u0A74communism");
-        Ingot.enrichedSteel = registerIngot("enriched_steel_ingot", "Fe with almost none of C", "C means \u0A74communism");
+        Ingot.steel = registerIngot("steel_ingot", "Fe with less C", "C means communism");
+        Ingot.enrichedSteel = registerIngot("enriched_steel_ingot", "Fe with almost none of C", "C means communism");
         Ingot.copper = registerIngot("copper_ingot", "Cu", "Do not mismatch with rust");
         Ingot.tin = registerIngot("tin_ingot", "Sn", "You can make little tin soldiers", "If you really want", "Cat meal is packed in it");
         Ingot.silver = registerIngot("silver_ingot", "Ag", "You can steal it", "It's very expensive!");
@@ -79,24 +84,32 @@ public final class ModItems {
     private static ItemGeneric register(String unlocalizedName) {
         ItemGeneric item;
         GameRegistry.registerItem(item = new ItemGeneric(unlocalizedName), unlocalizedName);
+        allItems.add(item);
         return item;
     }
 
     private static ItemGeneric register(ItemGeneric itemGeneric) {
         ItemGeneric item;
         GameRegistry.registerItem(item = itemGeneric, itemGeneric.getPureName());
+        allItems.add(item);
         return item;
     }
 
     private static ItemIngotGeneric registerIngot(String unlocalizedName, String formula, String... description) {
         ItemIngotGeneric item;
         GameRegistry.registerItem(item = new ItemIngotGeneric(unlocalizedName, formula, description), unlocalizedName);
+        allItems.add(item);
         return item;
     }
 
     private static ItemDustGeneric registerDust(String unlocalizedName, String formula, String... description) {
         ItemDustGeneric item;
         GameRegistry.registerItem(item = new ItemDustGeneric(unlocalizedName, formula, description), unlocalizedName);
+        allItems.add(item);
         return item;
+    }
+
+    public static ArrayList<ItemGeneric> getAllItems() {
+        return allItems;
     }
 }

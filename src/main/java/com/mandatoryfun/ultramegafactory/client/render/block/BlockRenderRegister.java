@@ -12,30 +12,8 @@ import net.minecraft.item.Item;
 public class BlockRenderRegister {
 
     public static void init() {
-        register(ModBlocks.Ore.magnetite);
-        register(ModBlocks.Ore.hematite);
-        register(ModBlocks.Ore.siderite);
-        register(ModBlocks.Ore.pyrite);
-
-        register(ModBlocks.Ore.chalcopyrite);
-        register(ModBlocks.Ore.cuprite);
-        register(ModBlocks.Ore.tetrahedrite);
-
-        register(ModBlocks.Ore.cassiterite);
-        register(ModBlocks.Ore.teallite);
-
-        register(ModBlocks.Ore.galena);
-
-        register(ModBlocks.Ore.sphalerite);
-
-        register(ModBlocks.Ore.bauxite);
-        register(ModBlocks.Ore.kaolinite);
-
-        register(ModBlocks.Ore.lignite);
-        register(ModBlocks.Ore.bituminousCoal);
-        register(ModBlocks.Ore.peat);
-
-        register(ModBlocks.Ore.limestone);
+        for (BlockGeneric blockGeneric : ModBlocks.getAllBlocks())
+            register(blockGeneric);
     }
 
     private static void register(BlockGeneric block, int meta) {
