@@ -30,6 +30,7 @@ public class ItemRenderRegister {
         register(ModItems.Ingot.electrum);
         register(ModItems.Ingot.brass);
         register(ModItems.Ingot.PbSnSbAlloy);
+        register(ModItems.Ingot.gold);
     }
 
     private static void register(ItemGeneric item) {

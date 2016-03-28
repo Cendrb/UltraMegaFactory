@@ -5,6 +5,7 @@ import com.mandatoryfun.ultramegafactory.item.ItemGeneric;
 import com.mandatoryfun.ultramegafactory.item.ItemIngotGeneric;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
+
 public final class ModItems {
 
     public static void init()
@@ -18,13 +19,14 @@ public final class ModItems {
         Ingot.tin = registerIngot("tin_ingot", "Sn", "You can make little tin soldiers", "If you really want", "Cat meal is packed in it");
         Ingot.silver = registerIngot("silver_ingot", "Ag", "You can steal it", "It's very expensive!");
         Ingot.aluminium = registerIngot("aluminium_ingot", "Al", "Do not cook with it!", "If you do not know why", "Ask Uncle Google");
-        Ingot.titanium = registerIngot("titanium_ingot", "Ti", "Light but durable metal", "Expensive as Valve\u00AE");
+        Ingot.titanium = registerIngot("titanium_ingot", "Ti", "Light but durable metal", "Expensive as Steam\u00AE games");
         Ingot.zinc = registerIngot("zinc_ingot", "Zn", "Fairly reactive, ask Alessandro Volta");
         Ingot.antimony = registerIngot("antimony_ingot", "Sb", "Not that big of a deal", "But with tin and lead useful for batteries");
         Ingot.lead = registerIngot("lead_ingot", "Pb", "Who is the leader now?");
         Ingot.cobalt = registerIngot("cobalt_ingot", "Co", "Totally useless", "Microsoft\u00AE");
         Ingot.chrome = registerIngot("chrome_ingot", "Cr", "Used to browse internet");
         Ingot.nickel = registerIngot("nickel_ingot", "Ni", "Metal made from Minecraft\u00AE nicks", "Minecraft is trademark of Microsoft, which also made MSMistake and Falldows");
+        Ingot.gold = registerIngot("gold_ingot", "Au", "");
 
         //alloys
 
@@ -32,6 +34,7 @@ public final class ModItems {
         Ingot.electrum = registerIngot("electrum_ingot", "Au and Ag", "Really good conductor of", "...wait for it...", "electricity!");
         Ingot.brass = registerIngot("brass_ingot", "Cu and Zn");
         Ingot.PbSnSbAlloy = registerIngot("PbSnSb_alloy_ingot", "Pb, Sn and Sb", "Also called battery alloy", "");
+
 
     }
 
@@ -53,6 +56,7 @@ public final class ModItems {
         public static ItemIngotGeneric cobalt;
         public static ItemIngotGeneric chrome;
         public static ItemIngotGeneric nickel;
+        public static ItemIngotGeneric gold;
 
         //alloys
 
