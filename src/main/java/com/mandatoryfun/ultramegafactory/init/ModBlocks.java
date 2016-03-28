@@ -40,7 +40,6 @@ public class ModBlocks {
     }
 
     public static void init() {
-        // add calcite?
         // add gems ruby Al2O3Cr - source of chromium, sapphire
         // which to put into the nether? - sulfur-ish ones?
         // add end ores
