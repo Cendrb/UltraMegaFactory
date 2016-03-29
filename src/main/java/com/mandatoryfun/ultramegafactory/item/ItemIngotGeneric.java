@@ -8,7 +8,7 @@ import net.minecraft.item.ItemStack;
 import java.util.List;
 
 /**
- * Created by cendr_000 on 27.03.2016.
+ * Created by MandatoryFun
  */
 public class ItemIngotGeneric extends ItemFormulaDescriptionGeneric {
     public ItemIngotGeneric(String unlocalizedName, String formula, String[] description) {
