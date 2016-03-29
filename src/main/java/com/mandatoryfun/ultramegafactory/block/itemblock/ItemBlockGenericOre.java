@@ -1,5 +1,6 @@
-package com.mandatoryfun.ultramegafactory.block;
+package com.mandatoryfun.ultramegafactory.block.itemblock;
 
+import com.mandatoryfun.ultramegafactory.block.BlockGenericOre;
 import net.minecraft.block.Block;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;

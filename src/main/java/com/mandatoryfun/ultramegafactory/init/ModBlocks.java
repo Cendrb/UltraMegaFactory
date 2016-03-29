@@ -1,7 +1,11 @@
 package com.mandatoryfun.ultramegafactory.init;
 
 import com.mandatoryfun.ultramegafactory.block.*;
+import com.mandatoryfun.ultramegafactory.block.itemblock.ItemBlockGeneric;
+import com.mandatoryfun.ultramegafactory.block.itemblock.ItemBlockGenericOre;
+import com.mandatoryfun.ultramegafactory.block.itemblock.ItemBlockMultipleNames;
 import net.minecraft.block.material.Material;
+import net.minecraft.item.ItemBlock;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
 import java.util.ArrayList;
@@ -76,7 +80,8 @@ public class ModBlocks {
         kaolineOre = (BlockKaolineOre) register(new BlockKaolineOre());
 
         // blast furnace
-        // crashes the game blastFurnaceController = (BlockBlastFurnaceController) register(new BlockBlastFurnaceController());
+        // NO LONGER crashes the game BUT STILL DOESN'T WORK
+        blastFurnaceController = (BlockBlastFurnaceController) register(new BlockBlastFurnaceController(), ItemBlockMultipleNames.class);
     }
 
     private static String[] constructArray(String... strings) {
@@ -85,6 +90,12 @@ public class ModBlocks {
 
     private static BlockGeneric register(BlockGeneric block) {
         GameRegistry.registerBlock(block, block.getPureName());
+        allBlocks.add(block);
+        return block;
+    }
+
+    private static BlockGeneric register(BlockGeneric block, Class<? extends ItemBlock> itemBlock) {
+        GameRegistry.registerBlock(block, itemBlock, block.getPureName());
         allBlocks.add(block);
         return block;
     }

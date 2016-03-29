@@ -1,4 +1,4 @@
-package com.mandatoryfun.ultramegafactory.block;
+package com.mandatoryfun.ultramegafactory.block.itemblock;
 
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemBlock;
