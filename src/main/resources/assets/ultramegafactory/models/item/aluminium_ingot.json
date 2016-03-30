@@ -1,6 +1,6 @@
 {
   "parent": "ultramegafactory:item/item_generic",
   "textures": {
-    "layer0": "ultramegafactory:items/john_cena"
+    "layer0": "ultramegafactory:items/ingots/aluminium_ingot"
   }
 }
