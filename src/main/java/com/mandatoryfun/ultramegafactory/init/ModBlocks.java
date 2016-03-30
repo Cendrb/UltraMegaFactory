@@ -58,7 +58,7 @@ public class ModBlocks {
 
         Ore.chalcopyrite = registerOre("chalcopyrite_ore", "CuFeS\u2082", constructArray("Major copper ore", "Can be found everywhere together with pyrite"), 3, 1);
         Ore.cuprite = registerOre("cuprite_ore", "Cu\u2082O", constructArray("Minor copper ore", "Can be found under savannas"), 3, 1);
-        Ore.tetrahedrite = registerOre("tetrahedrite_ore", "Fe\u2081\u2082Sb\u2084S\u2081\u2083", constructArray("Minor copper ore, source of antimony", "Can be found everywhere"), 3, 1);
+        Ore.tetrahedrite = registerOre("tetrahedrite_ore", "Fe\u2081\u2082Sb\u2084S\u2081\u2083", constructArray("Minor copper ore, source of antimony", "Founding it is hell"), 3, 1);
 
         Ore.cassiterite = registerOre("cassiterite_ore", "SnO\u2082", constructArray("Major tin ore", "Can be found in exotic jungle places"), 3, 1);
         Ore.teallite = registerOre("teallite_ore", "PbSnS\u2082", constructArray("Minor tin ore", "Can be found everywhere"), 3, 1);

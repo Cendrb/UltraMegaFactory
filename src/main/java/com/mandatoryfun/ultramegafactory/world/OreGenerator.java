@@ -61,21 +61,56 @@ public class OreGenerator implements IWorldGenerator {
     }
 
     private void generateOverworld(Random random, int worldX, int worldZ, World world, BiomeGenBase biome) {
+
+        //ocean, froze ocean, deep ocean, beach, stone beach, cold beach
         if (isBiome(biome, 0, 10, 24, 16, 25, 26))
+        {
             addOre(ModBlocks.Ore.magnetite.getDefaultState(), Blocks.stone, random, world, worldX, worldZ, 5, 60, 2, 8, 5);
-        if (isBiome(biome, 2))
-            addOre(ModBlocks.Ore.hematite.getDefaultState(), Blocks.stone, random, world, worldX, worldZ, 5, 50, 2, 6, 5);
+            addOre(ModBlocks.Ore.hematite.getDefaultState(), ModBlocks.Ore.magnetite, random, world, worldX, worldZ, 5, 50, 2, 6, 5);
+        }
+
+        //savanna..., mesa...
+        if (isBiome(biome, 2, 35, 36, 37, 38, 39))
+            addOre(ModBlocks.Ore.cuprite.getDefaultState(), Blocks.stone, random, world, worldX, worldZ, 5, 40, 2, 8, 5);
+
+        //jungle.., mushroom..
+        if(isBiome(biome, 21, 22, 23, 14, 15))
+            addOre(ModBlocks.Ore.cassiterite.getDefaultState(), Blocks.stone, random, world, worldX, worldZ, 5, 40, 2, 8, 5);
+
+        //mountains...
+        if(isBiome(biome, 3, 18, 20, 19, 22, 28, 31, 33, 34))
+        {
+            addOre(ModBlocks.Ore.galena.getDefaultState(), Blocks.stone, random, world, worldX, worldZ, 5, 40, 4, 8, 8);
+            addOre(ModBlocks.Ore.sphalerite.getDefaultState(), Blocks.stone, random, world, worldX, worldZ, 5, 40, 2, 4, 4);
+        }
+
+        //plain..., savanna..., jungle..., forest...
+        if(isBiome(biome, 1, 4, 21, 22, 23, 27, 28, 29, 35, 36))
+            addOre(ModBlocks.Ore.bauxite.getDefaultState(), Blocks.stone, random, world, worldX, worldZ, 5, 40, 2, 8, 5);
+
+        //swamps
+        if(isBiome(biome, 6))
+        {
+            addOre(ModBlocks.Ore.lignite.getDefaultState(), Blocks.stone, random, world, worldX, worldZ, 40, 64, 10, 24, 5);
+            addOre(ModBlocks.Ore.peat.getDefaultState(), Blocks.dirt, random, world, worldX, worldZ, 50, 255, 7, 12, 3);
+        }
+
+        //EVERYWHERE
+        addOre(ModBlocks.kaolineOre.getDefaultState(), Blocks.dirt, random, world, worldX, worldZ, 50, 255, 2, 5, 2);
+        addOre(ModBlocks.Ore.bituminousCoal.getDefaultState(), Blocks.stone, random, world, worldX, worldZ, 5, 40, 6, 15, 1);
+        addOre(ModBlocks.Ore.teallite.getDefaultState(), Blocks.stone, random, world, worldX, worldZ, 5, 40, 2, 8, 5);
         addOre(ModBlocks.Ore.siderite.getDefaultState(), Blocks.stone, random, world, worldX, worldZ, 5, 40, 2, 8, 5);
-        addOre(ModBlocks.Ore.pyrite.getDefaultState(), Blocks.stone, random, world, worldX, worldZ, 5, 20, 2, 8, 4);
+        addOre(ModBlocks.Ore.limonite.getDefaultState(), Blocks.stone, random, world, worldX, worldZ, 5, 40, 2, 8, 5);
+        addOre(ModBlocks.Ore.pyrite.getDefaultState(), Blocks.stone, random, world, worldX, worldZ, 5, 20, 2, 8, 2);
+        addOre(Blocks.gold_ore.getDefaultState(), Blocks.stone, random, world, worldX, worldZ, 5, 60, 4, 8, 12);
+        addOre(ModBlocks.Ore.pyrite.getDefaultState(), Blocks.gold_ore, random, world, worldX, worldZ, 5, 60, 2, 4, 8);
+        addOre(ModBlocks.Ore.chalcopyrite.getDefaultState(), ModBlocks.Ore.pyrite, random, world, worldX, worldZ, 5, 60, 1, 4, 4);
 
-        if (isBiome(biome, 1, 35, 36, 21, 22, 23))
-            addOre(ModBlocks.Ore.bauxite.getDefaultState(), Blocks.stone, random, world, worldX, worldZ, 5, 100, 2, 10, 20);
 
-        addOre(ModBlocks.Ore.hematite.getDefaultState(), Blocks.stone, random, world, worldX, worldZ, 5, 100, 4, 8, 20);
     }
 
-    private void generateNether(Random random, int worldX, int chunkZ, World world) {
-
+    private void generateNether(Random random, int worldX, int worldZ, World world) {
+        addOre(ModBlocks.Ore.tetrahedrite.getDefaultState(), Blocks.stone, random, world, worldX, worldZ, 5, 40, 2, 8, 5);
     }
 
     private boolean isBiome(BiomeGenBase input, int... allowedBiomeIds) {
