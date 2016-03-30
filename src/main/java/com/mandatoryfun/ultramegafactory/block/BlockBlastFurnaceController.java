@@ -1,5 +1,8 @@
 package com.mandatoryfun.ultramegafactory.block;
 
+import com.mandatoryfun.ultramegafactory.Core;
+import com.mandatoryfun.ultramegafactory.client.gui.GuiHandler;
+import com.mandatoryfun.ultramegafactory.tileentity.TileEntityBlastFurnaceController;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyDirection;
@@ -11,7 +14,9 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
@@ -21,14 +26,17 @@ import java.util.List;
 /**
  * Created by cendr_000 on 28.03.2016.
  */
-public class BlockBlastFurnaceController extends BlockGeneric implements IBlockMultipleNames {
+public class BlockBlastFurnaceController extends BlockGenericContainer implements IBlockMultipleNames {
 
     final static IProperty<Integer> TIER = PropertyInteger.create("tier", 1, 2);
     final static IProperty<EnumFacing> FACING = PropertyDirection.create("facing", EnumFacing.Plane.HORIZONTAL);
 
     public BlockBlastFurnaceController() {
-        super("blast_furnace_controller", Material.iron, 3, 15, "pickaxe", 1);
+        super("blast_furnace_controller", Material.iron);
         setDefaultState(blockState.getBaseState().withProperty(TIER, 1).withProperty(FACING, EnumFacing.NORTH));
+        setHardness(3);
+        setResistance(15);
+        setHarvestLevel("pickaxe", 1);
     }
 
     @Override
@@ -123,6 +131,15 @@ public class BlockBlastFurnaceController extends BlockGeneric implements IBlockM
     }
 
     @Override
+    public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ) {
+        if(worldIn.isRemote)
+            return true;
+
+        playerIn.openGui(Core.instance, GuiHandler.GuiEnum.BLAST_FURNACE.ordinal(), worldIn, pos.getX(), pos.getY(), pos.getZ());
+        return true;
+    }
+
+    @Override
     public String getSpecialNameEnding(ItemStack stack) {
         int damage = stack.getItemDamage();
         switch (damage) {
@@ -133,5 +150,10 @@ public class BlockBlastFurnaceController extends BlockGeneric implements IBlockM
             default:
                 return "unknownDamageValue";
         }
+    }
+
+    @Override
+    public TileEntity createNewTileEntity(World world, int i) {
+        return new TileEntityBlastFurnaceController();
     }
 }
