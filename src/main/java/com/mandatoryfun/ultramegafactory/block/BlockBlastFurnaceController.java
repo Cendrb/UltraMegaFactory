@@ -8,6 +8,7 @@ import net.minecraft.block.properties.PropertyInteger;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -57,6 +58,11 @@ public class BlockBlastFurnaceController extends BlockGeneric implements IBlockM
         // add items to creative tabs in both states - both "damages"
         list.add(new ItemStack(itemIn, 1, 0));
         list.add(new ItemStack(itemIn, 1, 1));
+    }
+
+    @Override
+    public void onBlockPlacedBy(World worldIn, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack) {
+        super.onBlockPlacedBy(worldIn, pos, state, placer, stack);
     }
 
     @Override

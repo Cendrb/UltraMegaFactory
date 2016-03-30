@@ -22,7 +22,7 @@ public class BlockRenderRegister {
     public static void init() {
         for (BlockGeneric blockGeneric : ModBlocks.getAllBlocks())
             register(blockGeneric);
-        register(ModBlocks.blastFurnaceController, 0, "blast_furnace_controller_t1mo");
+        register(ModBlocks.blastFurnaceController, 0, "blast_furnace_controller_t1");
         register(ModBlocks.blastFurnaceController, 1, "blast_furnace_controller_t2");
     }
 
