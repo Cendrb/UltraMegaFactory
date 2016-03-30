@@ -1,6 +1,5 @@
 package com.mandatoryfun.ultramegafactory.block;
 
-import com.mandatoryfun.ultramegafactory.init.ModBlocks;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyDirection;
@@ -62,6 +61,17 @@ public class BlockBlastFurnaceController extends BlockGeneric implements IBlockM
 
     @Override
     public void onBlockPlacedBy(World worldIn, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack) {
+        if (stack.getItemDamage() == 0)
+            // tier 1
+            state = state.withProperty(TIER, 1);
+        else
+            // tier 2
+            state = state.withProperty(TIER, 2);
+
+        state = state.withProperty(FACING, placer.getHorizontalFacing());
+
+        worldIn.setBlockState(pos, state);
+
         super.onBlockPlacedBy(worldIn, pos, state, placer, stack);
     }
 
@@ -115,8 +125,7 @@ public class BlockBlastFurnaceController extends BlockGeneric implements IBlockM
     @Override
     public String getSpecialNameEnding(ItemStack stack) {
         int damage = stack.getItemDamage();
-        switch (damage)
-        {
+        switch (damage) {
             case 0:
                 return "t1";
             case 1:
