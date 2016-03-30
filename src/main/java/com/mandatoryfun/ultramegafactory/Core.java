@@ -12,7 +12,7 @@ import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 
-@Mod(modid = RefStrings.MODID, version = RefStrings.VERSION, name = RefStrings.NAME)
+@Mod(modid = RefStrings.MODID, version = RefStrings.VERSION, name = RefStrings.NAME, guiFactory = RefStrings.GUI_FACTORY_CLASS)
 public class Core {
 
     @SidedProxy(clientSide = RefStrings.CLIENTSIDE, serverSide = RefStrings.SERVERSIDE, modId = RefStrings.MODID)
