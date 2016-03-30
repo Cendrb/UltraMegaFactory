@@ -27,13 +27,16 @@ public class CommonProxy {
 
         // config
         ConfigurationHandler.init(e.getSuggestedConfigurationFile());
-        FMLCommonHandler.instance().bus().register(new ConfigurationHandler());
 
         NetworkRegistry.INSTANCE.registerGuiHandler(Core.instance, new GuiHandler());
     }
 
     public void init(FMLInitializationEvent e) {
         ModWorld.init();
+
+        FMLCommonHandler.instance().bus().register(new ConfigurationHandler());
+
+        MinecraftForge.EVENT_BUS.register(new TooltipHandler());
     }
 
     public void postInit(FMLPostInitializationEvent e) {

@@ -13,6 +13,8 @@ import java.io.File;
 public class ConfigurationHandler {
     public static Configuration configuration;
 
+    public static boolean exampleBooleanField;
+
     public static void init(File configFile)
     {
         if(configuration == null)
@@ -24,15 +26,15 @@ public class ConfigurationHandler {
 
     @SubscribeEvent
     public void onConfigurationChangedEvent(ConfigChangedEvent.OnConfigChangedEvent event)
-    {/*
-     // error: modID has private access in ConfigChangedEvent
-        if(event.modID.equalsIgnoreCase(RefStrings.MODID))
-            loadConfiguration();*/
+    {
+        // error: modID has private access in ConfigChangedEvent
+        //if(event.modID.equalsIgnoreCase(RefStrings.MODID))
+          //  loadConfiguration();
     }
 
     private static void loadConfiguration()
     {
-        //randomAllahuAkbar = configuration.getBoolean("randomAllahuAkbar", Configuration.CATEGORY_GENERAL, false, "Responsible for random Allahu Akbar");
+        exampleBooleanField = configuration.getBoolean("exampleField", Configuration.CATEGORY_GENERAL, false, "Does precisely nothing");
 
         if(configuration.hasChanged())
             configuration.save();

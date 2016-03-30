@@ -32,7 +32,6 @@ public class Core {
     public void init(FMLInitializationEvent e) {
         proxy.init(e);
         System.out.println("INIT for " + RefStrings.NAME);
-        // MinecraftForge.EVENT_BUS.register(new TooltipHandler());
         // crafting recipes, new handlers
     }
 

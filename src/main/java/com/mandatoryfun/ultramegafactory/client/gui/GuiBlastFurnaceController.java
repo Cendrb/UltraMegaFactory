@@ -8,11 +8,11 @@ import net.minecraft.util.ResourceLocation;
 /**
  * Created by cendr_000 on 30.03.2016.
  */
-public class GuiBlastFurnace extends GuiContainer {
+public class GuiBlastFurnaceController extends GuiContainer {
 
     public static final ResourceLocation background = new ResourceLocation(RefStrings.MODID, "textures/gui/blast_furnace.png");
 
-    public GuiBlastFurnace(Container inventorySlotsIn) {
+    public GuiBlastFurnaceController(Container inventorySlotsIn) {
         super(inventorySlotsIn);
     }
 
