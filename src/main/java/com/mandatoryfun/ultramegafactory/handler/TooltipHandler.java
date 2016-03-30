@@ -14,7 +14,7 @@ public class TooltipHandler {
 
     @SubscribeEvent
     public void onItemTooltipEvent(ItemTooltipEvent tooltipEvent) {
-        //tooltipEvent.toolTip.add("John Cena");
+        tooltipEvent.getToolTip().add("John Cena");
     }
 
 
@@ -26,7 +26,6 @@ public class TooltipHandler {
 
     @SubscribeEvent
     public void onEntityGetHurt(LivingHurtEvent e) {
-        System.out.println(e.ammount);
         //if (e..entity instanceof EntityPlayer)
         //    e.setCanceled(true);
     }
