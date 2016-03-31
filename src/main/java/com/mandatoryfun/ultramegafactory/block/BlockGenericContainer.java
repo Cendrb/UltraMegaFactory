@@ -19,6 +19,7 @@ public abstract class BlockGenericContainer extends BlockContainer implements IP
 
     @Override
     public Block setUnlocalizedName(String name) {
+        pureName = name;
         return super.setUnlocalizedName(name);
     }
 
