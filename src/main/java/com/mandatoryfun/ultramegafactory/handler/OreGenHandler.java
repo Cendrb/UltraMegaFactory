@@ -14,7 +14,7 @@ public class OreGenHandler
     @SubscribeEvent
     public void OreGenHandler(OreGenEvent.GenerateMinable event)
     {
-        if(event.getType()== OreGenEvent.GenerateMinable.EventType.IRON)
+        if(event.getType()== OreGenEvent.GenerateMinable.EventType.IRON||event.getType()== OreGenEvent.GenerateMinable.EventType.COAL)
         {
             UMFLogger.logInfo("OreGenException Ruined");
             event.setResult(Event.Result.DENY);
