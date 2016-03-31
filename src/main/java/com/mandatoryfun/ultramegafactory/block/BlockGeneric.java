@@ -13,7 +13,7 @@ import java.util.Random;
 /**
  * Created by cendr_000 on 3. 7. 2015.
  */
-public class BlockGeneric extends Block {
+public class BlockGeneric extends Block implements IPureName {
 
     private String pureName;
 

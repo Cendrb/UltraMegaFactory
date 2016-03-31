@@ -1,6 +1,7 @@
 package com.mandatoryfun.ultramegafactory.client.gui;
 
 import com.mandatoryfun.ultramegafactory.lib.RefStrings;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.inventory.Container;
 import net.minecraft.util.ResourceLocation;
@@ -10,10 +11,12 @@ import net.minecraft.util.ResourceLocation;
  */
 public class GuiBlastFurnaceController extends GuiContainer {
 
-    public static final ResourceLocation background = new ResourceLocation(RefStrings.MODID, "textures/gui/blast_furnace.png");
+    public static final ResourceLocation texture = new ResourceLocation(RefStrings.MODID, "textures/gui/blast_furnace_controller.png");
 
     public GuiBlastFurnaceController(Container inventorySlotsIn) {
         super(inventorySlotsIn);
+        xSize = 194;
+        ySize = 135;
     }
 
     @Override
@@ -23,6 +26,6 @@ public class GuiBlastFurnaceController extends GuiContainer {
 
     @Override
     protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY) {
-
+        Minecraft.getMinecraft().getTextureManager().bindTexture(texture);
     }
 }

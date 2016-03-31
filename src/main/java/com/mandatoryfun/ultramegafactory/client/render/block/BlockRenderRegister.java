@@ -1,8 +1,10 @@
 package com.mandatoryfun.ultramegafactory.client.render.block;
 
 import com.mandatoryfun.ultramegafactory.block.BlockGeneric;
+import com.mandatoryfun.ultramegafactory.block.IPureName;
 import com.mandatoryfun.ultramegafactory.init.ModBlocks;
 import com.mandatoryfun.ultramegafactory.lib.RefStrings;
+import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.block.model.ModelBakery;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
@@ -20,21 +22,22 @@ public class BlockRenderRegister {
     }
 
     public static void init() {
-        for (BlockGeneric blockGeneric : ModBlocks.getAllBlocks())
+        for (Block blockGeneric : ModBlocks.getAllBlocks())
             register(blockGeneric);
         register(ModBlocks.blastFurnaceController, 0, "blast_furnace_controller_t1");
         register(ModBlocks.blastFurnaceController, 1, "blast_furnace_controller_t2");
     }
 
-    private static void register(BlockGeneric block, int meta) {
-        Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register(Item.getItemFromBlock(block), meta, new ModelResourceLocation(block.getIdentifier(), "inventory"));
+    private static void register(Block block, int meta) {
+        IPureName blockWithName = (IPureName) block;
+        Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register(Item.getItemFromBlock(block), meta, new ModelResourceLocation(blockWithName.getIdentifier(), "inventory"));
     }
 
-    private static void register(BlockGeneric block, int meta, String file) {
+    private static void register(Block block, int meta, String file) {
         Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register(Item.getItemFromBlock(block), meta, new ModelResourceLocation(RefStrings.MODID + ":" + file, "inventory"));
     }
 
-    private static void register(BlockGeneric block) {
+    private static void register(Block block) {
         register(block, 0);
     }
 

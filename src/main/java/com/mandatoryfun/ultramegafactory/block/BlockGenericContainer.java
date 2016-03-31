@@ -8,7 +8,7 @@ import net.minecraft.block.material.Material;
 /**
  * Created by cendr_000 on 30.03.2016.
  */
-public abstract class BlockGenericContainer extends BlockContainer {
+public abstract class BlockGenericContainer extends BlockContainer implements IPureName {
 
     private String pureName;
 
