@@ -8,6 +8,7 @@ import net.minecraftforge.event.terraingen.OreGenEvent;
 /**
  * Created by Wester on 3/31/2016.
  */
+
 public class OreGenHandler
 {
     @SubscribeEvent
