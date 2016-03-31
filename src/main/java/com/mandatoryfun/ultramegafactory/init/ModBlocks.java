@@ -82,7 +82,7 @@ public class ModBlocks {
 
         // blast furnace
         // NO LONGER crashes the game BUT STILL DOESN'T WORK
-        blastFurnaceController = (BlockBlastFurnaceController) register(new BlockBlastFurnaceController(), ItemBlockMultipleNames.class);
+        //blastFurnaceController = (BlockBlastFurnaceController) register(new BlockBlastFurnaceController(), ItemBlockMultipleNames.class);
     }
 
     private static String[] constructArray(String... strings) {

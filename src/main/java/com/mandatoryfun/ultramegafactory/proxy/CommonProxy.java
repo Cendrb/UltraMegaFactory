@@ -4,6 +4,7 @@ import com.mandatoryfun.ultramegafactory.Core;
 import com.mandatoryfun.ultramegafactory.client.gui.GuiHandler;
 import com.mandatoryfun.ultramegafactory.creativetab.ModCreativeTabs;
 import com.mandatoryfun.ultramegafactory.handler.ConfigurationHandler;
+import com.mandatoryfun.ultramegafactory.handler.OreGenHandler;
 import com.mandatoryfun.ultramegafactory.handler.TooltipHandler;
 import com.mandatoryfun.ultramegafactory.init.ModBlocks;
 import com.mandatoryfun.ultramegafactory.init.ModItems;
@@ -37,6 +38,7 @@ public class CommonProxy {
         FMLCommonHandler.instance().bus().register(new ConfigurationHandler());
 
         MinecraftForge.EVENT_BUS.register(new TooltipHandler());
+        MinecraftForge.ORE_GEN_BUS.register(new OreGenHandler());
     }
 
     public void postInit(FMLPostInitializationEvent e) {
