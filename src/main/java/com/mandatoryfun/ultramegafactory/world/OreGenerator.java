@@ -96,7 +96,7 @@ public class OreGenerator implements IWorldGenerator {
         }
 
         //EVERYWHERE
-        addOre(ModBlocks.kaolineOre.getDefaultState(), Blocks.dirt, random, world, worldX, worldZ, 50, 100, 2, 5, 10);
+        addOre(ModBlocks.kaolineOre.getDefaultState(), Blocks.stone, random, world, worldX, worldZ, 40, 100, 2, 5, 10);
         addOre(ModBlocks.Ore.bituminousCoal.getDefaultState(), Blocks.stone, random, world, worldX, worldZ, 5, 40, 6, 15, 1);
         addOre(ModBlocks.Ore.teallite.getDefaultState(), Blocks.stone, random, world, worldX, worldZ, 5, 40, 2, 8, 5);
         addOre(ModBlocks.Ore.siderite.getDefaultState(), Blocks.stone, random, world, worldX, worldZ, 5, 40, 2, 8, 5);
