@@ -1,7 +1,10 @@
-package com.mandatoryfun.ultramegafactory.block;
+package com.mandatoryfun.ultramegafactory.block.blast_furnace;
 
 import com.mandatoryfun.ultramegafactory.Core;
+import com.mandatoryfun.ultramegafactory.block.BlockGenericContainer;
+import com.mandatoryfun.ultramegafactory.block.IBlockMultipleNames;
 import com.mandatoryfun.ultramegafactory.client.gui.GuiHandler;
+import com.mandatoryfun.ultramegafactory.lib.UMFLogger;
 import com.mandatoryfun.ultramegafactory.tileentity.TileEntityBlastFurnaceController;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
@@ -153,7 +156,7 @@ public class BlockBlastFurnaceController extends BlockGenericContainer implement
     }
 
     @Override
-    public TileEntity createNewTileEntity(World world, int i) {
+    public TileEntity createNewTileEntity(World worldIn, int meta) {
         return new TileEntityBlastFurnaceController();
     }
 }

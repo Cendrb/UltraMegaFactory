@@ -1,9 +1,9 @@
 package com.mandatoryfun.ultramegafactory.init.recipe;
 
 import com.mandatoryfun.ultramegafactory.block.BlockGenericOre;
-import com.mandatoryfun.ultramegafactory.init.ModItems;
-import com.mandatoryfun.ultramegafactory.item.ItemFuelFormulaDescriptionGeneric;
+import com.mandatoryfun.ultramegafactory.init.UMFRecipes;
 import com.mandatoryfun.ultramegafactory.lib.UMFLogger;
+import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
@@ -41,16 +41,15 @@ public class BlastFurnaceRecipe {
         Item requiredOre = Item.getItemFromBlock(this.ore);
         for (ItemStack itemStack : stacks) {
             Item item = itemStack.getItem();
-            if (item instanceof ItemFuelFormulaDescriptionGeneric) {
-                if (item == ModItems.carbon)
-                    reducingAgentInserted += 1.5f * itemStack.stackSize;
-                if (item == ModItems.bitumen)
-                    reducingAgentInserted += 1.0f * itemStack.stackSize;
-            }
+
+            if (UMFRecipes.BlastFurnace.isReducingAgent(item))
+                reducingAgentInserted += UMFRecipes.BlastFurnace.getReducingAgentValue(item) * itemStack.stackSize;
+
+            if (UMFRecipes.BlastFurnace.isBullshitCreator(item))
+                limeInserted += UMFRecipes.BlastFurnace.getBullshitCreatorValue(item) * itemStack.stackSize;
+
             if (item == requiredOre)
-                oreInserted += 1;
-            if (item == ModItems.lime)
-                limeInserted += 1;
+                oreInserted += itemStack.stackSize;
         }
 
         float reducingAgentMultiplier = (reducingAgentInserted / reducingAgentPerOre) / oreInserted;
@@ -71,5 +70,30 @@ public class BlastFurnaceRecipe {
 
     public int getIngotCount(int numberOfOres) {
         return (int) (numberOfOres * outputPerOre);
+    }
+
+    public int getRequiredOreHeatupEnergy(ItemStack[] stacks) {
+        Item requiredOre = Item.getItemFromBlock(this.ore);
+        int oreInserted = 0;
+        for (ItemStack itemStack : stacks) {
+            Item item = itemStack.getItem();
+
+
+            if (item == requiredOre)
+                oreInserted += itemStack.stackSize;
+        }
+        return (int) (energyPerOre * oreInserted);
+    }
+
+    public int getBaseReactionTime() {
+        return baseReactionTime;
+    }
+
+    public int getRequiredTemperature() {
+        return requiredTemperature;
+    }
+
+    public Block getOre() {
+        return ore;
     }
 }

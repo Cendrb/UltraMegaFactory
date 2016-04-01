@@ -8,6 +8,8 @@ import com.mandatoryfun.ultramegafactory.handler.OreGenHandler;
 import com.mandatoryfun.ultramegafactory.handler.TooltipHandler;
 import com.mandatoryfun.ultramegafactory.init.ModBlocks;
 import com.mandatoryfun.ultramegafactory.init.ModItems;
+import com.mandatoryfun.ultramegafactory.init.UMFRecipes;
+import com.mandatoryfun.ultramegafactory.init.UMFRegistry;
 import com.mandatoryfun.ultramegafactory.world.ModWorld;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.FMLCommonHandler;
@@ -25,6 +27,9 @@ public class CommonProxy {
         ModCreativeTabs.init();
         ModItems.init();
         ModBlocks.init();
+
+        UMFRegistry.Fuels.init();
+        UMFRecipes.BlastFurnace.init();
 
         // config
         ConfigurationHandler.init(e.getSuggestedConfigurationFile());

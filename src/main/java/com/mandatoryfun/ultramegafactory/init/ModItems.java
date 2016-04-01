@@ -49,6 +49,7 @@ public final class ModItems {
     public static ItemGeneric lignite;
     public static ItemGeneric lime;
     public static ItemGeneric charcoal;
+    public static ItemGeneric peat;
 
     public static void init()
     {
@@ -78,21 +79,23 @@ public final class ModItems {
         Ingot.PbSnSbAlloy = registerIngot("PbSnSb_alloy_ingot", "Pb, Sn and Sb", "Also called battery alloy", "");
 
         // other
-        carbon = register(new ItemFuelFormulaDescriptionGeneric("carbon", "C (almost pure)", constructArray("Used in blast furnace to create better iron and steel"), 27500));
-        bitumen = register(new ItemFuelFormulaDescriptionGeneric("bitumen", "black coal", constructArray(), 24500));
-        lignite = register(new ItemFuelFormulaDescriptionGeneric("lignite", "brown coal", constructArray(), 16400));
+        carbon = registerFuel(new ItemFormulaDescriptionGeneric("carbon", "C (almost pure)", constructArray("Used in blast furnace to create better iron and steel")), 27500);
+        lignite = registerFuel(new ItemFormulaDescriptionGeneric("lignite", "brown coal", constructArray()), 16400);
+        peat = registerFuel(new ItemFormulaDescriptionGeneric("peat", "", constructArray()), 5000);
+        bitumen = registerFuel(new ItemFormulaDescriptionGeneric("bitumen", "black coal", constructArray()), 24500);
+    }
+
+    private static ItemGeneric registerFuel(ItemGeneric item, int kJEnergyValue) {
+        GameRegistry.registerItem(item, item.getPureName());
+        allItems.add(item);
+        UMFRegistry.Fuels.registerFuel(item, kJEnergyValue);
+        return item;
     }
 
     private static String[] constructArray(String... strings) {
         return strings;
     }
-
-    private static ItemGeneric register(String unlocalizedName) {
-        ItemGeneric item;
-        GameRegistry.registerItem(item = new ItemGeneric(unlocalizedName), unlocalizedName);
-        allItems.add(item);
-        return item;
-    }
+    
 
     private static ItemGeneric register(ItemGeneric itemGeneric) {
         ItemGeneric item;

@@ -1,5 +1,6 @@
 package com.mandatoryfun.ultramegafactory.handler;
 
+import com.mandatoryfun.ultramegafactory.init.UMFRegistry;
 import net.minecraft.entity.item.EntityTNTPrimed;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.event.entity.item.ItemTossEvent;
@@ -14,7 +15,11 @@ public class TooltipHandler {
 
     @SubscribeEvent
     public void onItemTooltipEvent(ItemTooltipEvent tooltipEvent) {
-        tooltipEvent.getToolTip().add("John Cena");
+        if(UMFRegistry.Fuels.isFuel(tooltipEvent.getItemStack().getItem()) && tooltipEvent.isShowAdvancedItemTooltips())
+        {
+            int energyInKJ = UMFRegistry.Fuels.getKJEnergyValue(tooltipEvent.getItemStack().getItem());
+            tooltipEvent.getToolTip().add("FeCuTiS energy value: " + energyInKJ + " kJ");
+        }
     }
 
 

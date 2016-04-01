@@ -1,7 +1,7 @@
 package com.mandatoryfun.ultramegafactory.init;
 
 import com.mandatoryfun.ultramegafactory.block.*;
-import com.mandatoryfun.ultramegafactory.block.itemblock.ItemBlockGeneric;
+import com.mandatoryfun.ultramegafactory.block.blast_furnace.BlockBlastFurnaceController;
 import com.mandatoryfun.ultramegafactory.block.itemblock.ItemBlockGenericOre;
 import com.mandatoryfun.ultramegafactory.block.itemblock.ItemBlockMultipleNames;
 import net.minecraft.block.Block;
@@ -72,7 +72,7 @@ public class ModBlocks {
 
         Ore.lignite = registerOre("lignite_ore", "brown coal", constructArray("Less power effective than bitumen", "Can be found under swamps"), 3, 1);
         Ore.bituminousCoal = registerOre("bitumen_ore", "bituminous coal/black coal", constructArray("More power effective than lignite", "Can be found at the bottom of the Minecraft world"), 3, 1);
-        Ore.peat = registerOre("peat", "PEAT!!!", constructArray(), 3, 0);
+        Ore.peat = registerOre("peat_ore", "PEAT!!!", constructArray(), 3, 0);
 
         Ore.limestone = registerOre("ore", "CaCO\u2083", constructArray("Used to make lime", "Not an actual ore ;-)"), 3, 0);
 
