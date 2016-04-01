@@ -1,7 +1,11 @@
 package com.mandatoryfun.ultramegafactory.init;
 
 import com.mandatoryfun.ultramegafactory.init.recipe.BlastFurnaceRecipe;
+import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -49,4 +53,30 @@ public class UMFRecipes {
             return bullshitCreators.get(item);
         }
     }
+
+    public class CraftingManager
+    {
+        public void mainRegistry()
+        {
+            addCraftingRec();
+            addSmeltingRec();
+        }
+
+        public void addCraftingRec()
+        {
+            //Shaped
+            //Compressed stone
+            GameRegistry.addRecipe(new ItemStack(Item.getItemFromBlock(ModBlocks.blastFurnaceController), 1, 0), new Object[]{"CGC","BFB","CCC", 'F', Blocks.furnace, 'C', Items.brick, 'G', Blocks.glass, 'B', Blocks.brick_block});
+            GameRegistry.addRecipe(new ItemStack(Item.getItemFromBlock(ModBlocks.blastFurnaceController), 1, 1), new Object[]{"PIP","IBI","PIP", 'P', ModItems.porcelain, 'I', new ItemStack(ModItems.Ingot.iron, 1, 2), 'B', new ItemStack(Item.getItemFromBlock(ModBlocks.blastFurnaceController),1 ,1)});
+
+            //Shapeless
+            //GameRegistry.addShapelessRecipe(new ItemStack(Items.diamond_hoe, 1), new Object[]{"SCO", 'S', Blocks.stone, 'C', MBlocks.CompStone, 'O', Blocks.obsidian});
+        }
+
+        public void addSmeltingRec()
+        {
+            GameRegistry.addSmelting(ModItems.porcelain, new ItemStack(ModItems.Dust.kaoline),20.0f);
+        }
+    }
+
 }

@@ -33,4 +33,6 @@ public class ItemGeneric extends Item {
     public String getPureName() {
         return pureName;
     }
+
+
 }

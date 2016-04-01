@@ -1,0 +1,6 @@
+{
+  "parent": "ultramegafactory:item/item_generic",
+  "textures": {
+    "layer0": "ultramegafactory:items/dusts/aluminium_dust"
+  }
+}

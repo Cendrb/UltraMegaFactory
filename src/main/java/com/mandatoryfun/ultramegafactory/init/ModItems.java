@@ -41,7 +41,7 @@ public final class ModItems {
 
     public static class Dust
     {
-
+        public static ItemGeneric kaoline;
     }
 
     public static ItemGeneric carbon;
@@ -50,6 +50,8 @@ public final class ModItems {
     public static ItemGeneric lime;
     public static ItemGeneric charcoal;
     public static ItemGeneric peat;
+
+    public static ItemGeneric porcelain;
 
     public static void init()
     {
@@ -78,11 +80,17 @@ public final class ModItems {
         Ingot.brass = registerIngot("brass_ingot", "Cu and Zn");
         Ingot.PbSnSbAlloy = registerIngot("PbSnSb_alloy_ingot", "Pb, Sn and Sb", "Also called battery alloy", "");
 
-        // other
+        // fuel
         carbon = registerFuel(new ItemFormulaDescriptionGeneric("carbon", "C (almost pure)", constructArray("Used in blast furnace to create better iron and steel")), 27500);
         lignite = registerFuel(new ItemFormulaDescriptionGeneric("lignite", "brown coal", constructArray()), 16400);
         peat = registerFuel(new ItemFormulaDescriptionGeneric("peat", "", constructArray()), 5000);
         bitumen = registerFuel(new ItemFormulaDescriptionGeneric("bitumen", "black coal", constructArray()), 24500);
+        // dust
+        Dust.kaoline  = register(new ItemGeneric("kaoline_dust"));
+
+        //other
+        porcelain = register(new ItemGeneric("porcelain_brick"));
+
     }
 
     private static ItemGeneric registerFuel(ItemGeneric item, int kJEnergyValue) {
