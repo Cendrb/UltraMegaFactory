@@ -41,6 +41,8 @@ public class CommonProxy {
     public void init(FMLInitializationEvent e) {
         ModWorld.init();
 
+        UMFRecipes.CraftingManager.init();
+
         FMLCommonHandler.instance().bus().register(new ConfigurationHandler());
 
         MinecraftForge.EVENT_BUS.register(new TooltipHandler());
