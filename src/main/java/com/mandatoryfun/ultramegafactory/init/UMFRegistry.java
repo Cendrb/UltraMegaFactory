@@ -4,6 +4,7 @@ import com.mandatoryfun.ultramegafactory.init.recipe.BlastFurnaceRecipe;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.oredict.OreDictionary;
 
 import java.util.ArrayList;
@@ -44,12 +45,25 @@ public class UMFRegistry {
     {
         public static void init()
         {
-            OreDictionary.registerOre("iron_ingot", new ItemStack(ModItems.Ingot.iron, 1, 1));
-            OreDictionary.registerOre("iron_ingot_t1", new ItemStack(ModItems.Ingot.iron, 1, 0));
-            OreDictionary.registerOre("iron_ingot_t2", new ItemStack(ModItems.Ingot.iron, 2, 1));
-            OreDictionary.registerOre("iron_ingot_t3", new ItemStack(ModItems.Ingot.iron, 2, 2));
-            OreDictionary.registerOre("iron_ingot_t4", new ItemStack(ModItems.Ingot.iron, 2, 3));
-            OreDictionary.registerOre("iron_ingot_t5", new ItemStack(ModItems.Ingot.iron, 2, 4));
+            // iron
+            registerAllMetas("ingotIron", ModItems.Ingot.iron, 1, 4);
+            registerAllMetas("ingotIronT1", ModItems.Ingot.iron, 1, 4);
+            registerAllMetas("ingotIronT2", ModItems.Ingot.iron, 1, 4);
+            registerAllMetas("ingotIronT3", ModItems.Ingot.iron, 2, 4);
+            registerAllMetas("ingotIronT4", ModItems.Ingot.iron, 3, 4);
+            registerAllMetas("ingotIronT5", ModItems.Ingot.iron, 4, 4);
+        }
+
+        private static void register(String name, Item result, int meta)
+        {
+            OreDictionary.registerOre(name, new ItemStack(result, 1, meta));
+        }
+        private static void registerAllMetas(String name, Item result, int min, int max)
+        {
+            for(int meta = min; meta <= max; meta++)
+            {
+                register(name, result, meta);
+            }
         }
     }
 }

@@ -17,7 +17,9 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.stats.StatList;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.tileentity.TileEntityFurnace;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
@@ -135,11 +137,26 @@ public class BlockBlastFurnaceController extends BlockGenericContainer implement
 
     @Override
     public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ) {
-        if(worldIn.isRemote)
-            return true;
 
-        playerIn.openGui(Core.instance, GuiHandler.GuiEnum.BLAST_FURNACE.ordinal(), worldIn, pos.getX(), pos.getY(), pos.getZ());
-        return true;
+        if (worldIn.isRemote)
+        {
+            // not needed on server side - server gets called automatically
+            return true;
+        }
+        else
+        {
+            UMFLogger.logInfo("PENISOSOSIOSOsSJODJOSJDOOSJDOJSODJOSJDPOSJJODOSJDOJSODJOSJDOJSODJOSJDO_JSO_DjOSJDOSJDOjs");
+            TileEntity tileentity = worldIn.getTileEntity(pos);
+
+            if (tileentity instanceof TileEntityBlastFurnaceController)
+            {
+                UMFLogger.logInfo("DILDOIDLIDLIDLIDLIDLID");
+                playerIn.openGui(Core.instance, GuiHandler.GuiEnum.BLAST_FURNACE.ordinal(), worldIn, pos.getX(), pos.getY(), pos.getZ());
+                // calls GuiHandler
+            }
+
+            return true;
+        }
     }
 
     @Override

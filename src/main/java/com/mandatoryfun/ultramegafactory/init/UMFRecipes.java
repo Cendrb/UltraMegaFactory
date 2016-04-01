@@ -6,6 +6,8 @@ import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.oredict.OreDictionary;
+import net.minecraftforge.oredict.ShapedOreRecipe;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -31,8 +33,8 @@ public class UMFRecipes {
         }
 
         public static boolean isValidOre(Item item) {
-            for(BlastFurnaceRecipe recipe : blastFurnaceRecipes)
-                if(Item.getItemFromBlock(recipe.getOre()) == item)
+            for (BlastFurnaceRecipe recipe : blastFurnaceRecipes)
+                if (Item.getItemFromBlock(recipe.getOre()) == item)
                     return true;
             return false;
         }
@@ -54,28 +56,24 @@ public class UMFRecipes {
         }
     }
 
-    public static class CraftingManager
-    {
-        public static void init()
-        {
+    public static class CraftingManager {
+        public static void init() {
             addCraftingRec();
             addSmeltingRec();
         }
 
-        public static void addCraftingRec()
-        {
+        public static void addCraftingRec() {
             //Shaped
             //Compressed stone
-            GameRegistry.addRecipe(new ItemStack(Item.getItemFromBlock(ModBlocks.blastFurnaceController), 1, 0), new Object[]{"CGC","BFB","CCC", 'F', Blocks.furnace, 'C', Items.brick, 'G', Blocks.glass, 'B', Blocks.brick_block});
-            GameRegistry.addRecipe(new ItemStack(Item.getItemFromBlock(ModBlocks.blastFurnaceController), 1, 1), new Object[]{"PIP","IBI","PIP", 'P', ModItems.porcelain, 'I', new ItemStack(ModItems.Ingot.iron, 1, 2), 'B', new ItemStack(Item.getItemFromBlock(ModBlocks.blastFurnaceController),1 ,1)});
+            GameRegistry.addRecipe(new ItemStack(Item.getItemFromBlock(ModBlocks.blastFurnaceController), 1, 0), "CGC", "BFB", "CCC", 'F', Blocks.furnace, 'C', Items.brick, 'G', Blocks.glass, 'B', Blocks.brick_block);
+            GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(Item.getItemFromBlock(ModBlocks.blastFurnaceController), 1, 1), "PIP", "IBI", "PIP", 'P', ModItems.porcelain, 'I', "ingotIronT4", 'B', new ItemStack(Item.getItemFromBlock(ModBlocks.blastFurnaceController), 1, 0)));
 
             //Shapeless
             //GameRegistry.addShapelessRecipe(new ItemStack(Items.diamond_hoe, 1), new Object[]{"SCO", 'S', Blocks.stone, 'C', MBlocks.CompStone, 'O', Blocks.obsidian});
         }
 
-        public static void addSmeltingRec()
-        {
-            GameRegistry.addSmelting(ModItems.porcelain, new ItemStack(ModItems.Dust.kaoline),20.0f);
+        public static void addSmeltingRec() {
+            GameRegistry.addSmelting(ModItems.porcelain, new ItemStack(ModItems.Dust.kaoline), 20.0f);
         }
     }
 

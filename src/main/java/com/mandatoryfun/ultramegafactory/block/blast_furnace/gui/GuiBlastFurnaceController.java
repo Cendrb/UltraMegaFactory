@@ -1,9 +1,12 @@
-package com.mandatoryfun.ultramegafactory.client.gui;
+package com.mandatoryfun.ultramegafactory.block.blast_furnace.gui;
 
 import com.mandatoryfun.ultramegafactory.lib.RefStrings;
+import com.mandatoryfun.ultramegafactory.tileentity.TileEntityBlastFurnaceController;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.inventory.GuiContainer;
+import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
+import net.minecraft.inventory.IInventory;
 import net.minecraft.util.ResourceLocation;
 
 /**
@@ -13,8 +16,8 @@ public class GuiBlastFurnaceController extends GuiContainer {
 
     public static final ResourceLocation texture = new ResourceLocation(RefStrings.MODID, "textures/gui/blast_furnace_controller.png");
 
-    public GuiBlastFurnaceController(Container inventorySlotsIn) {
-        super(inventorySlotsIn);
+    public GuiBlastFurnaceController(InventoryPlayer playerInv, TileEntityBlastFurnaceController blastFurnaceController) {
+        super(new ContainerBlastFurnace(playerInv, blastFurnaceController));
         xSize = 194;
         ySize = 135;
     }
