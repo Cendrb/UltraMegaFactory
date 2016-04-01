@@ -54,15 +54,15 @@ public class UMFRecipes {
         }
     }
 
-    public class CraftingManager
+    public static class CraftingManager
     {
-        public void mainRegistry()
+        public static void init()
         {
             addCraftingRec();
             addSmeltingRec();
         }
 
-        public void addCraftingRec()
+        public static void addCraftingRec()
         {
             //Shaped
             //Compressed stone
@@ -73,7 +73,7 @@ public class UMFRecipes {
             //GameRegistry.addShapelessRecipe(new ItemStack(Items.diamond_hoe, 1), new Object[]{"SCO", 'S', Blocks.stone, 'C', MBlocks.CompStone, 'O', Blocks.obsidian});
         }
 
-        public void addSmeltingRec()
+        public static void addSmeltingRec()
         {
             GameRegistry.addSmelting(ModItems.porcelain, new ItemStack(ModItems.Dust.kaoline),20.0f);
         }
