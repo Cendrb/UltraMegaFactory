@@ -133,14 +133,15 @@ public class TileEntityBlastFurnaceController extends TileEntity implements ITic
         {
             // check for slot
             ItemStack superReturned = super.insertItem(slot, stack, true);
+            int superStackSize = (superReturned == null) ? 0 : superReturned.stackSize;
 
             // check for capacity
             int itemsLeft = canInsert(stack.stackSize);
 
-            if((superReturned == null || superReturned.stackSize < stack.stackSize) && itemsLeft < stack.stackSize)
+            if((superStackSize < stack.stackSize) && itemsLeft < stack.stackSize)
             {
                 // slot is not full and capacity not reached
-                int greaterLimitation = Math.max(superReturned.stackSize, itemsLeft);
+                int greaterLimitation = Math.max(superStackSize, itemsLeft);
 
                 UMFLogger.logInfo("Inserting " + stack.getItem().getRegistryName() + " to slot " + slot);
 
@@ -152,6 +153,8 @@ public class TileEntityBlastFurnaceController extends TileEntity implements ITic
                 else {
                     existing.stackSize = existing.stackSize - (stack.stackSize - greaterLimitation);
                 }
+
+                currentNumberOfItems += stack.stackSize - greaterLimitation;
 
                 if(greaterLimitation > 0)
                     // if limited return the rest
