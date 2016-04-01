@@ -30,6 +30,7 @@ public class CommonProxy {
 
         UMFRegistry.Fuels.init();
         UMFRecipes.BlastFurnace.init();
+        UMFRegistry.OreDitionaryManager.init();
 
         // config
         ConfigurationHandler.init(e.getSuggestedConfigurationFile());

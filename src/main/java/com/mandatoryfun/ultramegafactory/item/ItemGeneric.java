@@ -10,12 +10,20 @@ import net.minecraft.item.Item;
 public class ItemGeneric extends Item {
 
     private String pureName;
+    private boolean registerRender = true;
 
     public ItemGeneric(String unlocalizedName) {
         super();
         setCreativeTab(ModCreativeTabs.tabItems);
         pureName = unlocalizedName;
         setUnlocalizedName(unlocalizedName);
+    }
+
+    public void setRegisterRender(boolean registerRender) {
+        this.registerRender = registerRender;
+    }
+    public boolean isRegisterRender() {
+        return registerRender;
     }
 
     public String getIdentifier() {
