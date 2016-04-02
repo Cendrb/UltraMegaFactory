@@ -69,11 +69,11 @@ public class UMFRecipes {
             GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(Item.getItemFromBlock(ModBlocks.blastFurnaceController), 1, 1), "PIP", "IBI", "PIP", 'P', ModItems.porcelain, 'I', "ingotIronT4", 'B', new ItemStack(Item.getItemFromBlock(ModBlocks.blastFurnaceController), 1, 0)));
 
             //Shapeless
-            //GameRegistry.addShapelessRecipe(new ItemStack(Items.diamond_hoe, 1), new Object[]{"SCO", 'S', Blocks.stone, 'C', MBlocks.CompStone, 'O', Blocks.obsidian});
+
         }
 
         public static void addSmeltingRec() {
-            GameRegistry.addSmelting(ModItems.porcelain, new ItemStack(ModItems.Dust.kaoline), 20.0f);
+            GameRegistry.addSmelting(ModItems.Dust.kaoline, new ItemStack(ModItems.porcelain), 20.0f);
         }
     }
 
