@@ -6,10 +6,7 @@ import com.mandatoryfun.ultramegafactory.creativetab.ModCreativeTabs;
 import com.mandatoryfun.ultramegafactory.handler.ConfigurationHandler;
 import com.mandatoryfun.ultramegafactory.handler.OreGenHandler;
 import com.mandatoryfun.ultramegafactory.handler.TooltipHandler;
-import com.mandatoryfun.ultramegafactory.init.ModBlocks;
-import com.mandatoryfun.ultramegafactory.init.ModItems;
-import com.mandatoryfun.ultramegafactory.init.UMFRecipes;
-import com.mandatoryfun.ultramegafactory.init.UMFRegistry;
+import com.mandatoryfun.ultramegafactory.init.*;
 import com.mandatoryfun.ultramegafactory.world.ModWorld;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.FMLCommonHandler;
@@ -42,6 +39,7 @@ public class CommonProxy {
         ModWorld.init();
 
         UMFRecipes.CraftingManager.init();
+        ModTileEntities.init();
 
         FMLCommonHandler.instance().bus().register(new ConfigurationHandler());
 

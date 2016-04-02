@@ -23,7 +23,6 @@ public class ItemRenderRegister {
     }
 
     private static void register(ItemGeneric item) {
-        System.out.println(item.getIdentifier());
         Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register(item, 0, new ModelResourceLocation(item.getIdentifier(), "inventory"));
     }
 

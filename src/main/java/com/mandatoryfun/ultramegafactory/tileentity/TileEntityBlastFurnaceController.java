@@ -28,7 +28,7 @@ public class TileEntityBlastFurnaceController extends TileEntity implements ITic
     private static final String INPUT_INVENTORY_KEY = "input_inventory";
     private static final String OUTPUT_INVENTORY_KEY = "output_inventory";
 
-    private ItemStackHandler handlerInput;
+    private InputHandler handlerInput;
     private ItemStackHandler handlerOutput = new ItemStackHandler();
 
     public TileEntityBlastFurnaceController() {
@@ -57,7 +57,7 @@ public class TileEntityBlastFurnaceController extends TileEntity implements ITic
         return super.getCapability(capability, facing);
     }
 
-    public ItemStackHandler getHandlerInput() {
+    public InputHandler getHandlerInput() {
         return handlerInput;
     }
 
@@ -65,15 +65,16 @@ public class TileEntityBlastFurnaceController extends TileEntity implements ITic
         return handlerOutput;
     }
 
-
     @Override
     public void readFromNBT(NBTTagCompound compound) {
+        super.readFromNBT(compound);
         handlerInput.deserializeNBT(compound.getCompoundTag(INPUT_INVENTORY_KEY));
         handlerOutput.deserializeNBT(compound.getCompoundTag(OUTPUT_INVENTORY_KEY));
     }
 
     @Override
     public void writeToNBT(NBTTagCompound compound) {
+        super.writeToNBT(compound);
         compound.setTag(INPUT_INVENTORY_KEY, handlerInput.serializeNBT());
         compound.setTag(OUTPUT_INVENTORY_KEY, handlerOutput.serializeNBT());
     }
@@ -113,12 +114,35 @@ public class TileEntityBlastFurnaceController extends TileEntity implements ITic
         private final int BULLSHIT_CREATOR_CATEGORY_FIRST_SLOT = REDUCING_AGENT_CATEGORY_FIRST_SLOT + 9;
 
         private int currentNumberOfItems = 0;
+
         private int capacity;
 
         public InputHandler(int capacity) {
             super();
             setSize(CATEGORIES_COUNT * SLOTS_PER_CATEGORY);// set number of slots 3*9
             setCapacity(capacity);
+        }
+
+        @Override
+        protected void onContentsChanged(int slot) {
+            super.onContentsChanged(slot);
+        }
+
+        @Override
+        public void setStackInSlot(int slot, ItemStack stack) {
+            UMFLogger.logInfo("Running setStackInSlot()...");
+            ItemStack previous = getStackInSlot(slot);
+            if (ItemStack.areItemStacksEqual(this.stacks[slot], stack)) // needs to be here too, the super one wont stop this method
+                return;
+            super.setStackInSlot(slot, stack);
+            UMFLogger.logInfo("Setting " + stack.stackSize + "*" + stack.getItem().getRegistryName() + " into " + slot);
+            if (previous == null)
+                currentNumberOfItems += stack.stackSize;
+            else {
+                UMFLogger.logInfo("Previous stack: " + previous.stackSize + "*" + previous.getItem().getRegistryName());
+                currentNumberOfItems += stack.stackSize - previous.stackSize;
+            }
+            UMFLogger.logInfo("Current number of items: " + currentNumberOfItems);
         }
 
         @Override
@@ -148,6 +172,14 @@ public class TileEntityBlastFurnaceController extends TileEntity implements ITic
                 return stack;
         }
 
+        public int getCurrentNumberOfItems() {
+            return currentNumberOfItems;
+        }
+
+        public void setCurrentNumberOfItems(int currentNumberOfItems) {
+            this.currentNumberOfItems = currentNumberOfItems;
+        }
+
         public void setCapacity(int capacity) {
             if (capacity > 0) {
                 this.capacity = capacity;
@@ -167,7 +199,7 @@ public class TileEntityBlastFurnaceController extends TileEntity implements ITic
                 // slot is not full and capacity not reached
                 int greaterLimitation = Math.max(superStackSize, itemsLeft);
 
-                UMFLogger.logInfo("Inserting " + stack.getItem().getRegistryName() + " to slot " + slot);
+                UMFLogger.logInfo("Inserting " + stack.stackSize + "*" + stack.getItem().getRegistryName() + " to slot " + slot + " simulate " + simulate);
 
                 if (!simulate) {
                     ItemStack existing = stacks[slot];
@@ -179,6 +211,7 @@ public class TileEntityBlastFurnaceController extends TileEntity implements ITic
 
                     currentNumberOfItems += stack.stackSize - greaterLimitation;
                 }
+                UMFLogger.logInfo("Current number of items: " + currentNumberOfItems);
 
                 if (greaterLimitation > 0)
                     // if limited return the rest
@@ -193,8 +226,10 @@ public class TileEntityBlastFurnaceController extends TileEntity implements ITic
         @Override
         public ItemStack extractItem(int slot, int amount, boolean simulate) {
             ItemStack superReturned = super.extractItem(slot, amount, simulate);
-            if(!simulate && superReturned != null)
+            UMFLogger.logInfo("Extracting " + amount + " from " + slot + " simulate " + simulate);
+            if (!simulate && superReturned != null)
                 currentNumberOfItems -= amount;
+            UMFLogger.logInfo("Current number of items: " + currentNumberOfItems);
             return superReturned;
         }
 

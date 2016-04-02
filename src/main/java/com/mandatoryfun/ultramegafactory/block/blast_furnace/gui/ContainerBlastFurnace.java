@@ -3,10 +3,8 @@ package com.mandatoryfun.ultramegafactory.block.blast_furnace.gui;
 import com.mandatoryfun.ultramegafactory.tileentity.TileEntityBlastFurnaceController;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.inventory.Container;
-import net.minecraft.inventory.ICrafting;
-import net.minecraft.inventory.IInventory;
-import net.minecraft.inventory.Slot;
+import net.minecraft.inventory.*;
+import net.minecraft.item.ItemStack;
 import net.minecraftforge.items.SlotItemHandler;
 
 /**
@@ -44,6 +42,13 @@ public class ContainerBlastFurnace extends Container {
             this.addSlotToContainer(new Slot(playerInventory, k, 8 + k * 18, 142));
         }
     }
+
+    @Override
+    public ItemStack func_184996_a(int p_184996_1_, int dragType, ClickType clickTypeIn, EntityPlayer player) {
+        return super.func_184996_a(p_184996_1_, dragType, clickTypeIn, player);
+    }
+
+
 
     @Override
     public boolean canInteractWith(EntityPlayer playerIn) {
