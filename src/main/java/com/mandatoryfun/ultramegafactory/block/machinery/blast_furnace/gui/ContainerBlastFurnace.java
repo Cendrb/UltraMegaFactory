@@ -1,4 +1,4 @@
-package com.mandatoryfun.ultramegafactory.block.blast_furnace.gui;
+package com.mandatoryfun.ultramegafactory.block.machinery.blast_furnace.gui;
 
 import com.mandatoryfun.ultramegafactory.tileentity.TileEntityBlastFurnaceController;
 import net.minecraft.entity.player.EntityPlayer;

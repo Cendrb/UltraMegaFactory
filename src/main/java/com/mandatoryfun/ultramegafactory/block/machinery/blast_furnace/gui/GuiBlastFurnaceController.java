@@ -1,4 +1,4 @@
-package com.mandatoryfun.ultramegafactory.block.blast_furnace.gui;
+package com.mandatoryfun.ultramegafactory.block.machinery.blast_furnace.gui;
 
 import com.mandatoryfun.ultramegafactory.lib.RefStrings;
 import com.mandatoryfun.ultramegafactory.tileentity.TileEntityBlastFurnaceController;
@@ -6,8 +6,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.inventory.Container;
-import net.minecraft.inventory.IInventory;
 import net.minecraft.util.ResourceLocation;
 
 /**

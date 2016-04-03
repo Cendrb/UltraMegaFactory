@@ -1,6 +1,7 @@
 package com.mandatoryfun.ultramegafactory.block;
 
 import com.mandatoryfun.ultramegafactory.creativetab.ModCreativeTabs;
+import com.mandatoryfun.ultramegafactory.lib.IRegisterRender;
 import com.mandatoryfun.ultramegafactory.lib.RefStrings;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -13,9 +14,10 @@ import java.util.Random;
 /**
  * Created by cendr_000 on 3. 7. 2015.
  */
-public class BlockGeneric extends Block implements IPureName {
+public class BlockGeneric extends Block implements IPureName, IRegisterRender {
 
     private String pureName;
+    private boolean registerRender = true;
 
     public BlockGeneric(String unlocalizedName) {
         this(unlocalizedName, Material.rock);
@@ -57,5 +59,15 @@ public class BlockGeneric extends Block implements IPureName {
 
     public String getPureName() {
         return pureName;
+    }
+
+    @Override
+    public void setRegisterRender(boolean registerRender) {
+        this.registerRender = registerRender;
+    }
+
+    @Override
+    public boolean getRegisterRender() {
+        return registerRender;
     }
 }

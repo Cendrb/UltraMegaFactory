@@ -1,6 +1,6 @@
 package com.mandatoryfun.ultramegafactory.tileentity;
 
-import com.mandatoryfun.ultramegafactory.block.blast_furnace.gui.ContainerBlastFurnace;
+import com.mandatoryfun.ultramegafactory.block.machinery.blast_furnace.gui.ContainerBlastFurnace;
 import com.mandatoryfun.ultramegafactory.init.UMFRecipes;
 import com.mandatoryfun.ultramegafactory.lib.UMFLogger;
 import net.minecraft.entity.player.EntityPlayer;

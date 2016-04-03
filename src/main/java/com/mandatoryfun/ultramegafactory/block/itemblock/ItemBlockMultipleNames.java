@@ -19,6 +19,6 @@ public class ItemBlockMultipleNames extends ItemBlockGeneric {
 
     @Override
     public String getUnlocalizedName(ItemStack stack) {
-        return super.getUnlocalizedName(stack) + "." + ((IBlockMultipleNames)this.block).getSpecialNameEnding(stack);
+        return super.getUnlocalizedName(stack) + "_" + ((IBlockMultipleNames)this.block).getSpecialNameEnding(stack);
     }
 }

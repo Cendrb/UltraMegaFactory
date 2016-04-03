@@ -1,8 +1,7 @@
 package com.mandatoryfun.ultramegafactory.proxy;
 
-import com.mandatoryfun.ultramegafactory.client.render.block.BlockRenderRegister;
-import com.mandatoryfun.ultramegafactory.client.render.item.ItemRenderRegister;
-import com.mandatoryfun.ultramegafactory.init.UMFRecipes;
+import com.mandatoryfun.ultramegafactory.client.render.BlockRenderRegister;
+import com.mandatoryfun.ultramegafactory.client.render.ItemRenderRegister;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;

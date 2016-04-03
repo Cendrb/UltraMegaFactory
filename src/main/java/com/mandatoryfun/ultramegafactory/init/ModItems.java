@@ -42,6 +42,7 @@ public final class ModItems {
     public static class Dust
     {
         public static ItemGeneric kaoline;
+        public static ItemGeneric lime;
     }
 
     public static ItemGeneric carbon;
@@ -87,6 +88,7 @@ public final class ModItems {
         bitumen = registerFuel(new ItemFormulaDescriptionGeneric("bitumen", "black coal", constructArray()), 24500);
         // dust
         Dust.kaoline  = register(new ItemGeneric("kaoline_dust"));
+        Dust.lime = register(new ItemGeneric("lime"));
 
         //other
         porcelain = register(new ItemGeneric("porcelain_brick"));

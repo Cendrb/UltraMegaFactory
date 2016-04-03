@@ -30,6 +30,8 @@ public class UMFRecipes {
 
             reducingAgents.put(ModItems.bitumen, 1.0f);
             reducingAgents.put(ModItems.carbon, 1.5f);
+
+            bullshitCreators.put(ModItems.Dust.lime, 1.0f);
         }
 
         public static boolean isValidOre(Item item) {

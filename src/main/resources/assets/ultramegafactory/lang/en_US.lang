@@ -1,5 +1,5 @@
 
-#ores
+# ores
 tile.bituminous_coal.name=Bituminous Coal
 tile.cassiterite_ore.name=Cassiterite Ore
 tile.cuprite_ore.name=Cuprite Ore
@@ -18,7 +18,17 @@ tile.bauxite_ore.name=Bauxite Ore
 tile.kaoline_ore.name=Kaolinite
 tile.peat.name=Peat
 
-#ingots
+# blast furnace
+tile.blast_furnace_controller_t1.name=Basic Blast Furnace Controller
+tile.blast_furnace_controller_t2.name=Advanced Blast Furnace Controller
+tile.blast_furnace_casing_t1.name=Brick-ish Blast Furnace Casing
+tile.blast_furnace_casing_t2.name=Kaoline-ish Blast Furnace Casing
+tile.burning_heater_t1.name=Basic Burning Heater
+tile.burning_heater_t2.name=Advanced Electric Heater
+tile.electric_heater_t1.name=Basic Electric Heater
+tile.electric_heater_t2.name=Advanced Burning Heater
+
+# ingots
 item.iron_ingot.name=Iron Ingot
 item.steel_ingot.name=Steel Ingot
 item.enriched_steel_ingot.name=Enriched Steel Ingot
@@ -35,13 +45,13 @@ item.chrome_ingot.name=Chrome Ingot
 item.nickel_ingot.name=Nickel Ingot
 item.gold_ingot.name=Gold Ingot
 
-#alloys
+# alloys
 item.bronze_ingot.name=Bronze Ingot
 item.electrum_ingot.name=Electrum Ingot
 item.brass_ingot.name=Brass Ingot
 item.PbSnSb_alloy_ingot.name=PbSnSb Alloy Ingot
 
-#creative tabs
+# creative tabs
 itemGroup.UMFBlocks=FeCuTiS Blocks
 itemGroup.UMFItems=FeCuTiS Items
 itemGroup.UMFTools=FeCuTiS Tools

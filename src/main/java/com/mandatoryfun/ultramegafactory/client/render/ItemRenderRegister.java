@@ -1,4 +1,4 @@
-package com.mandatoryfun.ultramegafactory.client.render.item;
+package com.mandatoryfun.ultramegafactory.client.render;
 
 import com.mandatoryfun.ultramegafactory.init.ModItems;
 import com.mandatoryfun.ultramegafactory.item.ItemGeneric;
@@ -11,9 +11,9 @@ import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 public class ItemRenderRegister {
 
     public static void init() {
-        for (ItemGeneric blockGeneric : ModItems.getAllItems())
-            if (blockGeneric.isRegisterRender())
-                register(blockGeneric);
+        for (ItemGeneric itemGeneric : ModItems.getAllItems())
+            if (itemGeneric.getRegisterRender())
+                register(itemGeneric);
 
         register(ModItems.Ingot.iron, 0);
         register(ModItems.Ingot.iron, 1);

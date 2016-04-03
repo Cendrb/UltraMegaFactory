@@ -1,0 +1,6 @@
+{
+  "variants": {
+    "tier=1": { "model": "ultramegafactory:burning_heater_t1" },
+    "tier=2":  { "model": "ultramegafactory:burning_heater_t2" }
+  }
+}

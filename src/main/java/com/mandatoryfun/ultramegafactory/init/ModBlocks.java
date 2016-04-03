@@ -1,9 +1,10 @@
 package com.mandatoryfun.ultramegafactory.init;
 
 import com.mandatoryfun.ultramegafactory.block.*;
-import com.mandatoryfun.ultramegafactory.block.blast_furnace.BlockBlastFurnaceController;
-import com.mandatoryfun.ultramegafactory.block.itemblock.ItemBlockGenericOre;
+import com.mandatoryfun.ultramegafactory.block.machinery.blast_furnace.*;
 import com.mandatoryfun.ultramegafactory.block.itemblock.ItemBlockMultipleNames;
+import com.mandatoryfun.ultramegafactory.block.machinery.BlockBurningHeater;
+import com.mandatoryfun.ultramegafactory.block.machinery.BlockElectricHeater;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.item.ItemBlock;
@@ -44,6 +45,9 @@ public class ModBlocks {
     public static BlockKaolineOre kaolineOre;
 
     public static BlockBlastFurnaceController blastFurnaceController;
+    public static BlockBlastFurnaceCasing blastFurnaceCasing;
+    public static BlockBurningHeater blastFurnaceBurningHeater;
+    public static BlockElectricHeater blastFurnaceElectricHeater;
 
     public static void init() {
         // add gems ruby Al2O3Cr - source of chromium, sapphire
@@ -78,25 +82,28 @@ public class ModBlocks {
 
 
         // kaoline
-        kaolineOre = (BlockKaolineOre) register(new BlockKaolineOre());
+        kaolineOre = register(new BlockKaolineOre());
 
         // blast furnace
-        // NO LONGER crashes the game BUT STILL DOESN'T WORK
-        blastFurnaceController = (BlockBlastFurnaceController) register(new BlockBlastFurnaceController(), ItemBlockMultipleNames.class);
+        // NO LONGER crashes the game
+        blastFurnaceController = register(new BlockBlastFurnaceController(), ItemBlockMultipleNames.class);
+        blastFurnaceCasing = register(new BlockBlastFurnaceCasing(), ItemBlockMultipleNames.class);
+        blastFurnaceBurningHeater = register(new BlockBurningHeater(), ItemBlockMultipleNames.class);
+        blastFurnaceElectricHeater = register(new BlockElectricHeater(), ItemBlockMultipleNames.class);
     }
 
     private static String[] constructArray(String... strings) {
         return strings;
     }
 
-    private static Block register(Block block) {
+    private static <T extends Block>T register(T block) {
         IPureName blockWithName = (IPureName) block;
         GameRegistry.registerBlock(block, blockWithName.getPureName());
         allBlocks.add(block);
         return block;
     }
 
-    private static Block register(Block block, Class<? extends ItemBlock> itemBlock) {
+    private static <T extends Block>T register(T block, Class<? extends ItemBlock> itemBlock) {
         IPureName blockWithName = (IPureName) block;
         GameRegistry.registerBlock(block, itemBlock, blockWithName.getPureName());
         allBlocks.add(block);
@@ -105,7 +112,7 @@ public class ModBlocks {
 
     private static BlockGenericOre registerOre(String unlocalizedName, String formula, String[] description, float hardness, int toolLevel) {
         BlockGenericOre block;
-        GameRegistry.registerBlock(block = new BlockGenericOre(unlocalizedName, Material.rock, hardness, 15, "pickaxe", toolLevel, formula, description), ItemBlockGenericOre.class, block.getPureName());
+        GameRegistry.registerBlock(block = new BlockGenericOre(unlocalizedName, Material.rock, hardness, 15, "pickaxe", toolLevel, formula, description), block.getPureName());
         allBlocks.add(block);
         return block;
     }

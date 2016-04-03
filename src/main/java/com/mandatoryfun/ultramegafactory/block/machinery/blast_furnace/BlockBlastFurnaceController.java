@@ -1,11 +1,13 @@
-package com.mandatoryfun.ultramegafactory.block.blast_furnace;
+package com.mandatoryfun.ultramegafactory.block.machinery.blast_furnace;
 
 import com.mandatoryfun.ultramegafactory.Core;
 import com.mandatoryfun.ultramegafactory.block.BlockGenericContainer;
 import com.mandatoryfun.ultramegafactory.block.IBlockMultipleNames;
 import com.mandatoryfun.ultramegafactory.client.gui.GuiHandler;
+import com.mandatoryfun.ultramegafactory.lib.NameHelper;
 import com.mandatoryfun.ultramegafactory.lib.UMFLogger;
 import com.mandatoryfun.ultramegafactory.tileentity.TileEntityBlastFurnaceController;
+import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyDirection;
@@ -17,13 +19,12 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.stats.StatList;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.tileentity.TileEntityFurnace;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
 import java.util.List;
@@ -42,6 +43,7 @@ public class BlockBlastFurnaceController extends BlockGenericContainer implement
         setHardness(3);
         setResistance(15);
         setHarvestLevel("pickaxe", 1);
+        setRegisterRender(false); // do not register regularly - has subids
     }
 
     @Override
@@ -86,6 +88,27 @@ public class BlockBlastFurnaceController extends BlockGenericContainer implement
         worldIn.setBlockState(pos, state);
 
         super.onBlockPlacedBy(worldIn, pos, state, placer, stack);
+    }
+
+    @Override
+    public void onBlockAdded(World worldIn, BlockPos pos, IBlockState state) {
+        UMFLogger.logInfo("onBlockAdded " + UMFLogger.formatBlockPos(pos));
+        super.onBlockAdded(worldIn, pos, state);
+    }
+    @Override
+    public void onNeighborBlockChange(World worldIn, BlockPos pos, IBlockState state, Block neighborBlock) {
+        UMFLogger.logInfo("onNeighborBlockChange " + UMFLogger.formatBlockPos(pos));
+        super.onNeighborBlockChange(worldIn, pos, state, neighborBlock);
+    }
+    @Override
+    public boolean onBlockEventReceived(World worldIn, BlockPos pos, IBlockState state, int eventID, int eventParam) {
+        UMFLogger.logInfo("onBlockEventReceived " + UMFLogger.formatBlockPos(pos));
+        return super.onBlockEventReceived(worldIn, pos, state, eventID, eventParam);
+    }
+    @Override
+    public void onNeighborChange(IBlockAccess world, BlockPos pos, BlockPos neighbor) {
+        UMFLogger.logInfo("onNeighborChange " + UMFLogger.formatBlockPos(pos));
+        super.onNeighborChange(world, pos, neighbor);
     }
 
     @Override
@@ -145,12 +168,10 @@ public class BlockBlastFurnaceController extends BlockGenericContainer implement
         }
         else
         {
-            UMFLogger.logInfo("PENISOSOSIOSOsSJODJOSJDOOSJDOJSODJOSJDPOSJJODOSJDOJSODJOSJDOJSODJOSJDO_JSO_DjOSJDOSJDOjs");
             TileEntity tileentity = worldIn.getTileEntity(pos);
 
             if (tileentity instanceof TileEntityBlastFurnaceController)
             {
-                UMFLogger.logInfo("DILDOIDLIDLIDLIDLIDLID");
                 playerIn.openGui(Core.instance, GuiHandler.GuiEnum.BLAST_FURNACE.ordinal(), worldIn, pos.getX(), pos.getY(), pos.getZ());
                 // calls GuiHandler
             }
@@ -161,15 +182,7 @@ public class BlockBlastFurnaceController extends BlockGenericContainer implement
 
     @Override
     public String getSpecialNameEnding(ItemStack stack) {
-        int damage = stack.getItemDamage();
-        switch (damage) {
-            case 0:
-                return "t1";
-            case 1:
-                return "t2";
-            default:
-                return "unknownDamageValue";
-        }
+        return NameHelper.getSpecialEndingWithNumber("t", stack.getItemDamage() + 1, "");
     }
 
     @Override
