@@ -1,6 +1,9 @@
 package com.mandatoryfun.ultramegafactory.init;
 
+import com.google.common.collect.ImmutableList;
+import com.mandatoryfun.ultramegafactory.block.machinery.BlockGenericTier;
 import com.mandatoryfun.ultramegafactory.init.recipe.BlastFurnaceRecipe;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -35,9 +38,40 @@ public class UMFRegistry {
         public static int getKJEnergyValue(Item item) {
             return fuels.get(item);
         }
+        public static int getJEnergyValue(Item item)
+        {
+            return getKJEnergyValue(item) * 1000;
+        }
 
         public static boolean isFuel(Item item) {
             return fuels.containsKey(item);
+        }
+    }
+
+    public static class BlastFurnaceParts
+    {
+        private static ImmutableList<IBlockState> heaters;
+        private static ImmutableList<IBlockState> casings;
+
+        public static void init()
+        {
+            ImmutableList.Builder<IBlockState> heatersBuilder = ImmutableList.builder();
+            heatersBuilder.addAll(ModBlocks.blastFurnaceBurningHeater.getBlockState().getValidStates());
+            heatersBuilder.addAll(ModBlocks.blastFurnaceElectricHeater.getBlockState().getValidStates());
+            heaters = heatersBuilder.build();
+
+            ImmutableList.Builder<IBlockState> casingsBuilder = ImmutableList.builder();
+            casingsBuilder.addAll(ModBlocks.blastFurnaceCasing.getBlockState().getValidStates());
+            casings = casingsBuilder.build();
+        }
+
+        public static boolean isHeater(IBlockState state)
+        {
+            return heaters.contains(state);
+        }
+        public static boolean isCasing(IBlockState state)
+        {
+            return casings.contains(state);
         }
     }
 

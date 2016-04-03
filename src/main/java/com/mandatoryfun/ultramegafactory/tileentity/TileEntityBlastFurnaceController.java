@@ -1,6 +1,7 @@
 package com.mandatoryfun.ultramegafactory.tileentity;
 
 import com.mandatoryfun.ultramegafactory.block.machinery.blast_furnace.gui.ContainerBlastFurnace;
+import com.mandatoryfun.ultramegafactory.init.ModItems;
 import com.mandatoryfun.ultramegafactory.init.UMFRecipes;
 import com.mandatoryfun.ultramegafactory.init.UMFRegistry;
 import com.mandatoryfun.ultramegafactory.lib.UMFLogger;
@@ -26,23 +27,34 @@ import net.minecraftforge.items.ItemStackHandler;
  */
 public class TileEntityBlastFurnaceController extends TileEntity implements ITickable, IInteractionObject {
 
-    private static final String INPUT_INVENTORY_KEY = "input_inventory";
-    private static final String OUTPUT_INVENTORY_KEY = "output_inventory";
-    private static final String FUEL_INVENTORY_KEY = "fuel_inventory";
+    private enum BlastFurnacePhase { HEATING_UP, REACTION_IN_PROGRESS, IDLE }
+
+    private float temperature = 0;
+    private BlastFurnacePhase currentPhase;
+    private float currentEnergyIncome;
 
     private InputItemStackHandler handlerInput;
-    private ItemStackHandler handlerOutput = new ItemStackHandler();
-    private ItemStackHandler handlerFuel;
+    private OutputItemStackHandler handlerOutput;
+    private FuelItemStackHandler handlerFuel;
     private ItemStackHandler handlerSample;
 
     public TileEntityBlastFurnaceController() {
         handlerInput = new InputItemStackHandler(128);
+        handlerOutput = new OutputItemStackHandler();
         handlerFuel = new FuelItemStackHandler();
         handlerSample = new SampleItemStackHandler();
+
+        handlerOutput.setItems(new ItemStack(ModItems.Ingot.iron, 1, 2), 420);
     }
 
     @Override
     public void update() {
+        if (handlerFuel.isFueled())
+        {
+            if(currentPhase == BlastFurnacePhase.IDLE)
+                currentPhase = BlastFurnacePhase.HEATING_UP;
+
+        }
     }
 
     @Override
@@ -81,20 +93,26 @@ public class TileEntityBlastFurnaceController extends TileEntity implements ITic
         return handlerSample;
     }
 
+    public float getTemperature() {
+        return temperature;
+    }
+
     @Override
     public void readFromNBT(NBTTagCompound compound) {
         super.readFromNBT(compound);
-        handlerInput.deserializeNBT(compound.getCompoundTag(INPUT_INVENTORY_KEY));
-        handlerOutput.deserializeNBT(compound.getCompoundTag(OUTPUT_INVENTORY_KEY));
-        handlerFuel.deserializeNBT(compound.getCompoundTag(FUEL_INVENTORY_KEY));
+        currentPhase = BlastFurnacePhase.values()[compound.getInteger("phase")];
+        handlerInput.deserializeNBT(compound.getCompoundTag("input"));
+        handlerOutput.deserializeNBT(compound.getCompoundTag("output"));
+        handlerFuel.deserializeNBT(compound.getCompoundTag("fuel"));
     }
 
     @Override
     public void writeToNBT(NBTTagCompound compound) {
         super.writeToNBT(compound);
-        compound.setTag(INPUT_INVENTORY_KEY, handlerInput.serializeNBT());
-        compound.setTag(OUTPUT_INVENTORY_KEY, handlerOutput.serializeNBT());
-        compound.setTag(FUEL_INVENTORY_KEY, handlerFuel.serializeNBT());
+        compound.setInteger("phase", currentPhase.ordinal());
+        compound.setTag("input", handlerInput.serializeNBT());
+        compound.setTag("output", handlerOutput.serializeNBT());
+        compound.setTag("fuel", handlerFuel.serializeNBT());
     }
 
     @Override
@@ -122,7 +140,7 @@ public class TileEntityBlastFurnaceController extends TileEntity implements ITic
         return new TextComponentString("Blast Furnace Controller");
     }
 
-    public class InputItemStackHandler extends ItemStackHandler {
+    private class InputItemStackHandler extends ItemStackHandler {
 
         private final int CATEGORIES_COUNT = 3;
         private final int SLOTS_PER_CATEGORY = 9;
@@ -250,7 +268,7 @@ public class TileEntityBlastFurnaceController extends TileEntity implements ITic
             ItemStack superReturned = super.extractItem(slot, amount, simulate);
             UMFLogger.logInfo("Extracting " + amount + " from " + slot + " simulate " + simulate);
             if (!simulate && superReturned != null)
-                currentNumberOfItems -= amount;
+                currentNumberOfItems -= superReturned.stackSize;
             UMFLogger.logInfo("Current number of items: " + currentNumberOfItems);
             return superReturned;
         }
@@ -266,7 +284,7 @@ public class TileEntityBlastFurnaceController extends TileEntity implements ITic
         }
     }
 
-    public class FuelItemStackHandler extends ItemStackHandler {
+    private class FuelItemStackHandler extends ItemStackHandler {
 
         public FuelItemStackHandler() {
             setSize(1);
@@ -279,14 +297,26 @@ public class TileEntityBlastFurnaceController extends TileEntity implements ITic
             else
                 return stack;
         }
+
+        private boolean isFueled() {
+            return getStackInSlot(0) != null;
+        }
+
+
+        private int consumeFuel() {
+            if (isFueled()) {
+                return UMFRegistry.Fuels.getJEnergyValue(getStackInSlot(0).getItem());
+            } else
+                return 0;
+        }
     }
 
-    public class OutputItemStackHandler extends ItemStackHandler {
+    private class OutputItemStackHandler extends ItemStackHandler {
 
         int currentNumberOfItems = 0;
+        ItemStack currentItem;
 
-        public OutputItemStackHandler()
-        {
+        public OutputItemStackHandler() {
 
         }
 
@@ -297,27 +327,49 @@ public class TileEntityBlastFurnaceController extends TileEntity implements ITic
 
         @Override
         public ItemStack extractItem(int slot, int amount, boolean simulate) {
-            return super.extractItem(slot, amount, simulate);
+            ItemStack superReturned = super.extractItem(slot, amount, simulate);
+
+            if (!simulate && superReturned != null) {
+                currentNumberOfItems -= superReturned.stackSize;
+                updateSlot();
+            }
+
+            return superReturned;
         }
 
-        public boolean isEmpty()
-        {
+        private boolean isEmpty() {
             return currentNumberOfItems == 0;
         }
 
-        public boolean addItems(Item item, int count)
-        {
-            if(!isEmpty())
+        private boolean setItems(ItemStack item, int count) {
+            if (!isEmpty())
                 return false;
 
+            currentItem = item;
+            currentNumberOfItems = count;
 
-            //setStackInSlot(0, new I);
+            updateSlot();
 
             return true;
         }
+
+        private void updateSlot() {
+            ItemStack currentStack = getStackInSlot(0);
+            int currentStackSize = currentStack == null ? 0 : currentStack.stackSize;
+            int requiredMissingToStack = 64 - currentStackSize;
+            int toSet = 0;
+            if (currentNumberOfItems > requiredMissingToStack)
+                toSet = requiredMissingToStack;
+            else
+                toSet = currentNumberOfItems;
+            if (currentStackSize == 0)
+                setStackInSlot(0, ItemHandlerHelper.copyStackWithSize(currentItem, toSet));
+            else
+                currentStack.stackSize += toSet;
+        }
     }
 
-    public class SampleItemStackHandler extends ItemStackHandler {
+    private class SampleItemStackHandler extends ItemStackHandler {
         public SampleItemStackHandler() {
             setSize(1);
 

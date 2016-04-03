@@ -25,6 +25,7 @@ public class CommonProxy {
         ModItems.init();
         ModBlocks.init();
 
+        UMFRegistry.BlastFurnaceParts.init();
         UMFRegistry.Fuels.init();
         UMFRecipes.BlastFurnace.init();
         UMFRegistry.OreDitionaryManager.init();

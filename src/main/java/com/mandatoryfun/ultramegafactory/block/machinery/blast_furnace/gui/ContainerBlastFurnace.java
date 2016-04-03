@@ -28,10 +28,13 @@ public class ContainerBlastFurnace extends Container {
         }
 
         // generate fuel slot
-        this.addSlotToContainer(new SlotItemHandler(tileEntity.getHandlerFuel(), 0, 152, 80));
+        this.addSlotToContainer(new SlotItemHandler(tileEntity.getHandlerFuel(), 0, 152, 90));
 
         // generate sample slot
         this.addSlotToContainer(new SlotItemHandler(tileEntity.getHandlerSample(), 0, 8, 119));
+
+        // generate output slot
+        this.addSlotToContainer(new SlotItemHandler(tileEntity.getHandlerOutput(), 0, 152, 119));
 
         // generate inventory slots
         for (int i = 0; i < 3; ++i)
