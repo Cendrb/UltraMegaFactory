@@ -140,7 +140,7 @@ public class TileEntityBlastFurnaceController extends TileEntity implements ITic
         return new TextComponentString("Blast Furnace Controller");
     }
 
-    private class InputItemStackHandler extends ItemStackHandler {
+    public class InputItemStackHandler extends ItemStackHandler {
 
         private final int CATEGORIES_COUNT = 3;
         private final int SLOTS_PER_CATEGORY = 9;
