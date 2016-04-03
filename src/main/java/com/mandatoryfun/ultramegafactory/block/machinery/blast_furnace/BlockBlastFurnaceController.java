@@ -17,6 +17,7 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
@@ -24,6 +25,7 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
+import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
@@ -95,16 +97,19 @@ public class BlockBlastFurnaceController extends BlockGenericContainer implement
         UMFLogger.logInfo("onBlockAdded " + UMFLogger.formatBlockPos(pos));
         super.onBlockAdded(worldIn, pos, state);
     }
+
     @Override
     public void onNeighborBlockChange(World worldIn, BlockPos pos, IBlockState state, Block neighborBlock) {
         UMFLogger.logInfo("onNeighborBlockChange " + UMFLogger.formatBlockPos(pos));
         super.onNeighborBlockChange(worldIn, pos, state, neighborBlock);
     }
+
     @Override
     public boolean onBlockEventReceived(World worldIn, BlockPos pos, IBlockState state, int eventID, int eventParam) {
         UMFLogger.logInfo("onBlockEventReceived " + UMFLogger.formatBlockPos(pos));
         return super.onBlockEventReceived(worldIn, pos, state, eventID, eventParam);
     }
+
     @Override
     public void onNeighborChange(IBlockAccess world, BlockPos pos, BlockPos neighbor) {
         UMFLogger.logInfo("onNeighborChange " + UMFLogger.formatBlockPos(pos));
@@ -160,24 +165,22 @@ public class BlockBlastFurnaceController extends BlockGenericContainer implement
 
     @Override
     public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ) {
+        TileEntity tileentity = worldIn.getTileEntity(pos);
 
-        if (worldIn.isRemote)
-        {
+        if (heldItem != null && heldItem.getItem() == Items.wooden_pickaxe && tileentity instanceof TileEntityBlastFurnaceController)
+            playerIn.addChatComponentMessage(new TextComponentString(((TileEntityBlastFurnaceController) tileentity).getMultiblock().rebuild(state.getValue(FACING), pos, worldIn)));
+        else if (worldIn.isRemote) {
             // not needed on server side - server gets called automatically
             return true;
-        }
-        else
-        {
-            TileEntity tileentity = worldIn.getTileEntity(pos);
-
-            if (tileentity instanceof TileEntityBlastFurnaceController)
-            {
+        } else {
+            if (tileentity instanceof TileEntityBlastFurnaceController) {
                 playerIn.openGui(Core.instance, GuiHandler.GuiEnum.BLAST_FURNACE.ordinal(), worldIn, pos.getX(), pos.getY(), pos.getZ());
                 // calls GuiHandler
             }
 
             return true;
         }
+        return true;
     }
 
     @Override

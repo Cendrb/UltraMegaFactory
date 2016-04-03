@@ -1,5 +1,6 @@
 package com.mandatoryfun.ultramegafactory.tileentity;
 
+import com.mandatoryfun.ultramegafactory.block.machinery.blast_furnace.BlastFurnaceMultiblock;
 import com.mandatoryfun.ultramegafactory.block.machinery.blast_furnace.gui.ContainerBlastFurnace;
 import com.mandatoryfun.ultramegafactory.init.ModItems;
 import com.mandatoryfun.ultramegafactory.init.UMFRecipes;
@@ -27,11 +28,13 @@ import net.minecraftforge.items.ItemStackHandler;
  */
 public class TileEntityBlastFurnaceController extends TileEntity implements ITickable, IInteractionObject {
 
-    private enum BlastFurnacePhase { HEATING_UP, REACTION_IN_PROGRESS, IDLE }
+    private enum BlastFurnacePhase {HEATING_UP, REACTION_IN_PROGRESS, IDLE}
 
     private float temperature = 0;
     private BlastFurnacePhase currentPhase;
     private float currentEnergyIncome;
+
+    private BlastFurnaceMultiblock multiblock;
 
     private InputItemStackHandler handlerInput;
     private OutputItemStackHandler handlerOutput;
@@ -39,21 +42,23 @@ public class TileEntityBlastFurnaceController extends TileEntity implements ITic
     private ItemStackHandler handlerSample;
 
     public TileEntityBlastFurnaceController() {
+        multiblock = new BlastFurnaceMultiblock();
+
         handlerInput = new InputItemStackHandler(128);
         handlerOutput = new OutputItemStackHandler();
         handlerFuel = new FuelItemStackHandler();
         handlerSample = new SampleItemStackHandler();
 
         handlerOutput.setItems(new ItemStack(ModItems.Ingot.iron, 1, 2), 420);
+
+        currentPhase = BlastFurnacePhase.IDLE;
     }
 
     @Override
     public void update() {
-        if (handlerFuel.isFueled())
-        {
-            if(currentPhase == BlastFurnacePhase.IDLE)
+        if (handlerFuel.isFueled()) {
+            if (currentPhase == BlastFurnacePhase.IDLE)
                 currentPhase = BlastFurnacePhase.HEATING_UP;
-
         }
     }
 
@@ -95,6 +100,10 @@ public class TileEntityBlastFurnaceController extends TileEntity implements ITic
 
     public float getTemperature() {
         return temperature;
+    }
+
+    public BlastFurnaceMultiblock getMultiblock() {
+        return multiblock;
     }
 
     @Override

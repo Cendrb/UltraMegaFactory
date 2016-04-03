@@ -14,6 +14,7 @@ public class ClientProxy extends CommonProxy {
     public void preInit(FMLPreInitializationEvent e) {
         super.preInit(e);
         BlockRenderRegister.preInit();
+        ItemRenderRegister.preinit();
     }
 
     @Override
