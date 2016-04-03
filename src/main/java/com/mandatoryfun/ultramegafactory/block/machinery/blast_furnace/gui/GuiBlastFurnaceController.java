@@ -19,8 +19,8 @@ public class GuiBlastFurnaceController extends GuiContainer {
 
     public GuiBlastFurnaceController(InventoryPlayer playerInv, TileEntityBlastFurnaceController blastFurnaceController) {
         super(new ContainerBlastFurnace(playerInv, blastFurnaceController));
-        xSize = 194;
-        ySize = 135;
+        xSize = 175;
+        ySize = 221;
         tileEntity = blastFurnaceController;
     }
 
@@ -29,9 +29,10 @@ public class GuiBlastFurnaceController extends GuiContainer {
         super.drawGuiContainerForegroundLayer(mouseX, mouseY);
 
         String inventoryName = I18n.format(tileEntity.getDisplayName().getFormattedText());
-        fontRendererObj.drawString(inventoryName, (xSize / 2) - (fontRendererObj.getStringWidth(inventoryName) / 2), 6, 4210752);
+        fontRendererObj.drawString(inventoryName, 8, 6, 4210752);
+        fontRendererObj.drawString("Inventory", 8, 129, 4210752);
 
-        fontRendererObj.drawString(String.valueOf(tileEntity.getHandlerInput().getCurrentNumberOfItems()), 30, 67, 4210752);
+        fontRendererObj.drawString(String.valueOf(tileEntity.getHandlerInput().getCurrentNumberOfItems() + "/" + tileEntity.getHandlerInput().getCapacity()), 8, 75, 4210752);
     }
 
     @Override

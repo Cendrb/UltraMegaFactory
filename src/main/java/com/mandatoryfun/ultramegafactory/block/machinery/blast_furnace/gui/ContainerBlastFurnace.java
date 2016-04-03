@@ -23,23 +23,28 @@ public class ContainerBlastFurnace extends Container {
         {
             for (int col = 0; col < 9; ++col)
             {
-                this.addSlotToContainer(new SlotItemHandler(tileEntity.getHandlerInput(), col + row * 9, 8 + col * 18, 10 + row * 18));
+                this.addSlotToContainer(new SlotItemHandler(tileEntity.getHandlerInput(), col + row * 9, 8 + col * 18, 18 + row * 18));
             }
         }
 
+        // generate fuel slot
+        this.addSlotToContainer(new SlotItemHandler(tileEntity.getHandlerFuel(), 0, 152, 80));
+
+        // generate sample slot
+        this.addSlotToContainer(new SlotItemHandler(tileEntity.getHandlerSample(), 0, 8, 119));
 
         // generate inventory slots
         for (int i = 0; i < 3; ++i)
         {
             for (int j = 0; j < 9; ++j)
             {
-                this.addSlotToContainer(new Slot(playerInventory, j + i * 9 + 9, 8 + j * 18, 84 + i * 18));
+                this.addSlotToContainer(new Slot(playerInventory, j + i * 9 + 9, 8 + j * 18, 140 + i * 18));
             }
         }
         // generate hotbar slots
         for (int k = 0; k < 9; ++k)
         {
-            this.addSlotToContainer(new Slot(playerInventory, k, 8 + k * 18, 142));
+            this.addSlotToContainer(new Slot(playerInventory, k, 8 + k * 18, 198));
         }
     }
 

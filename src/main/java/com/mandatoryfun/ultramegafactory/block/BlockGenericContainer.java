@@ -1,5 +1,6 @@
 package com.mandatoryfun.ultramegafactory.block;
 
+import com.mandatoryfun.ultramegafactory.creativetab.ModCreativeTabs;
 import com.mandatoryfun.ultramegafactory.lib.IRegisterRender;
 import com.mandatoryfun.ultramegafactory.lib.RefStrings;
 import net.minecraft.block.Block;
@@ -17,6 +18,7 @@ public abstract class BlockGenericContainer extends BlockContainer implements IP
     protected BlockGenericContainer(String unlocalizedName, Material materialIn) {
         super(materialIn);
         setUnlocalizedName(unlocalizedName);
+        setCreativeTab(ModCreativeTabs.tabBlock);
     }
 
     @Override

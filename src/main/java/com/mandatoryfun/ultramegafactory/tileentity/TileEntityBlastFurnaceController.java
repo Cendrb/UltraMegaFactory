@@ -2,6 +2,7 @@ package com.mandatoryfun.ultramegafactory.tileentity;
 
 import com.mandatoryfun.ultramegafactory.block.machinery.blast_furnace.gui.ContainerBlastFurnace;
 import com.mandatoryfun.ultramegafactory.init.UMFRecipes;
+import com.mandatoryfun.ultramegafactory.init.UMFRegistry;
 import com.mandatoryfun.ultramegafactory.lib.UMFLogger;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -27,12 +28,17 @@ public class TileEntityBlastFurnaceController extends TileEntity implements ITic
 
     private static final String INPUT_INVENTORY_KEY = "input_inventory";
     private static final String OUTPUT_INVENTORY_KEY = "output_inventory";
+    private static final String FUEL_INVENTORY_KEY = "fuel_inventory";
 
-    private InputHandler handlerInput;
+    private InputItemStackHandler handlerInput;
     private ItemStackHandler handlerOutput = new ItemStackHandler();
+    private ItemStackHandler handlerFuel;
+    private ItemStackHandler handlerSample;
 
     public TileEntityBlastFurnaceController() {
-        handlerInput = new InputHandler(128);
+        handlerInput = new InputItemStackHandler(128);
+        handlerFuel = new FuelItemStackHandler();
+        handlerSample = new SampleItemStackHandler();
     }
 
     @Override
@@ -51,18 +57,28 @@ public class TileEntityBlastFurnaceController extends TileEntity implements ITic
         if (facing != null && capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
             if (facing == EnumFacing.DOWN)
                 return (T) handlerOutput;
+            else if (facing == EnumFacing.UP)
+                return (T) handlerFuel;
             else
                 return (T) handlerInput;
         }
         return super.getCapability(capability, facing);
     }
 
-    public InputHandler getHandlerInput() {
+    public InputItemStackHandler getHandlerInput() {
         return handlerInput;
+    }
+
+    public ItemStackHandler getHandlerFuel() {
+        return handlerFuel;
     }
 
     public ItemStackHandler getHandlerOutput() {
         return handlerOutput;
+    }
+
+    public ItemStackHandler getHandlerSample() {
+        return handlerSample;
     }
 
     @Override
@@ -70,6 +86,7 @@ public class TileEntityBlastFurnaceController extends TileEntity implements ITic
         super.readFromNBT(compound);
         handlerInput.deserializeNBT(compound.getCompoundTag(INPUT_INVENTORY_KEY));
         handlerOutput.deserializeNBT(compound.getCompoundTag(OUTPUT_INVENTORY_KEY));
+        handlerFuel.deserializeNBT(compound.getCompoundTag(FUEL_INVENTORY_KEY));
     }
 
     @Override
@@ -77,6 +94,7 @@ public class TileEntityBlastFurnaceController extends TileEntity implements ITic
         super.writeToNBT(compound);
         compound.setTag(INPUT_INVENTORY_KEY, handlerInput.serializeNBT());
         compound.setTag(OUTPUT_INVENTORY_KEY, handlerOutput.serializeNBT());
+        compound.setTag(FUEL_INVENTORY_KEY, handlerFuel.serializeNBT());
     }
 
     @Override
@@ -104,7 +122,7 @@ public class TileEntityBlastFurnaceController extends TileEntity implements ITic
         return new TextComponentString("Blast Furnace Controller");
     }
 
-    public class InputHandler extends ItemStackHandler {
+    public class InputItemStackHandler extends ItemStackHandler {
 
         private final int CATEGORIES_COUNT = 3;
         private final int SLOTS_PER_CATEGORY = 9;
@@ -117,7 +135,7 @@ public class TileEntityBlastFurnaceController extends TileEntity implements ITic
 
         private int capacity;
 
-        public InputHandler(int capacity) {
+        public InputItemStackHandler(int capacity) {
             super();
             setSize(CATEGORIES_COUNT * SLOTS_PER_CATEGORY);// set number of slots 3*9
             setCapacity(capacity);
@@ -187,6 +205,10 @@ public class TileEntityBlastFurnaceController extends TileEntity implements ITic
                 throw new RuntimeException("Capacity needs to be higher than zero");
         }
 
+        public int getCapacity() {
+            return capacity;
+        }
+
         private ItemStack insertInto(int slot, ItemStack stack, boolean simulate) {
             // check for slot
             ItemStack superReturned = super.insertItem(slot, stack, true);
@@ -241,6 +263,79 @@ public class TileEntityBlastFurnaceController extends TileEntity implements ITic
                 // something will be left
                 return (currentNumberOfItems + numberOfItems) - capacity;
             }
+        }
+    }
+
+    public class FuelItemStackHandler extends ItemStackHandler {
+
+        public FuelItemStackHandler() {
+            setSize(1);
+        }
+
+        @Override
+        public ItemStack insertItem(int slot, ItemStack stack, boolean simulate) {
+            if (UMFRegistry.Fuels.isFuel(stack.getItem()))
+                return super.insertItem(slot, stack, simulate);
+            else
+                return stack;
+        }
+    }
+
+    public class OutputItemStackHandler extends ItemStackHandler {
+
+        int currentNumberOfItems = 0;
+
+        public OutputItemStackHandler()
+        {
+
+        }
+
+        @Override
+        public ItemStack insertItem(int slot, ItemStack stack, boolean simulate) {
+            return stack;
+        }
+
+        @Override
+        public ItemStack extractItem(int slot, int amount, boolean simulate) {
+            return super.extractItem(slot, amount, simulate);
+        }
+
+        public boolean isEmpty()
+        {
+            return currentNumberOfItems == 0;
+        }
+
+        public boolean addItems(Item item, int count)
+        {
+            if(!isEmpty())
+                return false;
+
+
+            //setStackInSlot(0, new I);
+
+            return true;
+        }
+    }
+
+    public class SampleItemStackHandler extends ItemStackHandler {
+        public SampleItemStackHandler() {
+            setSize(1);
+
+        }
+
+        @Override
+        public ItemStack insertItem(int slot, ItemStack stack, boolean simulate) {
+            return stack;
+        }
+
+        @Override
+        public ItemStack extractItem(int slot, int amount, boolean simulate) {
+            return null;
+        }
+
+        @Override
+        protected int getStackLimit(int slot, ItemStack stack) {
+            return 1;
         }
     }
 }
