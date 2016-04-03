@@ -1,0 +1,6 @@
+{
+  "parent": "ultramegafactory:item/item_generic",
+  "textures": {
+    "layer0": "minecraft:items/iron_ingot_t3"
+  }
+}
