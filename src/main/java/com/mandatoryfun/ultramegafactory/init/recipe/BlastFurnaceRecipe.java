@@ -19,8 +19,9 @@ public class BlastFurnaceRecipe {
     private float reducingAgentPerOre;
     private float limePerOre;
     private float outputPerOre;
+    private float temperatureFuckupMultiplier;
 
-    public BlastFurnaceRecipe(BlockGenericOre ore, float energyPerOre, int baseReactionTime, int requiredTemperature, float reducingAgentPerOre, float limePerOre, float outputPerOre) {
+    public BlastFurnaceRecipe(BlockGenericOre ore, float energyPerOre, int baseReactionTime, int requiredTemperature, float reducingAgentPerOre, float limePerOre, float outputPerOre, float temperatureFuckupMultiplier) {
         this.ore = ore;
         this.energyPerOre = energyPerOre;
         this.baseReactionTime = baseReactionTime;
@@ -28,6 +29,7 @@ public class BlastFurnaceRecipe {
         this.reducingAgentPerOre = reducingAgentPerOre;
         this.limePerOre = limePerOre;
         this.outputPerOre = outputPerOre;
+        this.temperatureFuckupMultiplier = temperatureFuckupMultiplier;
     }
 
     public int getRequiredEnergy(int numberOfOres) {
@@ -95,5 +97,46 @@ public class BlastFurnaceRecipe {
 
     public Block getOre() {
         return ore;
+    }
+
+    public float getTemperatureFuckupMultiplier() {
+        return temperatureFuckupMultiplier;
+    }
+
+    public static class Reaction extends BlastFurnaceRecipe
+    {
+        //int oreCount
+
+        public Reaction(BlockGenericOre ore, float energyPerOre, int baseReactionTime, int requiredTemperature, float reducingAgentPerOre, float limePerOre, float outputPerOre, float temperatureFuckupMultiplier, ItemStack[] stacks) {
+            super(ore, energyPerOre, baseReactionTime, requiredTemperature, reducingAgentPerOre, limePerOre, outputPerOre, temperatureFuckupMultiplier);
+
+            for (ItemStack itemStack : stacks) {
+                Item item = itemStack.getItem();
+
+
+                //if (item == Item.getItemFromBlock(getOre()))
+                   // oreInserted += itemStack.stackSize;
+            }
+        }
+
+        @Override
+        public int getRequiredEnergy(int numberOfOres) {
+            return super.getRequiredEnergy(numberOfOres);
+        }
+
+        @Override
+        public float getIngotQuality(ItemStack[] stacks, int maxIronQuality) {
+            return super.getIngotQuality(stacks, maxIronQuality);
+        }
+
+        @Override
+        public int getIngotCount(int numberOfOres) {
+            return super.getIngotCount(numberOfOres);
+        }
+
+        @Override
+        public int getRequiredOreHeatupEnergy(ItemStack[] stacks) {
+            return super.getRequiredOreHeatupEnergy(stacks);
+        }
     }
 }

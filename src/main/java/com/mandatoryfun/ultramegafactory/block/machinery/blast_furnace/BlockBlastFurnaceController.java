@@ -93,30 +93,6 @@ public class BlockBlastFurnaceController extends BlockGenericContainer implement
     }
 
     @Override
-    public void onBlockAdded(World worldIn, BlockPos pos, IBlockState state) {
-        UMFLogger.logInfo("onBlockAdded " + UMFLogger.formatBlockPos(pos));
-        super.onBlockAdded(worldIn, pos, state);
-    }
-
-    @Override
-    public void onNeighborBlockChange(World worldIn, BlockPos pos, IBlockState state, Block neighborBlock) {
-        UMFLogger.logInfo("onNeighborBlockChange " + UMFLogger.formatBlockPos(pos));
-        super.onNeighborBlockChange(worldIn, pos, state, neighborBlock);
-    }
-
-    @Override
-    public boolean onBlockEventReceived(World worldIn, BlockPos pos, IBlockState state, int eventID, int eventParam) {
-        UMFLogger.logInfo("onBlockEventReceived " + UMFLogger.formatBlockPos(pos));
-        return super.onBlockEventReceived(worldIn, pos, state, eventID, eventParam);
-    }
-
-    @Override
-    public void onNeighborChange(IBlockAccess world, BlockPos pos, BlockPos neighbor) {
-        UMFLogger.logInfo("onNeighborChange " + UMFLogger.formatBlockPos(pos));
-        super.onNeighborChange(world, pos, neighbor);
-    }
-
-    @Override
     public int getMetaFromState(IBlockState state) {
         IBlockState base = blockState.getBaseState();
         if (base.withProperty(TIER, 1).withProperty(FACING, EnumFacing.NORTH) == state)
@@ -168,7 +144,7 @@ public class BlockBlastFurnaceController extends BlockGenericContainer implement
         TileEntity tileentity = worldIn.getTileEntity(pos);
 
         if (heldItem != null && heldItem.getItem() == Items.wooden_pickaxe && tileentity instanceof TileEntityBlastFurnaceController)
-            playerIn.addChatComponentMessage(new TextComponentString(((TileEntityBlastFurnaceController) tileentity).getMultiblock().rebuild(state.getValue(FACING), pos, worldIn)));
+            ((TileEntityBlastFurnaceController) tileentity).rebuildMultiblock(state.getValue(FACING), pos, worldIn, state.getValue(TIER));
         else if (worldIn.isRemote) {
             // not needed on server side - server gets called automatically
             return true;

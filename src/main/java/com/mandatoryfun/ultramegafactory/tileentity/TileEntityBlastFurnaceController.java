@@ -2,10 +2,13 @@ package com.mandatoryfun.ultramegafactory.tileentity;
 
 import com.mandatoryfun.ultramegafactory.block.machinery.blast_furnace.BlastFurnaceMultiblock;
 import com.mandatoryfun.ultramegafactory.block.machinery.blast_furnace.gui.ContainerBlastFurnace;
+import com.mandatoryfun.ultramegafactory.init.ModBlocks;
 import com.mandatoryfun.ultramegafactory.init.ModItems;
 import com.mandatoryfun.ultramegafactory.init.UMFRecipes;
 import com.mandatoryfun.ultramegafactory.init.UMFRegistry;
+import com.mandatoryfun.ultramegafactory.init.recipe.BlastFurnaceRecipe;
 import com.mandatoryfun.ultramegafactory.lib.UMFLogger;
+import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
@@ -15,9 +18,11 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ITickable;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.IInteractionObject;
+import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.ItemHandlerHelper;
@@ -28,18 +33,14 @@ import net.minecraftforge.items.ItemStackHandler;
  */
 public class TileEntityBlastFurnaceController extends TileEntity implements ITickable, IInteractionObject {
 
-    private enum BlastFurnacePhase {HEATING_UP, REACTION_IN_PROGRESS, IDLE}
-
-    private float temperature = 0;
-    private BlastFurnacePhase currentPhase;
-    private float currentEnergyIncome;
-
     private BlastFurnaceMultiblock multiblock;
 
     private InputItemStackHandler handlerInput;
     private OutputItemStackHandler handlerOutput;
     private FuelItemStackHandler handlerFuel;
-    private ItemStackHandler handlerSample;
+    private SampleItemStackHandler handlerSample;
+
+    private BlastFurnaceMultiblock.Data data;
 
     public TileEntityBlastFurnaceController() {
         multiblock = new BlastFurnaceMultiblock();
@@ -48,17 +49,20 @@ public class TileEntityBlastFurnaceController extends TileEntity implements ITic
         handlerOutput = new OutputItemStackHandler();
         handlerFuel = new FuelItemStackHandler();
         handlerSample = new SampleItemStackHandler();
-
-        handlerOutput.setItems(new ItemStack(ModItems.Ingot.iron, 1, 2), 420);
-
-        currentPhase = BlastFurnacePhase.IDLE;
     }
 
     @Override
     public void update() {
-        if (handlerFuel.isFueled()) {
-            if (currentPhase == BlastFurnacePhase.IDLE)
-                currentPhase = BlastFurnacePhase.HEATING_UP;
+        if(data != null) {
+            if (!data.isBurning() && handlerFuel.isFueled()) {
+                data.burnFuel(handlerFuel.consumeFuel());
+            }
+            int ironQuality = data.update();
+            if(ironQuality > 0)
+            {
+                int meta = ironQuality / 1000;
+                handlerOutput.setItems(new ItemStack(ModItems.Ingot.iron, 1, meta), 420);
+            }
         }
     }
 
@@ -67,6 +71,22 @@ public class TileEntityBlastFurnaceController extends TileEntity implements ITic
         if (capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY)
             return true;
         return super.hasCapability(capability, facing);
+    }
+
+    public String rebuildMultiblock(EnumFacing facing, BlockPos pos, World world, int tier) {
+        return multiblock.rebuild(facing, pos, world, tier);
+    }
+
+    public void startReaction() {
+        if (data != null) {
+            Block ore = ModBlocks.Ore.magnetite;
+            BlastFurnaceRecipe recipe = UMFRecipes.BlastFurnace.getRecipeForOre(ore);
+            if (recipe != null) {
+                data.startReaction(recipe);
+                handlerInput.clear();
+                handlerSample.setSample(new ItemStack(ore, 1));
+            }
+        }
     }
 
     @Override
@@ -98,18 +118,16 @@ public class TileEntityBlastFurnaceController extends TileEntity implements ITic
         return handlerSample;
     }
 
-    public float getTemperature() {
-        return temperature;
-    }
-
-    public BlastFurnaceMultiblock getMultiblock() {
-        return multiblock;
+    public String getTemperature() {
+        if (data != null)
+            return String.valueOf(data.getCurrentTemperature());
+        else
+            return "Structure not complete!";
     }
 
     @Override
     public void readFromNBT(NBTTagCompound compound) {
         super.readFromNBT(compound);
-        currentPhase = BlastFurnacePhase.values()[compound.getInteger("phase")];
         handlerInput.deserializeNBT(compound.getCompoundTag("input"));
         handlerOutput.deserializeNBT(compound.getCompoundTag("output"));
         handlerFuel.deserializeNBT(compound.getCompoundTag("fuel"));
@@ -118,7 +136,6 @@ public class TileEntityBlastFurnaceController extends TileEntity implements ITic
     @Override
     public void writeToNBT(NBTTagCompound compound) {
         super.writeToNBT(compound);
-        compound.setInteger("phase", currentPhase.ordinal());
         compound.setTag("input", handlerInput.serializeNBT());
         compound.setTag("output", handlerOutput.serializeNBT());
         compound.setTag("fuel", handlerFuel.serializeNBT());
@@ -215,6 +232,12 @@ public class TileEntityBlastFurnaceController extends TileEntity implements ITic
                     return stack;
             } else
                 return stack;
+        }
+
+        public void clear()
+        {
+            for(int i = 0; i < getSlots(); i++)
+                stacks[i] = null;
         }
 
         public int getCurrentNumberOfItems() {
@@ -382,6 +405,11 @@ public class TileEntityBlastFurnaceController extends TileEntity implements ITic
         public SampleItemStackHandler() {
             setSize(1);
 
+        }
+
+        public void setSample(ItemStack stack)
+        {
+            setStackInSlot(0, stack);
         }
 
         @Override

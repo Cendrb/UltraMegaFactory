@@ -32,7 +32,7 @@ public class GuiBlastFurnaceController extends GuiContainer {
         fontRendererObj.drawString(inventoryName, 8, 6, 4210752);
 
         fontRendererObj.drawString(String.valueOf(tileEntity.getHandlerInput().getCurrentNumberOfItems() + "/" + tileEntity.getHandlerInput().getCapacity()), 8, 75, 4210752);
-        fontRendererObj.drawString(String.valueOf((int)tileEntity.getTemperature()) + " K", 8, 90, 4210752);
+        fontRendererObj.drawString(tileEntity.getTemperature(), 8, 90, 4210752);
     }
 
     @Override

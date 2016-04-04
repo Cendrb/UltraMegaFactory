@@ -1,6 +1,7 @@
 package com.mandatoryfun.ultramegafactory.init;
 
 import com.mandatoryfun.ultramegafactory.init.recipe.BlastFurnaceRecipe;
+import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
@@ -23,10 +24,10 @@ public class UMFRecipes {
 
         public static void init() {
             int requiredTemperature = 1560;
-            blastFurnaceRecipes.add(new BlastFurnaceRecipe(ModBlocks.Ore.magnetite, 3000, 4800, requiredTemperature, 1, 0.2f, 2.5f));
-            blastFurnaceRecipes.add(new BlastFurnaceRecipe(ModBlocks.Ore.hematite, 3000, 7200, requiredTemperature, 1, 0.2f, 2));
-            blastFurnaceRecipes.add(new BlastFurnaceRecipe(ModBlocks.Ore.limonite, 3000, 7200, requiredTemperature, 1, 0.2f, 1f));
-            blastFurnaceRecipes.add(new BlastFurnaceRecipe(ModBlocks.Ore.siderite, 4000, 7200, requiredTemperature, 1, 0.2f, 1.5f));
+            blastFurnaceRecipes.add(new BlastFurnaceRecipe(ModBlocks.Ore.magnetite, 100, 4800, requiredTemperature, 1, 0.2f, 2.5f, 1));
+            blastFurnaceRecipes.add(new BlastFurnaceRecipe(ModBlocks.Ore.hematite, 3000, 7200, requiredTemperature, 1, 0.2f, 2, 1));
+            blastFurnaceRecipes.add(new BlastFurnaceRecipe(ModBlocks.Ore.limonite, 3000, 7200, requiredTemperature, 1, 0.2f, 1f, 1));
+            blastFurnaceRecipes.add(new BlastFurnaceRecipe(ModBlocks.Ore.siderite, 4000, 7200, requiredTemperature, 1, 0.2f, 1.5f, 1));
 
             reducingAgents.put(ModItems.bitumen, 1.0f);
             reducingAgents.put(ModItems.carbon, 1.5f);
@@ -39,6 +40,14 @@ public class UMFRecipes {
                 if (Item.getItemFromBlock(recipe.getOre()) == item)
                     return true;
             return false;
+        }
+
+        public static BlastFurnaceRecipe getRecipeForOre(Block ore)
+        {
+            for (BlastFurnaceRecipe recipe : blastFurnaceRecipes)
+                if (recipe.getOre() == ore)
+                    return recipe;
+            return null;
         }
 
         public static boolean isReducingAgent(Item item) {
