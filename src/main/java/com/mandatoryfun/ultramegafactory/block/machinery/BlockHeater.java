@@ -9,7 +9,7 @@ import java.util.Random;
 /**
  * Created by cendr_000 on 03.04.2016.
  */
-public abstract class BlockHeater extends BlockGenericTier {
+public abstract class BlockHeater extends BlockGenericTier implements IBlockHeatable {
     public BlockHeater(String unlocalizedName) {
         super(unlocalizedName);
     }

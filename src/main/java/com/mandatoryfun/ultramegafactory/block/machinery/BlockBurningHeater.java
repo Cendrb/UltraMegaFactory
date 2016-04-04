@@ -1,6 +1,7 @@
 package com.mandatoryfun.ultramegafactory.block.machinery;
 
 import com.mandatoryfun.ultramegafactory.block.machinery.BlockGenericTier;
+import com.mandatoryfun.ultramegafactory.lib.InvalidTierException;
 
 /**
  * Created by cendr_000 on 03.04.2016.
@@ -11,27 +12,51 @@ public class BlockBurningHeater extends BlockHeater {
     }
 
     @Override
-    protected int getMinTier() {
+    public int getMinTier() {
         return 1;
     }
 
     @Override
-    protected int getMaxTier() {
+    public int getMaxTier() {
         return 2;
     }
 
     @Override
     public float getEfficiency(int tier) {
-        if(tier == 1)
-            return 0.75f;
-        else if(tier == 2)
-            return 0.95f;
-        else
-            return 1;
+        switch (tier)
+        {
+            case 1:
+                return 0.75f;
+            case 2:
+                return 0.9f;
+            default:
+                throw new InvalidTierException(this);
+        }
     }
 
     @Override
     public int getInputPower(int tier) {
-        return 0;
+        switch (tier)
+        {
+            case 1:
+                return 2000;
+            case 2:
+                return 5000;
+            default:
+                throw new InvalidTierException(this);
+        }
+    }
+
+    @Override
+    public int getThermalCapacityJoulePerDegree(int tier) {
+        switch (tier)
+        {
+            case 1:
+                return 1200;
+            case 2:
+                return 1500;
+            default:
+                throw new InvalidTierException(this);
+        }
     }
 }

@@ -6,7 +6,6 @@ import net.minecraft.util.EnumFacing;
  * Created by cendr_000 on 03.04.2016.
  */
 public class FacingRotator {
-    public enum RelativeDirection { FORWARD, BACKWARD, LEFT, RIGHT, UP }
 
     private EnumFacing facingForward;
 

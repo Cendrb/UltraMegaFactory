@@ -35,6 +35,11 @@ public abstract class BlockGenericTier extends BlockGeneric implements IBlockMul
         return TIER;
     }
 
+    public IProperty<Integer> getTier()
+    {
+        return TIER;
+    }
+
     @Override
     protected BlockStateContainer createBlockState() {
         return new BlockStateContainer(this, getTIER());
@@ -81,7 +86,7 @@ public abstract class BlockGenericTier extends BlockGeneric implements IBlockMul
             runnable.apply(tier);
     }
 
-    protected abstract int getMinTier();
+    public abstract int getMinTier();
 
-    protected abstract int getMaxTier();
+    public abstract int getMaxTier();
 }
