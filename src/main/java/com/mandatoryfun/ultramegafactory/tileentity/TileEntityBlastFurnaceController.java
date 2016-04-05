@@ -25,6 +25,8 @@ import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.ItemHandlerHelper;
 import net.minecraftforge.items.ItemStackHandler;
 
+import java.util.Arrays;
+
 /**
  * Created by cendr_000 on 30.03.2016.
  */
@@ -37,6 +39,8 @@ public class TileEntityBlastFurnaceController extends TileEntity implements ITic
     private FuelItemStackHandler handlerFuel;
     private SampleItemStackHandler handlerSample;
 
+    private boolean initTried = false;
+
     public TileEntityBlastFurnaceController() {
         multiblock = new BlastFurnaceMultiblock();
 
@@ -48,7 +52,12 @@ public class TileEntityBlastFurnaceController extends TileEntity implements ITic
 
     @Override
     public void update() {
-        if (!worldObj.isRemote)
+        if (!worldObj.isRemote) {
+            if (!initTried) {
+                initTried = true;
+                if (getData() != null)
+                    getData().loadBlocks(worldObj);
+            }
             if (multiblock.getData() != null) {
                 if (!multiblock.getData().isBurning() && handlerFuel.isFueled()) {
                     multiblock.getData().burnFuel(handlerFuel.consumeFuel());
@@ -59,6 +68,7 @@ public class TileEntityBlastFurnaceController extends TileEntity implements ITic
                     handlerOutput.setItems(new ItemStack(ModItems.Ingot.iron, 1, meta), ironData[0]);
                 }
             }
+        }
     }
 
     @Override
@@ -126,17 +136,23 @@ public class TileEntityBlastFurnaceController extends TileEntity implements ITic
     @Override
     public void readFromNBT(NBTTagCompound compound) {
         super.readFromNBT(compound);
+        if (compound.hasKey("data"))
+            multiblock.deserializeData(compound.getCompoundTag("data"));
         handlerInput.deserializeNBT(compound.getCompoundTag("input"));
         handlerOutput.deserializeNBT(compound.getCompoundTag("output"));
         handlerFuel.deserializeNBT(compound.getCompoundTag("fuel"));
+        handlerSample.deserializeNBT(compound.getCompoundTag("sample"));
     }
 
     @Override
     public void writeToNBT(NBTTagCompound compound) {
         super.writeToNBT(compound);
+        if (getData() != null)
+            compound.setTag("data", getData().serializeNBT());
         compound.setTag("input", handlerInput.serializeNBT());
         compound.setTag("output", handlerOutput.serializeNBT());
         compound.setTag("fuel", handlerFuel.serializeNBT());
+        compound.setTag("sample", handlerSample.serializeNBT());
     }
 
     @Override
@@ -238,9 +254,10 @@ public class TileEntityBlastFurnaceController extends TileEntity implements ITic
         }
 
         public ItemStack[] clear() {
-            ItemStack[] itemStacks = stacks;
+            ItemStack[] itemStacks = Arrays.copyOf(stacks, CATEGORIES_COUNT * SLOTS_PER_CATEGORY);
             currentOre = null;
-            setSize(CATEGORIES_COUNT * SLOTS_PER_CATEGORY);
+            for (int x = ORE_CATEGORY_FIRST_SLOT; x < 27; x++)
+                setStackInSlot(x, null);
             return itemStacks;
         }
 
@@ -357,8 +374,11 @@ public class TileEntityBlastFurnaceController extends TileEntity implements ITic
 
         private int consumeFuel() {
             if (isFueled()) {
+                int energyValue = UMFRegistry.Fuels.getJEnergyValue(stacks[0].getItem());
                 stacks[0].stackSize--;
-                return UMFRegistry.Fuels.getJEnergyValue(stacks[0].getItem());
+                if (stacks[0].stackSize == 0)
+                    stacks[0] = null;
+                return energyValue;
             } else
                 return 0;
         }

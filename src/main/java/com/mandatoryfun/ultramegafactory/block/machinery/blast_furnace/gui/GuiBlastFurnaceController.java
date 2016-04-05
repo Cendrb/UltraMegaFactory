@@ -53,11 +53,11 @@ public class GuiBlastFurnaceController extends GuiContainer {
         if(data != null) {
             // FLAMES
             int scaledBurnProgress = scaleOver(13, data.getField(1), data.getField(2));
-            drawTexturedModalRect(guiLeft + 153, guiTop + 73 - scaledBurnProgress, 176, 0, 13, 13 - scaledBurnProgress);
+            drawTexturedModalRect(guiLeft + 153, (guiTop + 73 + scaledBurnProgress), 176, scaledBurnProgress, 13, 13 - scaledBurnProgress);
 
             // PROGRESS ARROW
             int scaledReactionProgress = scaleOver(121, data.getField(3), data.getField(4));
-            drawTexturedModalRect(guiLeft + 27, guiTop + 119, 0, 222 + scaledReactionProgress, 121, 15);
+            drawTexturedModalRect(guiLeft + 27, guiTop + 119, 0, 222, 121 - scaledReactionProgress, 15);
         }
 
     }

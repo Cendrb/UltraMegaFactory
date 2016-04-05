@@ -11,13 +11,17 @@ import com.mandatoryfun.ultramegafactory.lib.IFieldsSuck;
 import com.mandatoryfun.ultramegafactory.lib.RelativeDirection;
 import com.mandatoryfun.ultramegafactory.lib.UMFLogger;
 import com.mandatoryfun.ultramegafactory.tileentity.TileEntityBlastFurnaceController;
+import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraftforge.common.util.INBTSerializable;
+import net.minecraftforge.common.util.Constants;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -125,12 +129,15 @@ public class BlastFurnaceMultiblock {
             return false;
     }
 
-    public Data getData()
-    {
+    public Data getData() {
         return data;
     }
 
-    public class Data implements INBTSerializable<NBTTagCompound>, IFieldsSuck {
+    public void deserializeData(NBTTagCompound nbt) {
+        data = new Data(nbt);
+    }
+
+    public class Data implements IFieldsSuck {
         private HashMap<BlockPos, IBlockState> blocks;
 
         private int furnaceInteriorHeight;
@@ -157,11 +164,15 @@ public class BlastFurnaceMultiblock {
         private float currentTemperature = 20;
         private int burnTimeLeft = 0;
         private int burnTimeOrig = 0;
-        private float ironQualityMultiplier = 1;
         private int reactionTimeLeft = 0;
         private int reactionTimeOrig = 0;
+        private float ironQualityMultiplier = 1;
         private BlastFurnaceRecipe currentRecipe = null;
         private ItemStack[] currentStacks;
+
+        public Data(NBTTagCompound nbt) {
+            deserializeNBT(nbt);
+        }
 
         public Data(HashMap<BlockPos, IBlockState> pBlocks, int pFurnaceInteriorHeight, int pFurnaceInteriorWidth, int pControllerTier) {
             this.blocks = pBlocks;
@@ -169,7 +180,89 @@ public class BlastFurnaceMultiblock {
             this.furnaceInteriorHeight = pFurnaceInteriorHeight;
             this.controllerTier = pControllerTier;
 
-            capacity = furnaceInteriorHeight * furnaceInteriorWidth;
+            initializeMultiblockBasedValues();
+        }
+
+        public int[] update() {
+            if (isBurning()) {
+                burnTimeLeft--;
+                currentTemperature += ((float) joulesPerTickOutcome / (float) joulesPerDegreeThermalCapacity);
+            }
+
+            if (isReactionInProgress()) {
+                // only if temperature is higher than required - 200
+                if (currentTemperature > currentRecipe.getRequiredTemperature() - 200) {
+                    reactionTimeLeft--;
+                    if (reactionTimeLeft == 0) {
+                        // FINISHED
+                        float[] ingotData = currentRecipe.getIngotQuality(currentStacks, maximumIronQuality);
+                        int ingotQuality = (int) (ironQualityMultiplier * ingotData[1]);
+                        int ingotCount = (int) (ingotData[0]);
+                        return new int[]{ingotCount, ingotQuality};
+                    }
+                    if (ironQualityMultiplier > 0.3f) {
+                        int temperatureOffset = Math.abs((int) currentTemperature - currentRecipe.getRequiredTemperature());
+                        ironQualityMultiplier -= (Math.log10(Math.pow(temperatureOffset, currentRecipe.getTemperatureFuckupMultiplier()) / currentRecipe.getBaseReactionTime()) * 0.3);
+                    }
+                }
+            }
+
+            if (currentTemperature > 20)
+                currentTemperature -= ((float) joulesPerTickLost / (float) joulesPerDegreeThermalCapacity);
+            return new int[]{0, 0};
+        }
+
+        public boolean startReaction(TileEntityBlastFurnaceController.InputItemStackHandler inputItemStackHandler) {
+            BlastFurnaceRecipe recipe = UMFRecipes.BlastFurnace.getRecipeForOre(inputItemStackHandler.getCurrentOre());
+            if (recipe != null && !isReactionInProgress() && currentTemperature > recipe.getRequiredTemperature() - 200) {
+                currentStacks = inputItemStackHandler.clear();
+                reactionTimeLeft = 0;
+                ironQualityMultiplier = 1;
+                currentRecipe = recipe;
+                reactionTimeOrig = currentRecipe.getBaseReactionTime(); // TODO make reactionTimeLeft changeable by multiblock
+                reactionTimeLeft = reactionTimeOrig;
+                return true;
+            } else
+                return false;
+        }
+
+        public boolean burnFuel(int joules) {
+            if (!isBurning()) {
+                burnTimeOrig = joules / joulesPerTickIncome;
+                burnTimeLeft = burnTimeOrig;
+                return true;
+            } else {
+                UMFLogger.logWarning("Blast furnace tried to burn additional fuel!");
+                return false;
+            }
+        }
+
+        public boolean isBurning() {
+            return burnTimeLeft > 0;
+        }
+
+        public float getCurrentTemperature() {
+            return currentTemperature;
+        }
+
+        public boolean isReactionInProgress() {
+            return reactionTimeLeft > 0;
+        }
+
+        public int getCapacity() {
+            return capacity;
+        }
+
+        public void loadBlocks(World world)
+        {
+            for (Map.Entry<BlockPos, IBlockState> pair : blocks.entrySet()) {
+                pair.setValue(world.getBlockState(pair.getKey()));
+            }
+            initializeMultiblockBasedValues();
+        }
+
+        private void initializeMultiblockBasedValues() {
+            capacity = furnaceInteriorHeight * furnaceInteriorWidth * furnaceInteriorWidth;
 
             float sumBurningEfficiency = 0;
 
@@ -181,111 +274,29 @@ public class BlastFurnaceMultiblock {
                 joulesPerDegreeThermalCapacity += ((IBlockHeatable) block).getThermalCapacityJoulePerDegree(tier);
 
                 if (block instanceof BlockHeater) {
-                    BlockHeater blockHeater = (BlockHeater)block;
+                    BlockHeater blockHeater = (BlockHeater) block;
                     heaterCount++;
                     sumBurningEfficiency += blockHeater.getEfficiency(tier);
                     joulesPerTickIncome += blockHeater.getInputPower(tier);
                 }
 
-                if(block instanceof BlockBlastFurnaceCasing)
-                {
-                    BlockBlastFurnaceCasing blockCasing = (BlockBlastFurnaceCasing)block;
+                if (block instanceof BlockBlastFurnaceCasing) {
+                    BlockBlastFurnaceCasing blockCasing = (BlockBlastFurnaceCasing) block;
                     casingCount++;
                     joulesPerTickLost += blockCasing.getJouleLeakedPerTick(tier);
                 }
             }
             burningEfficiency = sumBurningEfficiency / heaterCount;
-            joulesPerTickOutcome = (int)(joulesPerTickIncome * burningEfficiency);
+            joulesPerTickOutcome = (int) (joulesPerTickIncome * burningEfficiency);
 
             maximumIronQuality = 5000;
         }
 
-        public int[] update()
-        {
-            if(isBurning()) {
-                burnTimeLeft--;
-                currentTemperature += ((float)joulesPerTickOutcome / (float)joulesPerDegreeThermalCapacity);
-            }
-
-            if(isReactionInProgress())
-            {
-                // only if temperature is higher than required - 200
-                if(currentTemperature > currentRecipe.getRequiredTemperature() - 200) {
-                    reactionTimeLeft--;
-                    if(reactionTimeLeft == 0)
-                    {
-                        // FINISHED
-                        float[] ingotData = currentRecipe.getIngotQuality(currentStacks, maximumIronQuality);
-                        int ingotQuality = (int)(ironQualityMultiplier * ingotData[1]);
-                        int ingotCount = (int)(ingotData[0]);
-                        return new int[] {ingotCount, ingotQuality};
-                    }
-                    if(ironQualityMultiplier > 0.3f) {
-                        int temperatureOffset = Math.abs((int) currentTemperature - currentRecipe.getRequiredTemperature());
-                        ironQualityMultiplier -= (Math.log10(Math.pow(temperatureOffset, currentRecipe.getTemperatureFuckupMultiplier()) / currentRecipe.getBaseReactionTime()) * 0.3);
-                    }
-                }
-            }
-
-            if(currentTemperature > 20)
-                currentTemperature -= ((float)joulesPerTickLost / (float)joulesPerDegreeThermalCapacity);
-            return new int[] {0, 0};
-        }
-
-        public boolean startReaction(TileEntityBlastFurnaceController.InputItemStackHandler inputItemStackHandler)
-        {
-            BlastFurnaceRecipe recipe = UMFRecipes.BlastFurnace.getRecipeForOre(inputItemStackHandler.getCurrentOre());
-            if(recipe != null && !isReactionInProgress() && currentTemperature > recipe.getRequiredTemperature() - 200)
-            {
-                currentStacks = inputItemStackHandler.clear();
-                reactionTimeLeft = 0;
-                ironQualityMultiplier = 1;
-                currentRecipe = recipe;
-                reactionTimeOrig = currentRecipe.getBaseReactionTime(); // TODO make reactionTimeLeft changeable by multiblock
-                reactionTimeLeft = reactionTimeOrig;
-                return true;
-            }
-            else
-                return false;
-        }
-
-        public boolean burnFuel(int joules)
-        {
-            if(!isBurning())
-            {
-                burnTimeOrig = joules / joulesPerTickIncome;
-                burnTimeLeft = burnTimeOrig;
-                return true;
-            }
-            else {
-                UMFLogger.logWarning("Blast furnace tried to burn additional fuel!");
-                return false;
-            }
-        }
-
-        public boolean isBurning()
-        {
-            return burnTimeLeft > 0;
-        }
-
-        public float getCurrentTemperature() {
-            return currentTemperature;
-        }
-
-        public boolean isReactionInProgress()
-        {
-            return reactionTimeLeft > 0;
-        }
-
-        public int getCapacity() {
-            return capacity;
-        }
         @Override
         public int getField(int id) {
-            switch (id)
-            {
+            switch (id) {
                 case 0:
-                    return (int)currentTemperature;
+                    return (int) currentTemperature;
                 case 1:
                     return burnTimeLeft;
                 case 2:
@@ -300,8 +311,7 @@ public class BlastFurnaceMultiblock {
 
         @Override
         public void setField(int id, int value) {
-            switch (id)
-            {
+            switch (id) {
                 case 0:
                     currentTemperature = value;
                     break;
@@ -325,44 +335,88 @@ public class BlastFurnaceMultiblock {
             return 5;
         }
 
-        @Override
         public NBTTagCompound serializeNBT() {
             NBTTagCompound compound = new NBTTagCompound();
-            compound.setInteger("currentTemperature", (int)currentTemperature);
-            /*
-            blocks = new HashMap<BlockPos, IBlockState>();
 
-            NBTTagCompound compound = new NBTTagCompound();
-            NBTTagList blocksList = new NBTTagList();
-            for(Map.Entry<BlockPos, IBlockState> pair : blocks.entrySet())
-            {
-                BlockPos position = pair.getKey();
-                NBTTagCompound compoundBlock = new NBTTagCompound();
-                compound.setInteger("x", position.getX());
-                compound.setInteger("y", position.getY());
-                compound.setInteger("z", position.getZ());
-                compound.setString("blockName", pair.getValue().getBlock().getRegistryName().toString());
-                blocksList.appendTag(compoundBlock);
+            // MULTIBLOCK VALUES
+            NBTTagList blocksTagList = new NBTTagList();
+            for (Map.Entry<BlockPos, IBlockState> pair : blocks.entrySet()) {
+                NBTTagCompound positionCompound = new NBTTagCompound();
+                BlockPos pos = pair.getKey();
+                positionCompound.setInteger("x", pos.getX());
+                positionCompound.setInteger("y", pos.getY());
+                positionCompound.setInteger("z", pos.getZ());
+                blocksTagList.appendTag(positionCompound);
             }
-            compound.setTag("blocks", blocksList);
+            compound.setTag("blocksTagList", blocksTagList);
             compound.setInteger("furnaceInteriorHeight", furnaceInteriorHeight);
             compound.setInteger("furnaceInteriorWidth", furnaceInteriorWidth);
             compound.setInteger("controllerTier", controllerTier);
-            return compound;*/
+
+            // REALTIME VALUES
+            compound.setFloat("currentTemperature", currentTemperature);
+            compound.setInteger("burnTimeLeft", burnTimeLeft);
+            compound.setInteger("burnTimeOrig", burnTimeOrig);
+            compound.setInteger("reactionTimeLeft", reactionTimeLeft);
+            compound.setInteger("reactionTimeOrig", reactionTimeOrig);
+            compound.setFloat("ironQualityMultiplier", ironQualityMultiplier);
+            if (currentRecipe != null)
+                compound.setString("currentRecipeOre", currentRecipe.getOre().getRegistryName().toString());
+
+            if (currentStacks != null) {
+            NBTTagList itemsTagList = new NBTTagList();
+                for (int i = 0; i < currentStacks.length; i++) {
+                    if (currentStacks[i] != null) {
+                        NBTTagCompound itemTag = new NBTTagCompound();
+                        itemTag.setInteger("Slot", i);
+                        currentStacks[i].writeToNBT(itemTag);
+                        itemsTagList.appendTag(itemTag);
+                    }
+                }
+                compound.setTag("currentStacks", itemsTagList);
+                compound.setInteger("currentStacksSize", currentStacks.length);
+            }
+
             return compound;
         }
 
-        @Override
-        public void deserializeNBT(NBTTagCompound compound) {/*
-            NBTTagList blocksList = compound.getTagList("blocks", 10); // 10 = NBTTagCompound
-            for(int index = 0; index < blocksList.tagCount(); index++)
-            {
-                NBTTagCompound compoundBlock = blocksList.getCompoundTagAt(index);
-                BlockPos pos = new BlockPos(compoundBlock.getInteger("x"), compound.getInteger("y"), compound.getInteger("z"));
-                String blockResource = compoundBlock.getString("blockName");
-                String[] parts = blockResource.split(":");
-                blocks.put(pos, GameRegistry.findBlock(parts[0], parts[1]));
-            }*/
+        private void deserializeNBT(NBTTagCompound nbt) {
+            // MULTIBLOCK VALUES
+            NBTTagList blocksTagList = nbt.getTagList("blocksTagList", Constants.NBT.TAG_COMPOUND);
+            blocks = new HashMap<BlockPos, IBlockState>();
+            for (int i = 0; i < blocksTagList.tagCount(); i++) {
+                NBTTagCompound posTags = blocksTagList.getCompoundTagAt(i);
+                int x = posTags.getInteger("x");
+                int y = posTags.getInteger("y");
+                int z = posTags.getInteger("z");
+                BlockPos pos = new BlockPos(x, y, z);
+                blocks.put(pos, null);
+            }
+            furnaceInteriorHeight = nbt.getInteger("furnaceInteriorHeight");
+            furnaceInteriorWidth = nbt.getInteger("furnaceInteriorWidth");
+            controllerTier = nbt.getInteger("controllerTier");
+
+            // REALTIME VALUES
+            if(nbt.hasKey("currentStacks")) {
+                NBTTagList itemsTagList = nbt.getTagList("currentStacks", Constants.NBT.TAG_COMPOUND);
+                currentStacks = new ItemStack[nbt.getInteger("currentStacksSize")];
+                for (int i = 0; i < itemsTagList.tagCount(); i++) {
+                    NBTTagCompound itemTags = itemsTagList.getCompoundTagAt(i);
+                    int slot = itemTags.getInteger("Slot");
+
+                    if (slot >= 0 && slot < currentStacks.length) {
+                        currentStacks[slot] = ItemStack.loadItemStackFromNBT(itemTags);
+                    }
+                }
+            }
+            currentTemperature = nbt.getFloat("currentTemperature");
+            burnTimeLeft = nbt.getInteger("burnTimeLeft");
+            burnTimeOrig = nbt.getInteger("burnTimeOrig");
+            reactionTimeLeft = nbt.getInteger("reactionTimeLeft");
+            reactionTimeOrig = nbt.getInteger("reactionTimeOrig");
+            ironQualityMultiplier = nbt.getFloat("ironQualityMultiplier");
+            if (nbt.hasKey("currentRecipeOre"))
+                currentRecipe = UMFRecipes.BlastFurnace.getRecipeForOre(Item.getItemFromBlock(Block.blockRegistry.getObject(new ResourceLocation(nbt.getString("currentRecipeOre")))));
         }
     }
 }
