@@ -75,16 +75,19 @@ public class UMFRecipes {
 
         public static void addCraftingRec() {
             //Shaped
-            //Compressed stone
+
             GameRegistry.addRecipe(new ItemStack(Item.getItemFromBlock(ModBlocks.blastFurnaceController), 1, 0), "CGC", "BFB", "CCC", 'F', Blocks.furnace, 'C', Items.brick, 'G', Blocks.glass, 'B', Blocks.brick_block);
-            GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(Item.getItemFromBlock(ModBlocks.blastFurnaceController), 1, 1), "PIP", "IBI", "PIP", 'P', ModItems.porcelain, 'I', "ingotIronT4", 'B', new ItemStack(Item.getItemFromBlock(ModBlocks.blastFurnaceController), 1, 0)));
+            GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(Item.getItemFromBlock(ModBlocks.blastFurnaceController), 1, 1), "PIP", "IBI", "PIP", 'P', ModItems.porcelain, 'I', "ingotIronT3", 'B', new ItemStack(Item.getItemFromBlock(ModBlocks.blastFurnaceController), 1, 0)));
 
             //Shapeless
 
         }
 
         public static void addSmeltingRec() {
-            GameRegistry.addSmelting(ModItems.Dust.kaoline, new ItemStack(ModItems.porcelain), 20.0f);
+            GameRegistry.addSmelting(ModItems.Dust.kaoline, new ItemStack(ModItems.porcelain), 20.3141592f);
+
+            //temp
+            GameRegistry.addSmelting(ModItems.bitumen, new ItemStack(ModItems.carbon), 50.3141592f);
         }
     }
 

@@ -43,12 +43,21 @@ public final class ModItems {
     {
         public static ItemGeneric kaoline;
         public static ItemGeneric lime;
+        public static ItemGeneric sulfur;
+        public static ItemGeneric copper_dust;
+        public static ItemGeneric iron_dust;
+        public static ItemGeneric antimony_dust;
+        public static ItemGeneric tin_dust;
+        public static ItemGeneric lead_dust;
+        public static ItemGeneric silver_dust;
+        public static ItemGeneric zinc_dust;
+        public static ItemGeneric aluminium_dust;
+        public static ItemGeneric titanium_dust;
     }
 
     public static ItemGeneric carbon;
     public static ItemGeneric bitumen;
     public static ItemGeneric lignite;
-    public static ItemGeneric lime;
     public static ItemGeneric charcoal;
     public static ItemGeneric peat;
 
@@ -83,12 +92,26 @@ public final class ModItems {
 
         // fuel
         carbon = registerFuel(new ItemFormulaDescriptionGeneric("carbon", "C (almost pure)", constructArray("Used in blast furnace to create better iron and steel")), 27500);
-        lignite = registerFuel(new ItemFormulaDescriptionGeneric("lignite", "brown coal", constructArray()), 16400);
-        peat = registerFuel(new ItemFormulaDescriptionGeneric("peat", "", constructArray()), 5000);
+        lignite = registerFuel(new ItemFormulaDescriptionGeneric("lignite", "brown coal", constructArray("Younger, fewer life experience")), 16400);
+        charcoal = registerFuel(new ItemFormulaDescriptionGeneric("charcoal", "coal from wood", constructArray("Coal made from chars", "programmers will get it")), 9700);
+        peat = registerFuel(new ItemFormulaDescriptionGeneric("peat", "", constructArray("Fire in the PEAT!")), 9700);
         bitumen = registerFuel(new ItemFormulaDescriptionGeneric("bitumen", "black coal", constructArray()), 24500);
-        // dust
+
+        // dusts
         Dust.kaoline  = register(new ItemGeneric("kaoline_dust"));
         Dust.lime = register(new ItemGeneric("lime"));
+        Dust.sulfur = registerDust("sulfur", "S");
+
+        // metallic dusts
+        Dust.aluminium_dust = registerDust("aluminium_dust", "Al");
+        Dust.antimony_dust = registerDust("antimony_dust", "Sb");
+        Dust.copper_dust = registerDust("copper_dust", "Cu");
+        Dust.iron_dust = registerDust("iron_dust", "Fe", "Can not be gotten with", "anything softer than diamond");
+        Dust.lead_dust = registerDust("lead_dust", "Pb", "Toxic", "You can poison your neighbors well");
+        Dust.silver_dust = registerDust("silver_dust", "Ag");
+        Dust.tin_dust = registerDust("tin_dust", "Sn");
+        Dust.titanium_dust = registerDust("titanium_dust", "Ti");
+        Dust.zinc_dust = registerDust("zinc_dust", "Zn");
 
         //other
         porcelain = register(new ItemGeneric("porcelain_brick"));

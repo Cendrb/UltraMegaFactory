@@ -20,7 +20,7 @@ public class BlockKaolineOre extends BlockGeneric
 
     @Override
     public Item getItemDropped(IBlockState state, Random rand, int fortune) {
-        return ModItems.Ingot.gold;
+        return ModItems.Dust.kaoline;
 
     }
 

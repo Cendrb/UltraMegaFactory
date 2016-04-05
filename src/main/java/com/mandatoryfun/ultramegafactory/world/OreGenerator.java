@@ -92,7 +92,7 @@ public class OreGenerator implements IWorldGenerator {
         if(isBiome(biome, 6))
         {
             addOre(ModBlocks.Ore.lignite.getDefaultState(), Blocks.stone, random, world, worldX, worldZ, 40, 64, 10, 24, 5);
-            addOre(ModBlocks.Ore.peat.getDefaultState(), Blocks.dirt, random, world, worldX, worldZ, 50, 255, 7, 12, 3);
+            addOre(ModBlocks.Ore.peat_ore.getDefaultState(), Blocks.dirt, random, world, worldX, worldZ, 50, 255, 7, 12, 3);
         }
 
         //EVERYWHERE

@@ -15,12 +15,6 @@ public class BlockGenericOre extends BlockGeneric {
     private String formula;
     private String[] description;
 
-    public BlockGenericOre(String unlocalizedName, String formula, String[] description) {
-        super(unlocalizedName);
-        this.formula = formula;
-        this.description = description;
-    }
-
     public BlockGenericOre(String unlocalizedName, Material material, String formula, String[] description) {
         super(unlocalizedName, material);
         this.formula = formula;
