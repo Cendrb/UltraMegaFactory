@@ -2,13 +2,10 @@ package com.mandatoryfun.ultramegafactory.tileentity;
 
 import com.mandatoryfun.ultramegafactory.block.machinery.blast_furnace.BlastFurnaceMultiblock;
 import com.mandatoryfun.ultramegafactory.block.machinery.blast_furnace.gui.ContainerBlastFurnace;
-import com.mandatoryfun.ultramegafactory.init.ModBlocks;
 import com.mandatoryfun.ultramegafactory.init.ModItems;
 import com.mandatoryfun.ultramegafactory.init.UMFRecipes;
 import com.mandatoryfun.ultramegafactory.init.UMFRegistry;
-import com.mandatoryfun.ultramegafactory.init.recipe.BlastFurnaceRecipe;
 import com.mandatoryfun.ultramegafactory.lib.UMFLogger;
-import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
@@ -40,12 +37,10 @@ public class TileEntityBlastFurnaceController extends TileEntity implements ITic
     private FuelItemStackHandler handlerFuel;
     private SampleItemStackHandler handlerSample;
 
-    private BlastFurnaceMultiblock.Data data;
-
     public TileEntityBlastFurnaceController() {
         multiblock = new BlastFurnaceMultiblock();
 
-        handlerInput = new InputItemStackHandler(128);
+        handlerInput = new InputItemStackHandler(0);
         handlerOutput = new OutputItemStackHandler();
         handlerFuel = new FuelItemStackHandler();
         handlerSample = new SampleItemStackHandler();
@@ -53,17 +48,17 @@ public class TileEntityBlastFurnaceController extends TileEntity implements ITic
 
     @Override
     public void update() {
-        if(data != null) {
-            if (!data.isBurning() && handlerFuel.isFueled()) {
-                data.burnFuel(handlerFuel.consumeFuel());
+        if (!worldObj.isRemote)
+            if (multiblock.getData() != null) {
+                if (!multiblock.getData().isBurning() && handlerFuel.isFueled()) {
+                    multiblock.getData().burnFuel(handlerFuel.consumeFuel());
+                }
+                int[] ironData = multiblock.getData().update();
+                if (ironData[0] > 0) {
+                    int meta = ironData[1] / 1000;
+                    handlerOutput.setItems(new ItemStack(ModItems.Ingot.iron, 1, meta), ironData[0]);
+                }
             }
-            int ironQuality = data.update();
-            if(ironQuality > 0)
-            {
-                int meta = ironQuality / 1000;
-                handlerOutput.setItems(new ItemStack(ModItems.Ingot.iron, 1, meta), 420);
-            }
-        }
     }
 
     @Override
@@ -74,18 +69,17 @@ public class TileEntityBlastFurnaceController extends TileEntity implements ITic
     }
 
     public String rebuildMultiblock(EnumFacing facing, BlockPos pos, World world, int tier) {
-        return multiblock.rebuild(facing, pos, world, tier);
+        String result = multiblock.rebuild(facing, pos, world, tier);
+        if (result.equals("SUCCESS"))
+            handlerInput.setCapacity(multiblock.getData().getCapacity());
+        return result;
     }
 
     public void startReaction() {
-        if (data != null) {
-            Block ore = ModBlocks.Ore.magnetite;
-            BlastFurnaceRecipe recipe = UMFRecipes.BlastFurnace.getRecipeForOre(ore);
-            if (recipe != null) {
-                data.startReaction(recipe);
-                handlerInput.clear();
+        if (multiblock.getData() != null) {
+            Item ore = handlerInput.getCurrentOre();
+            if (multiblock.getData().startReaction(handlerInput))
                 handlerSample.setSample(new ItemStack(ore, 1));
-            }
         }
     }
 
@@ -118,9 +112,13 @@ public class TileEntityBlastFurnaceController extends TileEntity implements ITic
         return handlerSample;
     }
 
+    public BlastFurnaceMultiblock.Data getData() {
+        return multiblock.getData();
+    }
+
     public String getTemperature() {
-        if (data != null)
-            return String.valueOf(data.getCurrentTemperature());
+        if (multiblock.getData() != null)
+            return String.valueOf(multiblock.getData().getCurrentTemperature());
         else
             return "Structure not complete!";
     }
@@ -178,6 +176,7 @@ public class TileEntityBlastFurnaceController extends TileEntity implements ITic
         private int currentNumberOfItems = 0;
 
         private int capacity;
+        private Item currentOre;
 
         public InputItemStackHandler(int capacity) {
             super();
@@ -197,6 +196,8 @@ public class TileEntityBlastFurnaceController extends TileEntity implements ITic
             if (ItemStack.areItemStacksEqual(this.stacks[slot], stack)) // needs to be here too, the super one wont stop this method
                 return;
             super.setStackInSlot(slot, stack);
+            if (UMFRecipes.BlastFurnace.isValidOre(stack.getItem()))
+                currentOre = stack.getItem();
             UMFLogger.logInfo("Setting " + stack.stackSize + "*" + stack.getItem().getRegistryName() + " into " + slot);
             if (previous == null)
                 currentNumberOfItems += stack.stackSize;
@@ -215,8 +216,10 @@ public class TileEntityBlastFurnaceController extends TileEntity implements ITic
 
             Item item = stack.getItem();
 
-            if (UMFRecipes.BlastFurnace.isValidOre(item)) {
+            if (UMFRecipes.BlastFurnace.isValidOre(item) && item != currentOre) {
                 if (slot >= ORE_CATEGORY_FIRST_SLOT && slot < REDUCING_AGENT_CATEGORY_FIRST_SLOT) {
+                    if (!simulate)
+                        currentOre = item;
                     return insertInto(slot, stack, simulate);
                 } else
                     return stack;
@@ -234,10 +237,11 @@ public class TileEntityBlastFurnaceController extends TileEntity implements ITic
                 return stack;
         }
 
-        public void clear()
-        {
-            for(int i = 0; i < getSlots(); i++)
-                stacks[i] = null;
+        public ItemStack[] clear() {
+            ItemStack[] itemStacks = stacks;
+            currentOre = null;
+            setSize(CATEGORIES_COUNT * SLOTS_PER_CATEGORY);
+            return itemStacks;
         }
 
         public int getCurrentNumberOfItems() {
@@ -249,10 +253,10 @@ public class TileEntityBlastFurnaceController extends TileEntity implements ITic
         }
 
         public void setCapacity(int capacity) {
-            if (capacity > 0) {
+            if (capacity >= 0) {
                 this.capacity = capacity;
             } else
-                throw new RuntimeException("Capacity needs to be higher than zero");
+                throw new RuntimeException("Capacity needs to be positive");
         }
 
         public int getCapacity() {
@@ -299,8 +303,20 @@ public class TileEntityBlastFurnaceController extends TileEntity implements ITic
         public ItemStack extractItem(int slot, int amount, boolean simulate) {
             ItemStack superReturned = super.extractItem(slot, amount, simulate);
             UMFLogger.logInfo("Extracting " + amount + " from " + slot + " simulate " + simulate);
-            if (!simulate && superReturned != null)
+            if (!simulate && superReturned != null) {
                 currentNumberOfItems -= superReturned.stackSize;
+                if (slot >= ORE_CATEGORY_FIRST_SLOT && slot < REDUCING_AGENT_CATEGORY_FIRST_SLOT) {
+                    if (getStackInSlot(slot) == null) {
+                        // check all ore slots
+                        boolean slotsEmpty = true;
+                        for (int x = ORE_CATEGORY_FIRST_SLOT; x < REDUCING_AGENT_CATEGORY_FIRST_SLOT; x++)
+                            if (getStackInSlot(x) != null)
+                                slotsEmpty = false;
+                        if (slotsEmpty)
+                            currentOre = null;
+                    }
+                }
+            }
             UMFLogger.logInfo("Current number of items: " + currentNumberOfItems);
             return superReturned;
         }
@@ -313,6 +329,10 @@ public class TileEntityBlastFurnaceController extends TileEntity implements ITic
                 // something will be left
                 return (currentNumberOfItems + numberOfItems) - capacity;
             }
+        }
+
+        public Item getCurrentOre() {
+            return currentOre;
         }
     }
 
@@ -331,13 +351,14 @@ public class TileEntityBlastFurnaceController extends TileEntity implements ITic
         }
 
         private boolean isFueled() {
-            return getStackInSlot(0) != null;
+            return stacks[0] != null;
         }
 
 
         private int consumeFuel() {
             if (isFueled()) {
-                return UMFRegistry.Fuels.getJEnergyValue(getStackInSlot(0).getItem());
+                stacks[0].stackSize--;
+                return UMFRegistry.Fuels.getJEnergyValue(stacks[0].getItem());
             } else
                 return 0;
         }
@@ -407,8 +428,7 @@ public class TileEntityBlastFurnaceController extends TileEntity implements ITic
 
         }
 
-        public void setSample(ItemStack stack)
-        {
+        public void setSample(ItemStack stack) {
             setStackInSlot(0, stack);
         }
 

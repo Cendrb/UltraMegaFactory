@@ -1,5 +1,6 @@
 package com.mandatoryfun.ultramegafactory.block.machinery.blast_furnace.gui;
 
+import com.mandatoryfun.ultramegafactory.block.machinery.blast_furnace.BlastFurnaceMultiblock;
 import com.mandatoryfun.ultramegafactory.lib.RefStrings;
 import com.mandatoryfun.ultramegafactory.tileentity.TileEntityBlastFurnaceController;
 import net.minecraft.client.Minecraft;
@@ -31,13 +32,38 @@ public class GuiBlastFurnaceController extends GuiContainer {
         String inventoryName = I18n.format(tileEntity.getDisplayName().getFormattedText());
         fontRendererObj.drawString(inventoryName, 8, 6, 4210752);
 
-        fontRendererObj.drawString(String.valueOf(tileEntity.getHandlerInput().getCurrentNumberOfItems() + "/" + tileEntity.getHandlerInput().getCapacity()), 8, 75, 4210752);
-        fontRendererObj.drawString(tileEntity.getTemperature(), 8, 90, 4210752);
+
+        BlastFurnaceMultiblock.Data data = tileEntity.getData();
+        if(data != null) {
+            fontRendererObj.drawString(String.valueOf(data.getCurrentTemperature()), 8, 90, 4210752);
+            fontRendererObj.drawString(String.valueOf(data.getField(1)) + "/" + String.valueOf(data.getField(2)), 8, 105, 4210752);
+            fontRendererObj.drawString(String.valueOf(data.getField(3)) + "/" + String.valueOf(data.getField(4)), 8, 120, 4210752);
+            fontRendererObj.drawString(String.valueOf(tileEntity.getHandlerInput().getCurrentNumberOfItems() + "/" + data.getCapacity()), 8, 75, 4210752);
+        }
+        else
+            fontRendererObj.drawString("Structure not initialized, right click with wooden pickaxe to initialize", 8, 90, 4210752);
     }
 
     @Override
     protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY) {
         Minecraft.getMinecraft().getTextureManager().bindTexture(texture);
         drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
+
+        BlastFurnaceMultiblock.Data data = tileEntity.getData();
+        if(data != null) {
+            // FLAMES
+            int scaledBurnProgress = scaleOver(13, data.getField(1), data.getField(2));
+            drawTexturedModalRect(guiLeft + 153, guiTop + 73 - scaledBurnProgress, 176, 0, 13, 13 - scaledBurnProgress);
+
+            // PROGRESS ARROW
+            int scaledReactionProgress = scaleOver(121, data.getField(3), data.getField(4));
+            drawTexturedModalRect(guiLeft + 27, guiTop + 119, 0, 222 + scaledReactionProgress, 121, 15);
+        }
+
+    }
+
+    private int scaleOver(int guiElementMax, float realVariableCurrent, float realVariableMax)
+    {
+        return (int)((realVariableCurrent / realVariableMax) * guiElementMax);
     }
 }

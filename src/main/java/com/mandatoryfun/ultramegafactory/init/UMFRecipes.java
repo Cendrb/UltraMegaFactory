@@ -24,7 +24,7 @@ public class UMFRecipes {
 
         public static void init() {
             int requiredTemperature = 1560;
-            blastFurnaceRecipes.add(new BlastFurnaceRecipe(ModBlocks.Ore.magnetite, 100, 4800, requiredTemperature, 1, 0.2f, 2.5f, 1));
+            blastFurnaceRecipes.add(new BlastFurnaceRecipe(ModBlocks.Ore.magnetite, 100, 200, 250, 1, 0.2f, 2.5f, 1));
             blastFurnaceRecipes.add(new BlastFurnaceRecipe(ModBlocks.Ore.hematite, 3000, 7200, requiredTemperature, 1, 0.2f, 2, 1));
             blastFurnaceRecipes.add(new BlastFurnaceRecipe(ModBlocks.Ore.limonite, 3000, 7200, requiredTemperature, 1, 0.2f, 1f, 1));
             blastFurnaceRecipes.add(new BlastFurnaceRecipe(ModBlocks.Ore.siderite, 4000, 7200, requiredTemperature, 1, 0.2f, 1.5f, 1));
@@ -42,10 +42,10 @@ public class UMFRecipes {
             return false;
         }
 
-        public static BlastFurnaceRecipe getRecipeForOre(Block ore)
+        public static BlastFurnaceRecipe getRecipeForOre(Item ore)
         {
             for (BlastFurnaceRecipe recipe : blastFurnaceRecipes)
-                if (recipe.getOre() == ore)
+                if (Item.getItemFromBlock(recipe.getOre()) == ore)
                     return recipe;
             return null;
         }

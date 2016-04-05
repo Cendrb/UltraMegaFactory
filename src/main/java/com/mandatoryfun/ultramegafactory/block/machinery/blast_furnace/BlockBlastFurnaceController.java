@@ -65,6 +65,18 @@ public class BlockBlastFurnaceController extends BlockGenericContainer implement
     }
 
     @Override
+    public void onNeighborBlockChange(World worldIn, BlockPos pos, IBlockState state, Block neighborBlock) {
+        super.onNeighborBlockChange(worldIn, pos, state, neighborBlock);
+        if (!worldIn.isRemote && worldIn.isBlockIndirectlyGettingPowered(pos) > 0) {
+            TileEntity tileEntity = worldIn.getTileEntity(pos);
+            if(tileEntity != null && tileEntity instanceof TileEntityBlastFurnaceController)
+            {
+                ((TileEntityBlastFurnaceController)tileEntity).startReaction();
+            }
+        }
+    }
+
+    @Override
     public ItemStack getPickBlock(IBlockState state, RayTraceResult target, World world, BlockPos pos, EntityPlayer player) {
         return new ItemStack(Item.getItemFromBlock(this), 1, damageDropped(world.getBlockState(pos)));
     }
@@ -144,7 +156,7 @@ public class BlockBlastFurnaceController extends BlockGenericContainer implement
         TileEntity tileentity = worldIn.getTileEntity(pos);
 
         if (heldItem != null && heldItem.getItem() == Items.wooden_pickaxe && tileentity instanceof TileEntityBlastFurnaceController)
-            ((TileEntityBlastFurnaceController) tileentity).rebuildMultiblock(state.getValue(FACING), pos, worldIn, state.getValue(TIER));
+            playerIn.addChatComponentMessage(new TextComponentString(((TileEntityBlastFurnaceController) tileentity).rebuildMultiblock(state.getValue(FACING), pos, worldIn, state.getValue(TIER))));
         else if (worldIn.isRemote) {
             // not needed on server side - server gets called automatically
             return true;

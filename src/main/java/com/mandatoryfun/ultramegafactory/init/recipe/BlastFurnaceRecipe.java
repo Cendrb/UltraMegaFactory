@@ -36,22 +36,24 @@ public class BlastFurnaceRecipe {
         return (int) (numberOfOres * energyPerOre);
     }
 
-    public float getIngotQuality(ItemStack[] stacks, int maxIronQuality) {
+    public float[] getIngotQuality(ItemStack[] stacks, int maxIronQuality) {
         int oreInserted = 0;
         float limeInserted = 0;
         float reducingAgentInserted = 0;
         Item requiredOre = Item.getItemFromBlock(this.ore);
         for (ItemStack itemStack : stacks) {
-            Item item = itemStack.getItem();
+            if(itemStack != null) {
+                Item item = itemStack.getItem();
 
-            if (UMFRecipes.BlastFurnace.isReducingAgent(item))
-                reducingAgentInserted += UMFRecipes.BlastFurnace.getReducingAgentValue(item) * itemStack.stackSize;
+                if (UMFRecipes.BlastFurnace.isReducingAgent(item))
+                    reducingAgentInserted += UMFRecipes.BlastFurnace.getReducingAgentValue(item) * itemStack.stackSize;
 
-            if (UMFRecipes.BlastFurnace.isBullshitCreator(item))
-                limeInserted += UMFRecipes.BlastFurnace.getBullshitCreatorValue(item) * itemStack.stackSize;
+                if (UMFRecipes.BlastFurnace.isBullshitCreator(item))
+                    limeInserted += UMFRecipes.BlastFurnace.getBullshitCreatorValue(item) * itemStack.stackSize;
 
-            if (item == requiredOre)
-                oreInserted += itemStack.stackSize;
+                if (item == requiredOre)
+                    oreInserted += itemStack.stackSize;
+            }
         }
 
         float reducingAgentMultiplier = (reducingAgentInserted / reducingAgentPerOre) / oreInserted;
@@ -67,7 +69,7 @@ public class BlastFurnaceRecipe {
         float ironQuality = maxIronQuality * reducingAgentMultiplier * limeMultiplier;
         UMFLogger.logInfo(ironQuality);
 
-        return ironQuality;
+        return new float[] {getIngotCount(oreInserted), ironQuality };
     }
 
     public int getIngotCount(int numberOfOres) {
@@ -101,42 +103,5 @@ public class BlastFurnaceRecipe {
 
     public float getTemperatureFuckupMultiplier() {
         return temperatureFuckupMultiplier;
-    }
-
-    public static class Reaction extends BlastFurnaceRecipe
-    {
-        //int oreCount
-
-        public Reaction(BlockGenericOre ore, float energyPerOre, int baseReactionTime, int requiredTemperature, float reducingAgentPerOre, float limePerOre, float outputPerOre, float temperatureFuckupMultiplier, ItemStack[] stacks) {
-            super(ore, energyPerOre, baseReactionTime, requiredTemperature, reducingAgentPerOre, limePerOre, outputPerOre, temperatureFuckupMultiplier);
-
-            for (ItemStack itemStack : stacks) {
-                Item item = itemStack.getItem();
-
-
-                //if (item == Item.getItemFromBlock(getOre()))
-                   // oreInserted += itemStack.stackSize;
-            }
-        }
-
-        @Override
-        public int getRequiredEnergy(int numberOfOres) {
-            return super.getRequiredEnergy(numberOfOres);
-        }
-
-        @Override
-        public float getIngotQuality(ItemStack[] stacks, int maxIronQuality) {
-            return super.getIngotQuality(stacks, maxIronQuality);
-        }
-
-        @Override
-        public int getIngotCount(int numberOfOres) {
-            return super.getIngotCount(numberOfOres);
-        }
-
-        @Override
-        public int getRequiredOreHeatupEnergy(ItemStack[] stacks) {
-            return super.getRequiredOreHeatupEnergy(stacks);
-        }
     }
 }

@@ -1,15 +1,16 @@
 package com.mandatoryfun.ultramegafactory.block.machinery.blast_furnace;
 
-import com.google.common.base.Predicate;
 import com.mandatoryfun.ultramegafactory.block.machinery.BlockGenericTier;
 import com.mandatoryfun.ultramegafactory.block.machinery.BlockHeater;
 import com.mandatoryfun.ultramegafactory.block.machinery.IBlockHeatable;
-import com.mandatoryfun.ultramegafactory.init.ModItems;
+import com.mandatoryfun.ultramegafactory.init.UMFRecipes;
 import com.mandatoryfun.ultramegafactory.init.UMFRegistry;
 import com.mandatoryfun.ultramegafactory.init.recipe.BlastFurnaceRecipe;
 import com.mandatoryfun.ultramegafactory.lib.FacingRotator;
+import com.mandatoryfun.ultramegafactory.lib.IFieldsSuck;
 import com.mandatoryfun.ultramegafactory.lib.RelativeDirection;
 import com.mandatoryfun.ultramegafactory.lib.UMFLogger;
+import com.mandatoryfun.ultramegafactory.tileentity.TileEntityBlastFurnaceController;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -124,12 +125,12 @@ public class BlastFurnaceMultiblock {
             return false;
     }
 
-    private Data getData()
+    public Data getData()
     {
         return data;
     }
 
-    public class Data implements INBTSerializable<NBTTagCompound> {
+    public class Data implements INBTSerializable<NBTTagCompound>, IFieldsSuck {
         private HashMap<BlockPos, IBlockState> blocks;
 
         private int furnaceInteriorHeight;
@@ -155,9 +156,12 @@ public class BlastFurnaceMultiblock {
         // realtime variables
         private float currentTemperature = 20;
         private int burnTimeLeft = 0;
+        private int burnTimeOrig = 0;
         private float ironQualityMultiplier = 1;
         private int reactionTimeLeft = 0;
+        private int reactionTimeOrig = 0;
         private BlastFurnaceRecipe currentRecipe = null;
+        private ItemStack[] currentStacks;
 
         public Data(HashMap<BlockPos, IBlockState> pBlocks, int pFurnaceInteriorHeight, int pFurnaceInteriorWidth, int pControllerTier) {
             this.blocks = pBlocks;
@@ -187,7 +191,7 @@ public class BlastFurnaceMultiblock {
                 {
                     BlockBlastFurnaceCasing blockCasing = (BlockBlastFurnaceCasing)block;
                     casingCount++;
-                    joulesPerTickIncome += blockCasing.getJouleLeakedPerTick(tier);
+                    joulesPerTickLost += blockCasing.getJouleLeakedPerTick(tier);
                 }
             }
             burningEfficiency = sumBurningEfficiency / heaterCount;
@@ -196,11 +200,11 @@ public class BlastFurnaceMultiblock {
             maximumIronQuality = 5000;
         }
 
-        public int update()
+        public int[] update()
         {
             if(isBurning()) {
                 burnTimeLeft--;
-                currentTemperature += (joulesPerTickOutcome / joulesPerDegreeThermalCapacity);
+                currentTemperature += ((float)joulesPerTickOutcome / (float)joulesPerDegreeThermalCapacity);
             }
 
             if(isReactionInProgress())
@@ -211,28 +215,34 @@ public class BlastFurnaceMultiblock {
                     if(reactionTimeLeft == 0)
                     {
                         // FINISHED
-                        return (int)(maximumIronQuality * ironQualityMultiplier);
+                        float[] ingotData = currentRecipe.getIngotQuality(currentStacks, maximumIronQuality);
+                        int ingotQuality = (int)(ironQualityMultiplier * ingotData[1]);
+                        int ingotCount = (int)(ingotData[0]);
+                        return new int[] {ingotCount, ingotQuality};
                     }
                     if(ironQualityMultiplier > 0.3f) {
                         int temperatureOffset = Math.abs((int) currentTemperature - currentRecipe.getRequiredTemperature());
-                        ironQualityMultiplier -= Math.log10(Math.pow(temperatureOffset, currentRecipe.getTemperatureFuckupMultiplier()) / currentRecipe.getBaseReactionTime() / 20);
+                        ironQualityMultiplier -= (Math.log10(Math.pow(temperatureOffset, currentRecipe.getTemperatureFuckupMultiplier()) / currentRecipe.getBaseReactionTime()) * 0.3);
                     }
                 }
             }
 
             if(currentTemperature > 20)
-                currentTemperature -= (joulesPerTickLost / joulesPerDegreeThermalCapacity);
-            return 0;
+                currentTemperature -= ((float)joulesPerTickLost / (float)joulesPerDegreeThermalCapacity);
+            return new int[] {0, 0};
         }
 
-        public boolean startReaction(BlastFurnaceRecipe recipe)
+        public boolean startReaction(TileEntityBlastFurnaceController.InputItemStackHandler inputItemStackHandler)
         {
-            if(!isReactionInProgress() && currentTemperature > recipe.getRequiredTemperature() - 200)
+            BlastFurnaceRecipe recipe = UMFRecipes.BlastFurnace.getRecipeForOre(inputItemStackHandler.getCurrentOre());
+            if(recipe != null && !isReactionInProgress() && currentTemperature > recipe.getRequiredTemperature() - 200)
             {
+                currentStacks = inputItemStackHandler.clear();
                 reactionTimeLeft = 0;
                 ironQualityMultiplier = 1;
                 currentRecipe = recipe;
-                reactionTimeLeft = currentRecipe.getBaseReactionTime(); // TODO make reactionTimeLeft changeable by multiblock
+                reactionTimeOrig = currentRecipe.getBaseReactionTime(); // TODO make reactionTimeLeft changeable by multiblock
+                reactionTimeLeft = reactionTimeOrig;
                 return true;
             }
             else
@@ -243,7 +253,8 @@ public class BlastFurnaceMultiblock {
         {
             if(!isBurning())
             {
-                burnTimeLeft = joules / joulesPerTickIncome;
+                burnTimeOrig = joules / joulesPerTickIncome;
+                burnTimeLeft = burnTimeOrig;
                 return true;
             }
             else {
@@ -266,8 +277,59 @@ public class BlastFurnaceMultiblock {
             return reactionTimeLeft > 0;
         }
 
+        public int getCapacity() {
+            return capacity;
+        }
         @Override
-        public NBTTagCompound serializeNBT() {/*
+        public int getField(int id) {
+            switch (id)
+            {
+                case 0:
+                    return (int)currentTemperature;
+                case 1:
+                    return burnTimeLeft;
+                case 2:
+                    return burnTimeOrig;
+                case 3:
+                    return reactionTimeLeft;
+                case 4:
+                    return reactionTimeOrig;
+            }
+            return 0;
+        }
+
+        @Override
+        public void setField(int id, int value) {
+            switch (id)
+            {
+                case 0:
+                    currentTemperature = value;
+                    break;
+                case 1:
+                    burnTimeLeft = value;
+                    break;
+                case 2:
+                    burnTimeOrig = value;
+                    break;
+                case 3:
+                    reactionTimeLeft = value;
+                    break;
+                case 4:
+                    reactionTimeOrig = value;
+                    break;
+            }
+        }
+
+        @Override
+        public int getFieldCount() {
+            return 5;
+        }
+
+        @Override
+        public NBTTagCompound serializeNBT() {
+            NBTTagCompound compound = new NBTTagCompound();
+            compound.setInteger("currentTemperature", (int)currentTemperature);
+            /*
             blocks = new HashMap<BlockPos, IBlockState>();
 
             NBTTagCompound compound = new NBTTagCompound();
@@ -287,7 +349,7 @@ public class BlastFurnaceMultiblock {
             compound.setInteger("furnaceInteriorWidth", furnaceInteriorWidth);
             compound.setInteger("controllerTier", controllerTier);
             return compound;*/
-            return new NBTTagCompound();
+            return compound;
         }
 
         @Override
