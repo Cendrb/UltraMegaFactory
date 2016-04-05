@@ -69,19 +69,19 @@ public final class ModItems {
 
         Ingot.iron = (ItemIronIngot) register(new ItemIronIngot("iron_ingot", "Fe", constructArray("dEx\u00AE")));
         Ingot.steel = registerIngot("steel_ingot", "Fe with less C", "C means communism");
-        Ingot.enrichedSteel = registerIngot("enriched_steel_ingot", "Fe with almost none of C", "C means communism");
+        Ingot.enrichedSteel = registerIngot("enriched_steel_ingot", "Fe with almost no C", "C means communism");
         Ingot.copper = registerIngot("copper_ingot", "Cu", "Do not mismatch with rust");
-        Ingot.tin = registerIngot("tin_ingot", "Sn", "You can make little tin soldiers", "If you really want", "Cat meal is packed in it");
-        Ingot.silver = registerIngot("silver_ingot", "Ag", "You can steal it", "It's very expensive!");
-        Ingot.aluminium = registerIngot("aluminium_ingot", "Al", "Do not cook with it!", "If you do not know why", "Ask Uncle Google");
+        Ingot.tin = registerIngot("tin_ingot", "Sn", "If you really want", "you can make little tin soldiers");
+        Ingot.silver = registerIngot("silver_ingot", "Ag", "Amazing electricity conductor" + "Often smelted with gold", "It's very expensive!");
+        Ingot.aluminium = registerIngot("aluminium_ingot", "Al", "Do not cook with it!", "If you do not know why ask Uncle Google");
         Ingot.titanium = registerIngot("titanium_ingot", "Ti", "Light but durable metal", "Expensive as Steam\u00AE games");
         Ingot.zinc = registerIngot("zinc_ingot", "Zn", "Fairly reactive, ask Alessandro Volta");
-        Ingot.antimony = registerIngot("antimony_ingot", "Sb", "Not that big of a deal", "But with tin and lead useful for batteries");
+        Ingot.antimony = registerIngot("antimony_ingot", "Sb", "Mostly useless", "With tin and lead useful for batteries");
         Ingot.lead = registerIngot("lead_ingot", "Pb", "Who is the leader now?");
         Ingot.cobalt = registerIngot("cobalt_ingot", "Co", "Totally useless", "Microsoft\u00AE");
-        Ingot.chrome = registerIngot("chrome_ingot", "Cr", "Used to browse internet");
+        Ingot.chrome = registerIngot("chrome_ingot", "Cr", "One of the most expensive metals", "Try Ruby");
         Ingot.nickel = registerIngot("nickel_ingot", "Ni", "Metal made from Minecraft\u00AE nicks", "Minecraft is trademark of Microsoft, which also made MSMistake and Falldows");
-        Ingot.gold = registerIngot("gold_ingot", "Au", "");
+        Ingot.gold = registerIngot("gold_ingot", "Au", "Ooh, shiny");
 
         // alloys
 
@@ -94,7 +94,7 @@ public final class ModItems {
         carbon = registerFuel(new ItemFormulaDescriptionGeneric("carbon", "C (almost pure)", constructArray("Used in blast furnace to create better iron and steel")), 27500);
         lignite = registerFuel(new ItemFormulaDescriptionGeneric("lignite", "brown coal", constructArray("Younger, fewer life experience")), 16400);
         charcoal = registerFuel(new ItemFormulaDescriptionGeneric("charcoal", "coal from wood", constructArray("Coal made from chars", "programmers will get it")), 9700);
-        peat = registerFuel(new ItemFormulaDescriptionGeneric("peat", "", constructArray("Fire in the PEAT!")), 9700);
+        peat = registerFuel(new ItemFormulaDescriptionGeneric("peat", "organic stuff", constructArray("Fire in the PEAT!")), 9700);
         bitumen = registerFuel(new ItemFormulaDescriptionGeneric("bitumen", "black coal", constructArray()), 24500);
 
         // dusts
@@ -107,7 +107,7 @@ public final class ModItems {
         Dust.antimony_dust = registerDust("antimony_dust", "Sb");
         Dust.copper_dust = registerDust("copper_dust", "Cu");
         Dust.iron_dust = registerDust("iron_dust", "Fe", "Can not be gotten with", "anything softer than diamond");
-        Dust.lead_dust = registerDust("lead_dust", "Pb", "Toxic", "You can poison your neighbors well");
+        Dust.lead_dust = registerDust("lead_dust", "Pb", "Toxic", "You can poison your neighbors");
         Dust.silver_dust = registerDust("silver_dust", "Ag");
         Dust.tin_dust = registerDust("tin_dust", "Sn");
         Dust.titanium_dust = registerDust("titanium_dust", "Ti");
