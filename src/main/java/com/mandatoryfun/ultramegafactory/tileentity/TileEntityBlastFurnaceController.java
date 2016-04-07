@@ -12,6 +12,9 @@ import net.minecraft.inventory.Container;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.network.NetworkManager;
+import net.minecraft.network.Packet;
+import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ITickable;
@@ -153,6 +156,18 @@ public class TileEntityBlastFurnaceController extends TileEntity implements ITic
         compound.setTag("output", handlerOutput.serializeNBT());
         compound.setTag("fuel", handlerFuel.serializeNBT());
         compound.setTag("sample", handlerSample.serializeNBT());
+    }
+
+    @Override
+    public Packet<?> getDescriptionPacket() {
+        NBTTagCompound tag = new NBTTagCompound();
+        writeToNBT(tag);
+        return new SPacketUpdateTileEntity(pos, 1, tag);
+    }
+
+    @Override
+    public void onDataPacket(NetworkManager net, SPacketUpdateTileEntity pkt) {
+        readFromNBT(pkt.getNbtCompound());
     }
 
     @Override

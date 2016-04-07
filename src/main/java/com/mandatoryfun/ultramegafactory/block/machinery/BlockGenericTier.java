@@ -10,8 +10,11 @@ import net.minecraft.block.properties.PropertyInteger;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -48,6 +51,15 @@ public abstract class BlockGenericTier extends BlockGeneric implements IBlockMul
     @Override
     public int damageDropped(IBlockState state) {
         return state.getValue(TIER) - 1;
+    }
+
+    @Override
+    public void onBlockPlacedBy(World worldIn, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack) {
+        state = state.withProperty(TIER, stack.getItemDamage() + 1);
+
+        worldIn.setBlockState(pos, state);
+
+        super.onBlockPlacedBy(worldIn, pos, state, placer, stack);
     }
 
     @Override

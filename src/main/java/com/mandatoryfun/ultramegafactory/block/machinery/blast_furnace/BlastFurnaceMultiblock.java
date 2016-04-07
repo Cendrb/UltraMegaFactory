@@ -137,7 +137,7 @@ public class BlastFurnaceMultiblock {
         data = new Data(nbt);
     }
 
-    public class Data implements IFieldsSuck {
+    public static class Data implements IFieldsSuck {
         private HashMap<BlockPos, IBlockState> blocks;
 
         private int furnaceInteriorHeight;
