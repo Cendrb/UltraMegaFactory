@@ -247,7 +247,7 @@ public class TileEntityBlastFurnaceController extends TileEntity implements ITic
 
             Item item = stack.getItem();
 
-            if (UMFRecipes.BlastFurnace.isValidOre(item) && item != currentOre) {
+            if (UMFRecipes.BlastFurnace.isValidOre(item) && (item == currentOre || currentOre == null)) {
                 if (slot >= ORE_CATEGORY_FIRST_SLOT && slot < REDUCING_AGENT_CATEGORY_FIRST_SLOT) {
                     if (!simulate)
                         currentOre = item;
@@ -271,6 +271,7 @@ public class TileEntityBlastFurnaceController extends TileEntity implements ITic
         public ItemStack[] clear() {
             ItemStack[] itemStacks = Arrays.copyOf(stacks, CATEGORIES_COUNT * SLOTS_PER_CATEGORY);
             currentOre = null;
+            currentNumberOfItems = 0;
             for (int x = ORE_CATEGORY_FIRST_SLOT; x < 27; x++)
                 setStackInSlot(x, null);
             return itemStacks;
@@ -365,6 +366,16 @@ public class TileEntityBlastFurnaceController extends TileEntity implements ITic
 
         public Item getCurrentOre() {
             return currentOre;
+        }
+
+        @Override
+        public NBTTagCompound serializeNBT() {
+            return super.serializeNBT();
+        }
+
+        @Override
+        public void deserializeNBT(NBTTagCompound nbt) {
+            super.deserializeNBT(nbt);
         }
     }
 
