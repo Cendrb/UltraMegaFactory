@@ -8,6 +8,7 @@ import com.mandatoryfun.ultramegafactory.lib.NameHelper;
 import com.mandatoryfun.ultramegafactory.lib.UMFLogger;
 import com.mandatoryfun.ultramegafactory.tileentity.TileEntityBlastFurnaceController;
 import net.minecraft.block.Block;
+import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyDirection;
@@ -34,10 +35,10 @@ import java.util.List;
 /**
  * Created by cendr_000 on 28.03.2016.
  */
-public class BlockBlastFurnaceController extends BlockGenericContainer implements IBlockMultipleNames {
+public class BlockBlastFurnaceController extends BlockGenericContainer implements IBlockMultipleNames, ITileEntityProvider {
 
-    final static IProperty<Integer> TIER = PropertyInteger.create("tier", 1, 2);
-    final static IProperty<EnumFacing> FACING = PropertyDirection.create("facing", EnumFacing.Plane.HORIZONTAL);
+    public final static IProperty<Integer> TIER = PropertyInteger.create("tier", 1, 2);
+    public final static IProperty<EnumFacing> FACING = PropertyDirection.create("facing", EnumFacing.Plane.HORIZONTAL);
 
     public BlockBlastFurnaceController() {
         super("blast_furnace_controller", Material.iron);
@@ -102,6 +103,18 @@ public class BlockBlastFurnaceController extends BlockGenericContainer implement
         worldIn.setBlockState(pos, state);
 
         super.onBlockPlacedBy(worldIn, pos, state, placer, stack);
+    }
+
+    @Override
+    public void breakBlock(World worldIn, BlockPos pos, IBlockState state) {
+        TileEntity tileEntity = worldIn.getTileEntity(pos);
+        if(tileEntity != null && tileEntity instanceof TileEntityBlastFurnaceController)
+        {
+            TileEntityBlastFurnaceController tileEntityBlastFurnaceController = (TileEntityBlastFurnaceController) tileEntity;
+            tileEntityBlastFurnaceController.dropAllItems();
+        }
+
+        super.breakBlock(worldIn, pos, state);
     }
 
     @Override

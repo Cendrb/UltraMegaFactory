@@ -35,7 +35,7 @@ public class GuiBlastFurnaceController extends GuiContainer {
 
         BlastFurnaceMultiblock.Data data = tileEntity.getData();
         if(data != null) {
-            fontRendererObj.drawString(String.valueOf(data.getCurrentTemperature()), 8, 90, 4210752);
+            fontRendererObj.drawString(String.valueOf(data.getField(0)), 8, 90, 4210752);
             fontRendererObj.drawString(String.valueOf(data.getField(1)) + "/" + String.valueOf(data.getField(2)), 8, 105, 4210752);
             fontRendererObj.drawString(String.valueOf(data.getField(3)) + "/" + String.valueOf(data.getField(4)), 8, 120, 4210752);
             fontRendererObj.drawString(String.valueOf(tileEntity.getHandlerInput().getCurrentNumberOfItems() + "/" + data.getCapacity()), 8, 75, 4210752);

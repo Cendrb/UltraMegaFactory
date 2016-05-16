@@ -11,6 +11,7 @@ import com.mandatoryfun.ultramegafactory.lib.IFieldsSuck;
 import com.mandatoryfun.ultramegafactory.lib.RelativeDirection;
 import com.mandatoryfun.ultramegafactory.lib.UMFLogger;
 import com.mandatoryfun.ultramegafactory.tileentity.TileEntityBlastFurnaceController;
+import com.mandatoryfun.ultramegafactory.tileentity.TileEntityGenericTier;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.Item;
@@ -38,11 +39,16 @@ public class BlastFurnaceMultiblock {
 
     }
 
+    public void invalidate()
+    {
+        data = null;
+    }
+
     public String rebuild(EnumFacing facing, BlockPos controllerPos, World world, int controllerTier) {
         blocks.clear();
         FacingRotator rotator = new FacingRotator(facing);
         BlockPos mainHeater = controllerPos.offset(rotator.getAbsoluteDirection(RelativeDirection.FORWARD), 2).down();
-        if (!addIfHeater(mainHeater, world))
+        if (!addIfHeater(mainHeater, world, controllerPos))
             return "The main heater not found (FORWARD, FORWARD, DOWN)";
 
         BlockPos left;
@@ -51,7 +57,7 @@ public class BlastFurnaceMultiblock {
             totalOffsetLeft++;
             left = mainHeater.offset(rotator.getAbsoluteDirection(RelativeDirection.LEFT), totalOffsetLeft);
         }
-        while (addIfHeater(left, world));
+        while (addIfHeater(left, world, controllerPos));
         totalOffsetLeft--;
 
         BlockPos right;
@@ -60,7 +66,7 @@ public class BlastFurnaceMultiblock {
             totalOffsetRight++;
             right = mainHeater.offset(rotator.getAbsoluteDirection(RelativeDirection.RIGHT), totalOffsetRight);
         }
-        while (addIfHeater(right, world));
+        while (addIfHeater(right, world, controllerPos));
         totalOffsetRight--;
 
         if (totalOffsetLeft != totalOffsetRight)
@@ -74,7 +80,7 @@ public class BlastFurnaceMultiblock {
 
         for (int offsetRow = 1; offsetRow <= (totalOffset * 2); offsetRow++)
             for (int offsetCol = -totalOffset; offsetCol <= totalOffset; offsetCol++)
-                if (!addIfHeater(mainHeater.offset(rotator.getAbsoluteDirection(RelativeDirection.FORWARD), offsetRow).offset(rotator.getAbsoluteDirection(RelativeDirection.LEFT), offsetCol), world))
+                if (!addIfHeater(mainHeater.offset(rotator.getAbsoluteDirection(RelativeDirection.FORWARD), offsetRow).offset(rotator.getAbsoluteDirection(RelativeDirection.LEFT), offsetCol), world, controllerPos))
                     return "Heater platform must be 3x3 or 5x5 or 7x7 or 9x9";
 
         BlockPos backwardBorder = mainHeater.up().offset(rotator.getAbsoluteDirection(RelativeDirection.BACKWARD));
@@ -83,10 +89,10 @@ public class BlastFurnaceMultiblock {
         BlockPos leftBorder = middleHeater.up().offset(rotator.getAbsoluteDirection(RelativeDirection.LEFT), totalOffset + 1);
         BlockPos rightBorder = middleHeater.up().offset(rotator.getAbsoluteDirection(RelativeDirection.RIGHT), totalOffset + 1);
 
-        int backwardLayers = addCasingWall(backwardBorder, totalOffset, RelativeDirection.LEFT, rotator, world);
-        int forwardLayers = addCasingWall(forwardBorder, totalOffset, RelativeDirection.LEFT, rotator, world);
-        int leftLayers = addCasingWall(leftBorder, totalOffset, RelativeDirection.FORWARD, rotator, world);
-        int rightLayers = addCasingWall(rightBorder, totalOffset, RelativeDirection.FORWARD, rotator, world);
+        int backwardLayers = addCasingWall(backwardBorder, totalOffset, RelativeDirection.LEFT, rotator, world, controllerPos);
+        int forwardLayers = addCasingWall(forwardBorder, totalOffset, RelativeDirection.LEFT, rotator, world, controllerPos);
+        int leftLayers = addCasingWall(leftBorder, totalOffset, RelativeDirection.FORWARD, rotator, world, controllerPos);
+        int rightLayers = addCasingWall(rightBorder, totalOffset, RelativeDirection.FORWARD, rotator, world, controllerPos);
 
         int multiblockHeight = Math.min(Math.min(backwardLayers, forwardLayers), Math.min(leftLayers, rightLayers));
         if (multiblockHeight < 2)
@@ -98,12 +104,12 @@ public class BlastFurnaceMultiblock {
         return "SUCCESS";
     }
 
-    private int addCasingWall(BlockPos middleBlock, int offset, RelativeDirection wallDirection, FacingRotator rotator, World world) {
+    private int addCasingWall(BlockPos middleBlock, int offset, RelativeDirection wallDirection, FacingRotator rotator, World world, BlockPos controllerPos) {
         int currentLayer = 0;
         boolean layerComplete = true;
         while (layerComplete) {
             for (int currentOffset = -offset; currentOffset <= offset; currentOffset++) {
-                if (!addIfCasing(middleBlock.offset(rotator.getAbsoluteDirection(wallDirection), currentOffset).up(currentLayer), world))
+                if (!addIfCasing(middleBlock.offset(rotator.getAbsoluteDirection(wallDirection), currentOffset).up(currentLayer), world, controllerPos))
                     layerComplete = false;
             }
             currentLayer++;
@@ -111,19 +117,21 @@ public class BlastFurnaceMultiblock {
         return currentLayer - 1; // returns the height of the wall
     }
 
-    private boolean addIfHeater(BlockPos pos, World world) {
+    private boolean addIfHeater(BlockPos pos, World world, BlockPos controllerPos) {
         IBlockState state = world.getBlockState(pos);
         if (UMFRegistry.BlastFurnaceParts.isHeater(state)) {
             blocks.put(pos, state);
+            ((TileEntityGenericTier)world.getTileEntity(pos)).setControllerPos(controllerPos);
             return true;
         } else
             return false;
     }
 
-    private boolean addIfCasing(BlockPos pos, World world) {
+    private boolean addIfCasing(BlockPos pos, World world, BlockPos controllerPos) {
         IBlockState state = world.getBlockState(pos);
         if (UMFRegistry.BlastFurnaceParts.isCasing(state)) {
             blocks.put(pos, state);
+            ((TileEntityGenericTier)world.getTileEntity(pos)).setControllerPos(controllerPos);
             return true;
         } else
             return false;
@@ -200,15 +208,17 @@ public class BlastFurnaceMultiblock {
                         int ingotCount = (int) (ingotData[0]);
                         return new int[]{ingotCount, ingotQuality};
                     }
-                    if (ironQualityMultiplier > 0.3f) {
-                        int temperatureOffset = Math.abs((int) currentTemperature - currentRecipe.getRequiredTemperature());
-                        ironQualityMultiplier -= (Math.log10(Math.pow(temperatureOffset, currentRecipe.getTemperatureFuckupMultiplier()) / currentRecipe.getBaseReactionTime()) * 0.3);
-                    }
+                    int temperatureOffset = Math.abs((int) currentTemperature - currentRecipe.getRequiredTemperature());
+                    ironQualityMultiplier -= Math.pow(temperatureOffset, currentRecipe.getTemperatureFuckupMultiplier());
+                    if(ironQualityMultiplier > 1)
+                        ironQualityMultiplier = 1;
+                    if(ironQualityMultiplier < 0.3f)
+                        ironQualityMultiplier = 0.3f;
                 }
             }
 
             if (currentTemperature > 20)
-                currentTemperature -= ((float) joulesPerTickLost / (float) joulesPerDegreeThermalCapacity);
+                currentTemperature -= ((float) joulesPerTickLost / (float) joulesPerDegreeThermalCapacity); // TODO make heat loss dependent on temperature difference
             return new int[]{0, 0};
         }
 
@@ -241,10 +251,6 @@ public class BlastFurnaceMultiblock {
             return burnTimeLeft > 0;
         }
 
-        public float getCurrentTemperature() {
-            return currentTemperature;
-        }
-
         public boolean isReactionInProgress() {
             return reactionTimeLeft > 0;
         }
@@ -253,7 +259,7 @@ public class BlastFurnaceMultiblock {
             return capacity;
         }
 
-        public void loadBlocks(World world)
+        public void loadCurrentBlockstates(World world)
         {
             for (Map.Entry<BlockPos, IBlockState> pair : blocks.entrySet()) {
                 pair.setValue(world.getBlockState(pair.getKey()));

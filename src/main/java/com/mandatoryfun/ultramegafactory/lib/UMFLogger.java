@@ -14,6 +14,10 @@ public class UMFLogger {
         System.out.println("WARNING: " + string.toString());
     }
 
+    public static void logError(Object string) {
+        System.out.println("ERROR: " + string.toString());
+    }
+
     public static String formatBlockPos(BlockPos blockPos) {
         return blockPos.toString();
     }

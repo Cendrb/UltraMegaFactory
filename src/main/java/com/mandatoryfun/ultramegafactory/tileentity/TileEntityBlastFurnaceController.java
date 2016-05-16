@@ -6,6 +6,7 @@ import com.mandatoryfun.ultramegafactory.init.ModItems;
 import com.mandatoryfun.ultramegafactory.init.UMFRecipes;
 import com.mandatoryfun.ultramegafactory.init.UMFRegistry;
 import com.mandatoryfun.ultramegafactory.lib.UMFLogger;
+import com.mandatoryfun.ultramegafactory.lib.WorldHelper;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
@@ -47,7 +48,7 @@ public class TileEntityBlastFurnaceController extends TileEntity implements ITic
     public TileEntityBlastFurnaceController() {
         multiblock = new BlastFurnaceMultiblock();
 
-        handlerInput = new InputItemStackHandler(0);
+        handlerInput = new InputItemStackHandler();
         handlerOutput = new OutputItemStackHandler();
         handlerFuel = new FuelItemStackHandler();
         handlerSample = new SampleItemStackHandler();
@@ -55,12 +56,12 @@ public class TileEntityBlastFurnaceController extends TileEntity implements ITic
 
     @Override
     public void update() {
+        if (!initTried) {
+            initTried = true;
+            if (getData() != null)
+                getData().loadCurrentBlockstates(worldObj);
+        }
         if (!worldObj.isRemote) {
-            if (!initTried) {
-                initTried = true;
-                if (getData() != null)
-                    getData().loadBlocks(worldObj);
-            }
             if (multiblock.getData() != null) {
                 if (!multiblock.getData().isBurning() && handlerFuel.isFueled()) {
                     multiblock.getData().burnFuel(handlerFuel.consumeFuel());
@@ -68,6 +69,7 @@ public class TileEntityBlastFurnaceController extends TileEntity implements ITic
                 int[] ironData = multiblock.getData().update();
                 if (ironData[0] > 0) {
                     int meta = ironData[1] / 1000;
+                    handlerSample.setSample(null);
                     handlerOutput.setItems(new ItemStack(ModItems.Ingot.iron, 1, meta), ironData[0]);
                 }
             }
@@ -82,17 +84,21 @@ public class TileEntityBlastFurnaceController extends TileEntity implements ITic
     }
 
     public String rebuildMultiblock(EnumFacing facing, BlockPos pos, World world, int tier) {
+        if(multiblock.getData() != null)
+            dropAllItems();
         String result = multiblock.rebuild(facing, pos, world, tier);
-        if (result.equals("SUCCESS"))
-            handlerInput.setCapacity(multiblock.getData().getCapacity());
+        if(result != "SUCCESS")
+            multiblock.invalidate();
+        markDirty();
         return result;
     }
 
     public void startReaction() {
-        if (multiblock.getData() != null) {
+        if (multiblock.getData() != null && handlerOutput.isEmpty()) {
             Item ore = handlerInput.getCurrentOre();
-            if (multiblock.getData().startReaction(handlerInput))
+            if (multiblock.getData().startReaction(handlerInput)) {
                 handlerSample.setSample(new ItemStack(ore, 1));
+            }
         }
     }
 
@@ -129,13 +135,6 @@ public class TileEntityBlastFurnaceController extends TileEntity implements ITic
         return multiblock.getData();
     }
 
-    public String getTemperature() {
-        if (multiblock.getData() != null)
-            return String.valueOf(multiblock.getData().getCurrentTemperature());
-        else
-            return "Structure not complete!";
-    }
-
     @Override
     public void readFromNBT(NBTTagCompound compound) {
         super.readFromNBT(compound);
@@ -168,6 +167,32 @@ public class TileEntityBlastFurnaceController extends TileEntity implements ITic
     @Override
     public void onDataPacket(NetworkManager net, SPacketUpdateTileEntity pkt) {
         readFromNBT(pkt.getNbtCompound());
+    }
+
+    public void dropAllItems() {
+        double dropX = pos.getX() + 0.5;
+        double dropY = pos.getY() + 0.5;
+        double dropZ = pos.getZ() + 0.5;
+
+        for (int x = handlerInput.getSlots() - 1; x > -1; x--) {
+            ItemStack stack;
+            if ((stack = handlerInput.getStackInSlot(x)) != null)
+                WorldHelper.spawnItemStack(worldObj, stack, dropX, dropY, dropZ);
+        }
+        handlerInput.clear();
+
+        ItemStack stack;
+        if ((stack = handlerFuel.getStackInSlot(0)) != null)
+            WorldHelper.spawnItemStack(worldObj, stack, dropX, dropY, dropZ);
+        handlerFuel.clear();
+
+        int fullStacks = handlerOutput.currentNumberOfItems / 64;
+        int lastStackSize = handlerOutput.currentNumberOfItems % 64;
+        if (lastStackSize > 0)
+            WorldHelper.spawnItemStack(worldObj, new ItemStack(handlerOutput.currentItem.getItem(), lastStackSize, handlerOutput.currentItem.getItemDamage()), dropX, dropY, dropZ);
+        for(int remainingStacks = fullStacks; remainingStacks > 0; remainingStacks--)
+            WorldHelper.spawnItemStack(worldObj, new ItemStack(handlerOutput.currentItem.getItem(), 64, handlerOutput.currentItem.getItemDamage()), dropX, dropY, dropZ);
+        handlerOutput.clear();
     }
 
     @Override
@@ -206,18 +231,21 @@ public class TileEntityBlastFurnaceController extends TileEntity implements ITic
 
         private int currentNumberOfItems = 0;
 
-        private int capacity;
         private Item currentOre;
 
-        public InputItemStackHandler(int capacity) {
+        public InputItemStackHandler() {
             super();
             setSize(CATEGORIES_COUNT * SLOTS_PER_CATEGORY);// set number of slots 3*9
-            setCapacity(capacity);
         }
 
         @Override
         protected void onContentsChanged(int slot) {
             super.onContentsChanged(slot);
+            int totalItems = 0;
+            for (int x = ORE_CATEGORY_FIRST_SLOT; x < 27; x++)
+                if (stacks[x] != null)
+                    totalItems += stacks[x].stackSize;
+            currentNumberOfItems = totalItems;
         }
 
         @Override
@@ -227,16 +255,12 @@ public class TileEntityBlastFurnaceController extends TileEntity implements ITic
             if (ItemStack.areItemStacksEqual(this.stacks[slot], stack)) // needs to be here too, the super one wont stop this method
                 return;
             super.setStackInSlot(slot, stack);
-            if (UMFRecipes.BlastFurnace.isValidOre(stack.getItem()))
-                currentOre = stack.getItem();
-            UMFLogger.logInfo("Setting " + stack.stackSize + "*" + stack.getItem().getRegistryName() + " into " + slot);
-            if (previous == null)
-                currentNumberOfItems += stack.stackSize;
-            else {
-                UMFLogger.logInfo("Previous stack: " + previous.stackSize + "*" + previous.getItem().getRegistryName());
-                currentNumberOfItems += stack.stackSize - previous.stackSize;
+            if (stack != null) {
+                if (UMFRecipes.BlastFurnace.isValidOre(stack.getItem()))
+                    currentOre = stack.getItem();
+                UMFLogger.logInfo("Setting " + stack.stackSize + "*" + stack.getItem().getRegistryName() + " into " + slot);
+                UMFLogger.logInfo("Current number of items: " + currentNumberOfItems);
             }
-            UMFLogger.logInfo("Current number of items: " + currentNumberOfItems);
         }
 
         @Override
@@ -271,7 +295,7 @@ public class TileEntityBlastFurnaceController extends TileEntity implements ITic
         public ItemStack[] clear() {
             ItemStack[] itemStacks = Arrays.copyOf(stacks, CATEGORIES_COUNT * SLOTS_PER_CATEGORY);
             currentOre = null;
-            currentNumberOfItems = 0;
+            //currentNumberOfItems = 0;
             for (int x = ORE_CATEGORY_FIRST_SLOT; x < 27; x++)
                 setStackInSlot(x, null);
             return itemStacks;
@@ -279,21 +303,6 @@ public class TileEntityBlastFurnaceController extends TileEntity implements ITic
 
         public int getCurrentNumberOfItems() {
             return currentNumberOfItems;
-        }
-
-        public void setCurrentNumberOfItems(int currentNumberOfItems) {
-            this.currentNumberOfItems = currentNumberOfItems;
-        }
-
-        public void setCapacity(int capacity) {
-            if (capacity >= 0) {
-                this.capacity = capacity;
-            } else
-                throw new RuntimeException("Capacity needs to be positive");
-        }
-
-        public int getCapacity() {
-            return capacity;
         }
 
         private ItemStack insertInto(int slot, ItemStack stack, boolean simulate) {
@@ -317,8 +326,6 @@ public class TileEntityBlastFurnaceController extends TileEntity implements ITic
                     } else {
                         existing.stackSize = existing.stackSize + (stack.stackSize - greaterLimitation);
                     }
-
-                    currentNumberOfItems += stack.stackSize - greaterLimitation;
                 }
                 UMFLogger.logInfo("Current number of items: " + currentNumberOfItems);
 
@@ -337,7 +344,6 @@ public class TileEntityBlastFurnaceController extends TileEntity implements ITic
             ItemStack superReturned = super.extractItem(slot, amount, simulate);
             UMFLogger.logInfo("Extracting " + amount + " from " + slot + " simulate " + simulate);
             if (!simulate && superReturned != null) {
-                currentNumberOfItems -= superReturned.stackSize;
                 if (slot >= ORE_CATEGORY_FIRST_SLOT && slot < REDUCING_AGENT_CATEGORY_FIRST_SLOT) {
                     if (getStackInSlot(slot) == null) {
                         // check all ore slots
@@ -355,6 +361,7 @@ public class TileEntityBlastFurnaceController extends TileEntity implements ITic
         }
 
         private int canInsert(int numberOfItems) {
+            int capacity = getData().getCapacity();
             if (currentNumberOfItems + numberOfItems <= capacity) {
                 // nothing is left; insert everything
                 return 0;
@@ -407,6 +414,10 @@ public class TileEntityBlastFurnaceController extends TileEntity implements ITic
                 return energyValue;
             } else
                 return 0;
+        }
+
+        public void clear() {
+            stacks[0] = null;
         }
     }
 
@@ -465,6 +476,12 @@ public class TileEntityBlastFurnaceController extends TileEntity implements ITic
                 setStackInSlot(0, ItemHandlerHelper.copyStackWithSize(currentItem, toSet));
             else
                 currentStack.stackSize += toSet;
+        }
+
+        public void clear() {
+            currentItem = null;
+            currentNumberOfItems = 0;
+            stacks[0] = null;
         }
     }
 

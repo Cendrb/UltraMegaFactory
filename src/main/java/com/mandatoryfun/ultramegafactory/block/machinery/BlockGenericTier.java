@@ -4,6 +4,8 @@ import com.google.common.base.Predicate;
 import com.mandatoryfun.ultramegafactory.block.BlockGeneric;
 import com.mandatoryfun.ultramegafactory.block.IBlockMultipleNames;
 import com.mandatoryfun.ultramegafactory.lib.NameHelper;
+import com.mandatoryfun.ultramegafactory.tileentity.TileEntityGenericTier;
+import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyInteger;
@@ -13,6 +15,7 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
@@ -22,7 +25,7 @@ import java.util.List;
 /**
  * Created by cendr_000 on 03.04.2016.
  */
-public abstract class BlockGenericTier extends BlockGeneric implements IBlockMultipleNames {
+public abstract class BlockGenericTier extends BlockGeneric implements IBlockMultipleNames, ITileEntityProvider {
 
     private IProperty<Integer> TIER;
 
@@ -33,13 +36,12 @@ public abstract class BlockGenericTier extends BlockGeneric implements IBlockMul
     }
 
     private IProperty<Integer> getTIER() {
-        if(TIER == null)
+        if (TIER == null)
             TIER = PropertyInteger.create("tier", getMinTier(), getMaxTier());
         return TIER;
     }
 
-    public IProperty<Integer> getTier()
-    {
+    public IProperty<Integer> getTier() {
         return TIER;
     }
 
@@ -74,6 +76,7 @@ public abstract class BlockGenericTier extends BlockGeneric implements IBlockMul
         });
     }
 
+
     @Override
     public IBlockState getStateFromMeta(int meta) {
         return blockState.getBaseState().withProperty(TIER, meta + 1);
@@ -101,4 +104,15 @@ public abstract class BlockGenericTier extends BlockGeneric implements IBlockMul
     public abstract int getMinTier();
 
     public abstract int getMaxTier();
+
+    @Override
+    public TileEntity createNewTileEntity(World worldIn, int meta) {
+        return new TileEntityGenericTier();
+    }
+
+    @Override
+    public void breakBlock(World worldIn, BlockPos pos, IBlockState state) {
+        ((TileEntityGenericTier) worldIn.getTileEntity(pos)).notifyControllerToRebuild();
+        super.breakBlock(worldIn, pos, state);
+    }
 }

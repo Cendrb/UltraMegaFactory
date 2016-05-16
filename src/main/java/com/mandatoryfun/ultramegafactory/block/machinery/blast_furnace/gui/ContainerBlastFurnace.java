@@ -54,8 +54,16 @@ public class ContainerBlastFurnace extends Container {
         }
     }
 
-    public void onCraftGuiOpened(ICrafting listener) {
-        super.onCraftGuiOpened(listener);
+    public void onCraftGuiOpened(ICrafting icrafting) {
+        super.onCraftGuiOpened(icrafting);
+        BlastFurnaceMultiblock.Data data = tileEntity.getData();
+        if (data != null) {
+            icrafting.sendProgressBarUpdate(this, 0, data.getField(0));
+            icrafting.sendProgressBarUpdate(this, 1, data.getField(1));
+            icrafting.sendProgressBarUpdate(this, 2, data.getField(2));
+            icrafting.sendProgressBarUpdate(this, 3, data.getField(3));
+            icrafting.sendProgressBarUpdate(this, 4, data.getField(4));
+        }
     }
 
     /**
