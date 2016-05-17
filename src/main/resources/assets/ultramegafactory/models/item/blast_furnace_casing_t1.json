@@ -1,3 +1,6 @@
 {
-  "parent": "ultramegafactory:block/blast_furnace_casing_t1"
+  "parent": "block/cube_all",
+  "textures": {
+    "all": "ultramegafactory:items/ingots/antimony_ingot"
+  }
 }

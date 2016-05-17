@@ -22,10 +22,10 @@ import javax.annotation.Nullable;
 public class BlockRenderRegister {
 
     public static void preInit() {
-        ModelBakery.registerItemVariants(Item.getItemFromBlock(ModBlocks.blastFurnaceController), new ResourceLocation(RefStrings.MODID, "blast_furnace_controller_t1"), new ResourceLocation(RefStrings.MODID, "blast_furnace_controller_t2"));
-        ModelBakery.registerItemVariants(Item.getItemFromBlock(ModBlocks.blastFurnaceCasing), new ResourceLocation(RefStrings.MODID, "blast_furnace_casing_t1"), new ResourceLocation(RefStrings.MODID, "blast_furnace_casing_t2"));
-        ModelBakery.registerItemVariants(Item.getItemFromBlock(ModBlocks.blastFurnaceBurningHeater), new ResourceLocation(RefStrings.MODID, "burning_heater_t1"), new ResourceLocation(RefStrings.MODID, "burning_heater_t2"));
-        ModelBakery.registerItemVariants(Item.getItemFromBlock(ModBlocks.blastFurnaceElectricHeater), new ResourceLocation(RefStrings.MODID, "electric_heater_t1"), new ResourceLocation(RefStrings.MODID, "electric_heater_t2"));
+        //ModelBakery.registerItemVariants(Item.getItemFromBlock(ModBlocks.blastFurnaceController), new ResourceLocation(RefStrings.MODID, "blast_furnace_controller_t1"), new ResourceLocation(RefStrings.MODID, "blast_furnace_controller_t2"));
+        //ModelBakery.registerItemVariants(Item.getItemFromBlock(ModBlocks.blastFurnaceCasing), new ResourceLocation(RefStrings.MODID, "blast_furnace_casing_t1"), new ResourceLocation(RefStrings.MODID, "blast_furnace_casing_t2"));
+        //ModelBakery.registerItemVariants(Item.getItemFromBlock(ModBlocks.blastFurnaceBurningHeater), new ResourceLocation(RefStrings.MODID, "burning_heater_t1"), new ResourceLocation(RefStrings.MODID, "burning_heater_t2"));
+        //ModelBakery.registerItemVariants(Item.getItemFromBlock(ModBlocks.blastFurnaceElectricHeater), new ResourceLocation(RefStrings.MODID, "electric_heater_t1"), new ResourceLocation(RefStrings.MODID, "electric_heater_t2"));
     }
 
     public static void init() {
@@ -48,11 +48,12 @@ public class BlockRenderRegister {
     private static void register(Block block, int meta) {
         IPureName blockWithName = (IPureName) block;
         Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register(Item.getItemFromBlock(block), meta, new ModelResourceLocation(blockWithName.getIdentifier(), "inventory"));
-        //ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(block), meta, new ModelResourceLocation(blockWithName.getIdentifier(), "inventory"));
+        ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(block), meta, new ModelResourceLocation(blockWithName.getIdentifier(), "inventory"));
     }
 
     private static void register(Block block, int meta, String file) {
         Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register(Item.getItemFromBlock(block), meta, new ModelResourceLocation(RefStrings.MODID + ":" + file, "inventory"));
+        ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(block), meta, new ModelResourceLocation(RefStrings.MODID + ":" + file, "inventory"));
     }
 
     private static void register(Block block) {
