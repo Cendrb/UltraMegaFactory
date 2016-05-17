@@ -12,6 +12,7 @@ import net.minecraft.client.renderer.block.model.ModelBakery;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.item.Item;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.client.model.ModelLoader;
 
 import javax.annotation.Nullable;
 
@@ -47,6 +48,7 @@ public class BlockRenderRegister {
     private static void register(Block block, int meta) {
         IPureName blockWithName = (IPureName) block;
         Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register(Item.getItemFromBlock(block), meta, new ModelResourceLocation(blockWithName.getIdentifier(), "inventory"));
+        //ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(block), meta, new ModelResourceLocation(blockWithName.getIdentifier(), "inventory"));
     }
 
     private static void register(Block block, int meta, String file) {

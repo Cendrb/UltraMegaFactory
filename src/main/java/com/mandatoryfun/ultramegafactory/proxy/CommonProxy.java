@@ -8,6 +8,7 @@ import com.mandatoryfun.ultramegafactory.handler.OreGenHandler;
 import com.mandatoryfun.ultramegafactory.handler.TooltipHandler;
 import com.mandatoryfun.ultramegafactory.init.*;
 import com.mandatoryfun.ultramegafactory.world.ModWorld;
+import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
@@ -37,6 +38,7 @@ public class CommonProxy {
     }
 
     public void init(FMLInitializationEvent e) {
+
         ModWorld.init();
 
         UMFRecipes.CraftingManager.init();
