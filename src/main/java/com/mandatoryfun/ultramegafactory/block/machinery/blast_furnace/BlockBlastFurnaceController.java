@@ -1,11 +1,11 @@
 package com.mandatoryfun.ultramegafactory.block.machinery.blast_furnace;
 
+import com.google.common.base.Predicate;
 import com.mandatoryfun.ultramegafactory.Core;
 import com.mandatoryfun.ultramegafactory.block.BlockGenericContainer;
-import com.mandatoryfun.ultramegafactory.block.IBlockMultipleNames;
+import com.mandatoryfun.ultramegafactory.block.IBlockMultipleMetas;
 import com.mandatoryfun.ultramegafactory.client.gui.GuiHandler;
 import com.mandatoryfun.ultramegafactory.lib.NameHelper;
-import com.mandatoryfun.ultramegafactory.lib.UMFLogger;
 import com.mandatoryfun.ultramegafactory.tileentity.TileEntityBlastFurnaceController;
 import net.minecraft.block.Block;
 import net.minecraft.block.ITileEntityProvider;
@@ -27,7 +27,6 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.text.TextComponentString;
-import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
 import java.util.List;
@@ -35,7 +34,7 @@ import java.util.List;
 /**
  * Created by cendr_000 on 28.03.2016.
  */
-public class BlockBlastFurnaceController extends BlockGenericContainer implements IBlockMultipleNames, ITileEntityProvider {
+public class BlockBlastFurnaceController extends BlockGenericContainer implements IBlockMultipleMetas, ITileEntityProvider {
 
     public final static IProperty<Integer> TIER = PropertyInteger.create("tier", 1, 2);
     public final static IProperty<EnumFacing> FACING = PropertyDirection.create("facing", EnumFacing.Plane.HORIZONTAL);
@@ -46,7 +45,6 @@ public class BlockBlastFurnaceController extends BlockGenericContainer implement
         setHardness(3);
         setResistance(15);
         setHarvestLevel("pickaxe", 1);
-        setRegisterRender(false); // do not register regularly - has subids
     }
 
     @Override
@@ -187,6 +185,12 @@ public class BlockBlastFurnaceController extends BlockGenericContainer implement
     @Override
     public String getSpecialNameEnding(ItemStack stack) {
         return NameHelper.getSpecialEndingWithNumber("t", stack.getItemDamage() + 1, "");
+    }
+
+    @Override
+    public void runForEachTier(Predicate<Integer> runnable) {
+        runnable.apply(1);
+        runnable.apply(2);
     }
 
     @Override

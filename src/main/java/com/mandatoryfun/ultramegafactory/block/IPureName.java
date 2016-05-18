@@ -5,5 +5,5 @@ package com.mandatoryfun.ultramegafactory.block;
  */
 public interface IPureName {
     String getPureName();
-    String getIdentifier();
+    String getItemModelPath(int meta);
 }

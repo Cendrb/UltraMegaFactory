@@ -24,7 +24,6 @@ public class ItemRenderRegister {
 
     public static void init() {
         for (ItemGeneric itemGeneric : ModItems.getAllItems())
-            if (itemGeneric.getRegisterRender())
                 register(itemGeneric);
 
         register(ModItems.Ingot.iron, 0, "iron_ingot_t1");

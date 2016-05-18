@@ -1,20 +1,14 @@
 package com.mandatoryfun.ultramegafactory.block;
 
 import com.mandatoryfun.ultramegafactory.creativetab.ModCreativeTabs;
-import com.mandatoryfun.ultramegafactory.lib.IRegisterRender;
 import com.mandatoryfun.ultramegafactory.lib.RefStrings;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.item.Item;
-import net.minecraftforge.fml.common.registry.GameData;
-
-import java.util.Random;
 
 /**
  * Created by cendr_000 on 3. 7. 2015.
  */
-public class BlockGeneric extends Block implements IPureName, IRegisterRender {
+public class BlockGeneric extends Block implements IPureName {
 
     private String pureName;
     private boolean registerRender = true;
@@ -48,26 +42,16 @@ public class BlockGeneric extends Block implements IPureName, IRegisterRender {
     }
 
     @Override
-    public Block setUnlocalizedName(String name) {
+    public final Block setUnlocalizedName(String name) {
         pureName = name;
         return super.setUnlocalizedName(name);
     }
 
-    public String getIdentifier() {
-        return RefStrings.MODID + ":" + pureName;
+    public String getItemModelPath(int meta) {
+        return RefStrings.MODID + ":" + getPureName();
     }
 
-    public String getPureName() {
+    public final String getPureName() {
         return pureName;
-    }
-
-    @Override
-    public void setRegisterRender(boolean registerRender) {
-        this.registerRender = registerRender;
-    }
-
-    @Override
-    public boolean getRegisterRender() {
-        return registerRender;
     }
 }

@@ -1,7 +1,6 @@
 package com.mandatoryfun.ultramegafactory.block;
 
 import com.mandatoryfun.ultramegafactory.creativetab.ModCreativeTabs;
-import com.mandatoryfun.ultramegafactory.lib.IRegisterRender;
 import com.mandatoryfun.ultramegafactory.lib.RefStrings;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
@@ -10,10 +9,9 @@ import net.minecraft.block.material.Material;
 /**
  * Created by cendr_000 on 30.03.2016.
  */
-public abstract class BlockGenericContainer extends BlockContainer implements IPureName, IRegisterRender {
+public abstract class BlockGenericContainer extends BlockContainer implements IPureName {
 
     private String pureName;
-    private boolean registerRender = true;
 
     protected BlockGenericContainer(String unlocalizedName, Material materialIn) {
         super(materialIn);
@@ -27,21 +25,12 @@ public abstract class BlockGenericContainer extends BlockContainer implements IP
         return super.setUnlocalizedName(name);
     }
 
-    @Override
-    public void setRegisterRender(boolean registerRender) {
-        this.registerRender = registerRender;
-    }
-
-    @Override
-    public boolean getRegisterRender() {
-        return registerRender;
-    }
-
-    public String getIdentifier() {
-        return RefStrings.MODID + ":" + pureName;
-    }
-
     public String getPureName() {
         return pureName;
+    }
+
+    @Override
+    public String getItemModelPath(int meta) {
+        return RefStrings.MODID + ":" + pureName;
     }
 }

@@ -2,8 +2,9 @@ package com.mandatoryfun.ultramegafactory.block.machinery;
 
 import com.google.common.base.Predicate;
 import com.mandatoryfun.ultramegafactory.block.BlockGeneric;
-import com.mandatoryfun.ultramegafactory.block.IBlockMultipleNames;
+import com.mandatoryfun.ultramegafactory.block.IBlockMultipleMetas;
 import com.mandatoryfun.ultramegafactory.lib.NameHelper;
+import com.mandatoryfun.ultramegafactory.lib.RefStrings;
 import com.mandatoryfun.ultramegafactory.tileentity.TileEntityGenericTier;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
@@ -25,13 +26,12 @@ import java.util.List;
 /**
  * Created by cendr_000 on 03.04.2016.
  */
-public abstract class BlockGenericTier extends BlockGeneric implements IBlockMultipleNames, ITileEntityProvider {
+public abstract class BlockGenericTier extends BlockGeneric implements IBlockMultipleMetas, ITileEntityProvider {
 
     private IProperty<Integer> TIER;
 
     public BlockGenericTier(String unlocalizedName) {
         super(unlocalizedName, Material.iron, 3, 15, "pickaxe", 1);
-        setRegisterRender(false);
         setDefaultState(blockState.getBaseState().withProperty(getTIER(), getMinTier()));
     }
 
@@ -92,8 +92,9 @@ public abstract class BlockGenericTier extends BlockGeneric implements IBlockMul
         return NameHelper.getSpecialEndingWithNumber("t", stack.getItemDamage() + 1, "");
     }
 
-    public String getNameForTier(int tier) {
-        return getPureName() + "_" + NameHelper.getSpecialEndingWithNumber("t", tier, "");
+    @Override
+    public String getItemModelPath(int meta) {
+        return RefStrings.MODID + ":blast_furnace/" + getPureName() + "_" + NameHelper.getSpecialEndingWithNumber("t", meta + 1, "");
     }
 
     public void runForEachTier(Predicate<Integer> runnable) {

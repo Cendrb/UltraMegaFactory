@@ -1,5 +1,8 @@
 package com.mandatoryfun.ultramegafactory.item;
 
+import com.google.common.base.Predicate;
+import com.mandatoryfun.ultramegafactory.block.IBlockMultipleMetas;
+import com.mandatoryfun.ultramegafactory.lib.NameHelper;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
@@ -11,12 +14,11 @@ import java.util.List;
 /**
  * Created by cendr_000 on 28.03.2016.
  */
-public class ItemIronIngot extends ItemIngotGeneric {
+public class ItemIronIngot extends ItemIngotGeneric implements IBlockMultipleMetas {
 
 
     public ItemIronIngot(String unlocalizedName, String formula, String[] description) {
         super(unlocalizedName, formula, description);
-        setRegisterRender(false); // do not register regularly - has subids
     }
 
     @Override
@@ -43,5 +45,16 @@ public class ItemIronIngot extends ItemIngotGeneric {
                 tooltip.add(description[i]);
         } else
             tooltip.add("Press SHIFT for more information");
+    }
+
+    @Override
+    public String getSpecialNameEnding(ItemStack stack) {
+        return NameHelper.getSpecialEndingWithNumber("t", stack.getItemDamage() + 1, "");
+    }
+
+    @Override
+    public void runForEachTier(Predicate<Integer> runnable) {
+        for(int x = 1; x < 6; x++)
+            runnable.apply(x);
     }
 }

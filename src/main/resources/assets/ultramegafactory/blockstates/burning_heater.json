@@ -1,6 +1,21 @@
 {
+  "forge_marker": 1,
+  "defaults": {
+    "model": "cube_all",
+    "uvlock": true
+  },
   "variants": {
-    "tier=1": { "model": "ultramegafactory:burning_heater_t1" },
-    "tier=2":  { "model": "ultramegafactory:burning_heater_t2" }
+    "tier": {
+      "1": {
+        "textures": {
+          "all": "ultramegafactory:blocks/Kaolinite"
+        }
+      },
+      "2": {
+        "textures": {
+          "all": "ultramegafactory:blocks/CompStone"
+        }
+      }
+    }
   }
 }

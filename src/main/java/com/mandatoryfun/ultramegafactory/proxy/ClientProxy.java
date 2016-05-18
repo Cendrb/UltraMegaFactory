@@ -1,6 +1,6 @@
 package com.mandatoryfun.ultramegafactory.proxy;
 
-import com.mandatoryfun.ultramegafactory.client.render.BlockRenderRegister;
+import com.mandatoryfun.ultramegafactory.client.render.ItemBlockRenderRegister;
 import com.mandatoryfun.ultramegafactory.client.render.ItemRenderRegister;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
@@ -13,14 +13,14 @@ public class ClientProxy extends CommonProxy {
     @Override
     public void preInit(FMLPreInitializationEvent e) {
         super.preInit(e);
-        BlockRenderRegister.preInit();
+        ItemBlockRenderRegister.preInit();
         ItemRenderRegister.preinit();
     }
 
     @Override
     public void init(FMLInitializationEvent e) {
         super.init(e);
-        BlockRenderRegister.init();
+        ItemBlockRenderRegister.init();
         ItemRenderRegister.init();
         System.out.println("JONH CENA WWE Client INIT");
     }

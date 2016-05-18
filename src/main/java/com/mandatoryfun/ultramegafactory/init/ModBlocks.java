@@ -78,14 +78,13 @@ public class ModBlocks {
         Ore.bituminousCoal = registerOre("bitumen_ore", "bituminous coal/black coal", constructArray("More power effective than lignite", "Can be found at the bottom of the Minecraft world"), 3, 1);
         Ore.peat_ore = register(new BlockPeatOre(constructArray("You probably have silktouch")));
 
-        Ore.limestone = registerOre("ore", "CaCO\u2083", constructArray("Used to make lime", "Not an actual ore ;-)"), 3, 0);
+        Ore.limestone = registerOre("limestone", "CaCO\u2083", constructArray("Used to make lime", "Not an actual ore ;-)"), 3, 0);
 
 
         // kaoline
         kaolineOre = register(new BlockKaolineOre());
 
         // blast furnace
-        // NO LONGER do not crashes the game
         blastFurnaceController = register(new BlockBlastFurnaceController(), ItemBlockMultipleNames.class);
         blastFurnaceCasing = register(new BlockBlastFurnaceCasing(), ItemBlockMultipleNames.class);
         blastFurnaceBurningHeater = register(new BlockBurningHeater(), ItemBlockMultipleNames.class);

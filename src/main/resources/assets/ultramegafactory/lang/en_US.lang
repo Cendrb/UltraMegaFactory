@@ -5,6 +5,7 @@ tile.cassiterite_ore.name=Cassiterite Ore
 tile.cuprite_ore.name=Cuprite Ore
 tile.galena_ore.name=Galena Ore
 tile.hematite_ore.name=Hematite Ore
+tile.limonite_ore=Limonite Ore
 tile.lignite.name=Lignite
 tile.limestone.name=Limestone
 tile.magnetite_ore.name=Magnetite Ore
@@ -16,7 +17,33 @@ tile.tetrahedrite_ore.name=Tetrahedrite Ore
 tile.chalcopyrite_ore.name=Chalcopyrite Ore
 tile.bauxite_ore.name=Bauxite Ore
 tile.kaoline_ore.name=Kaolinite
+
+# other resources
 tile.peat.name=Peat
+tile.limestone.name=Limestone
+
+# dusts
+item.aluminium_dust.name=Aluminium Dust
+item.antimony_dust.name=Antimony Dust
+item.copper_dust.name=Copper Dust
+item.iron_dust.name=Iron Dust
+item.lead_dust.name=Lead Dust
+item.silver_dust.name=Silver Dust
+item.tin_dust.name=Tin Dust
+item.titanium_dust.name=Titanium Dust
+item.zinc_dust.name=Zinc Dust
+item.kaoline_dust.name=Kaoline dust
+
+# other item resources
+item.porcelain_brick.name=Porcelain Brick
+item.lime.name=Lime
+item.sulfur.name=Sulfur
+
+# burn this
+item.carbon.name=Carbon
+item.bitumen.name=Bitumen
+item.lignite.name=Lignite
+item.peat.name=Peat
 
 # blast furnace
 tile.blast_furnace_controller_t1.name=Basic Blast Furnace Controller
