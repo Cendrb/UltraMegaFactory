@@ -13,10 +13,11 @@ public abstract class BlockGenericContainer extends BlockContainer implements IP
 
     private String pureName;
 
-    protected BlockGenericContainer(String unlocalizedName, Material materialIn) {
+    protected BlockGenericContainer(String registryName, Material materialIn) {
         super(materialIn);
-        setUnlocalizedName(unlocalizedName);
+        setUnlocalizedName(registryName);
         setCreativeTab(ModCreativeTabs.tabBlock);
+        setRegistryName(registryName);
     }
 
     @Override

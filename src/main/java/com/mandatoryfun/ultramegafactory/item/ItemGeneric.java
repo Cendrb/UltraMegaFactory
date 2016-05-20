@@ -11,14 +11,15 @@ public class ItemGeneric extends Item {
 
     private String pureName;
 
-    public ItemGeneric(String unlocalizedName) {
+    public ItemGeneric(String registryName) {
         super();
         setCreativeTab(ModCreativeTabs.tabItems);
-        pureName = unlocalizedName;
-        setUnlocalizedName(unlocalizedName);
+        pureName = registryName;
+        setUnlocalizedName(registryName);
+        //setRegistryName(registryName);
     }
 
-    public String getIdentifier() {
+    public String getItemModelPath() {
         return RefStrings.MODID + ":" + pureName;
     }
 

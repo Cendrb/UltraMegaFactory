@@ -13,32 +13,35 @@ public class BlockGeneric extends Block implements IPureName {
     private String pureName;
     private boolean registerRender = true;
 
-    public BlockGeneric(String unlocalizedName) {
-        this(unlocalizedName, Material.rock);
+    public BlockGeneric(String registryName) {
+        this(registryName, Material.rock);
     }
 
 
-    public BlockGeneric(String unlocalizedName, Material material) {
+    public BlockGeneric(String registryName, Material material) {
         super(material);
         setCreativeTab(ModCreativeTabs.tabBlock);
-        setUnlocalizedName(unlocalizedName);
+        setUnlocalizedName(registryName);
+        setRegistryName(registryName);
     }
 
-    public BlockGeneric(String unlocalizedName, Material material, float hardness, float resistance) {
+    public BlockGeneric(String registryName, Material material, float hardness, float resistance) {
         super(material);
         setHardness(hardness);
         setResistance(resistance);
         setCreativeTab(ModCreativeTabs.tabBlock);
-        setUnlocalizedName(unlocalizedName);
+        setUnlocalizedName(registryName);
+        setRegistryName(registryName);
     }
 
-    public BlockGeneric(String unlocalizedName, Material material, float hardness, float resistance, String toolClass, int toolLevel) {
+    public BlockGeneric(String registryName, Material material, float hardness, float resistance, String toolClass, int toolLevel) {
         super(material);
         setHarvestLevel(toolClass, toolLevel);
         setHardness(hardness);
         setResistance(resistance);
         setCreativeTab(ModCreativeTabs.tabBlock);
-        setUnlocalizedName(unlocalizedName);
+        setUnlocalizedName(registryName);
+        setRegistryName(registryName);
     }
 
     @Override

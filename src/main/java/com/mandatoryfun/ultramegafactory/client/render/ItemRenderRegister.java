@@ -1,16 +1,11 @@
 package com.mandatoryfun.ultramegafactory.client.render;
 
-import com.mandatoryfun.ultramegafactory.init.ModBlocks;
 import com.mandatoryfun.ultramegafactory.init.ModItems;
 import com.mandatoryfun.ultramegafactory.item.ItemGeneric;
-import com.mandatoryfun.ultramegafactory.lib.RefStrings;
 import com.mandatoryfun.ultramegafactory.lib.RegistryHelper;
-import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.block.model.ModelBakery;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
-import net.minecraft.item.Item;
-import net.minecraft.util.ResourceLocation;
 
 /**
  * Created by cendr_000 on 25.03.2016.
@@ -34,11 +29,11 @@ public class ItemRenderRegister {
     }
 
     private static void register(ItemGeneric item) {
-        Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register(item, 0, new ModelResourceLocation(item.getIdentifier(), "inventory"));
+        Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register(item, 0, new ModelResourceLocation(item.getItemModelPath(), "inventory"));
     }
 
     private static void register(ItemGeneric item, int meta) {
-        Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register(item, meta, new ModelResourceLocation(item.getIdentifier(), "inventory"));
+        Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register(item, meta, new ModelResourceLocation(item.getItemModelPath(), "inventory"));
     }
 
     private static void register(ItemGeneric item, int meta, String file) {

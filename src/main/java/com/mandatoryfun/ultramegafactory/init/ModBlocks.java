@@ -5,6 +5,7 @@ import com.mandatoryfun.ultramegafactory.block.machinery.blast_furnace.*;
 import com.mandatoryfun.ultramegafactory.block.itemblock.ItemBlockMultipleNames;
 import com.mandatoryfun.ultramegafactory.block.machinery.BlockBurningHeater;
 import com.mandatoryfun.ultramegafactory.block.machinery.BlockElectricHeater;
+import com.mandatoryfun.ultramegafactory.lib.UMFLogger;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.item.ItemBlock;
@@ -14,6 +15,7 @@ import java.util.ArrayList;
 
 public class ModBlocks {
     private static ArrayList<Block> allBlocks = new ArrayList<Block>();
+    private static ArrayList<ItemBlock> allItemBlocks = new ArrayList<ItemBlock>();
 
     public static class Ore {
         public static BlockGenericOre magnetite;
@@ -76,43 +78,63 @@ public class ModBlocks {
 
         Ore.lignite = registerOre("lignite_ore", "brown coal", constructArray("Less power effective than bitumen", "Can be found under swamps"), 3, 1);
         Ore.bituminousCoal = registerOre("bitumen_ore", "bituminous coal/black coal", constructArray("More power effective than lignite", "Can be found at the bottom of the Minecraft world"), 3, 1);
-        Ore.peat_ore = register(new BlockPeatOre(constructArray("You probably have silktouch")));
+        Ore.peat_ore = registerWithItem(new BlockPeatOre(constructArray("You should better have silktouch")));
 
         Ore.limestone = registerOre("limestone", "CaCO\u2083", constructArray("Used to make lime", "Not an actual ore ;-)"), 3, 0);
 
 
         // kaoline
-        kaolineOre = register(new BlockKaolineOre());
+        kaolineOre = registerWithItem(new BlockKaolineOre());
 
         // blast furnace
-        blastFurnaceController = register(new BlockBlastFurnaceController(), ItemBlockMultipleNames.class);
-        blastFurnaceCasing = register(new BlockBlastFurnaceCasing(), ItemBlockMultipleNames.class);
-        blastFurnaceBurningHeater = register(new BlockBurningHeater(), ItemBlockMultipleNames.class);
-        blastFurnaceElectricHeater = register(new BlockElectricHeater(), ItemBlockMultipleNames.class);
+        blastFurnaceController = registerWithItem(new BlockBlastFurnaceController(), ItemBlockMultipleNames.class);
+        blastFurnaceCasing = registerWithItem(new BlockBlastFurnaceCasing(), ItemBlockMultipleNames.class);
+        blastFurnaceBurningHeater = registerWithItem(new BlockBurningHeater(), ItemBlockMultipleNames.class);
+        blastFurnaceElectricHeater = registerWithItem(new BlockElectricHeater(), ItemBlockMultipleNames.class);
     }
 
     private static String[] constructArray(String... strings) {
         return strings;
     }
 
-    private static <T extends Block>T register(T block) {
-        IPureName blockWithName = (IPureName) block;
-        GameRegistry.registerBlock(block, blockWithName.getPureName());
-        allBlocks.add(block);
-        return block;
-    }
-
-    private static <T extends Block>T register(T block, Class<? extends ItemBlock> itemBlock) {
-        IPureName blockWithName = (IPureName) block;
-        GameRegistry.registerBlock(block, itemBlock, blockWithName.getPureName());
-        allBlocks.add(block);
-        return block;
-    }
-
     private static BlockGenericOre registerOre(String unlocalizedName, String formula, String[] description, float hardness, int toolLevel) {
         BlockGenericOre block;
-        GameRegistry.registerBlock(block = new BlockGenericOre(unlocalizedName, Material.rock, hardness, 15, "pickaxe", toolLevel, formula, description), block.getPureName());
+        registerWithItem(block = new BlockGenericOre(unlocalizedName, Material.rock, hardness, 15, "pickaxe", toolLevel, formula, description));
+        return block;
+    }
+
+    private static <T extends Block>T registerBlock(T block)
+    {
+        GameRegistry.register(block);
         allBlocks.add(block);
+        return block;
+    }
+
+    private static <T extends Block>T registerWithItem(T block) {
+        registerBlock(block);
+        ItemBlock itemBlock = new ItemBlock(block);
+        itemBlock.setUnlocalizedName(block.getUnlocalizedName());
+        itemBlock.setRegistryName(block.getRegistryName());
+        GameRegistry.register(itemBlock);
+        allItemBlocks.add(itemBlock);
+        return block;
+    }
+
+    private static <T extends Block>T registerWithItem(T block, Class<? extends ItemBlock> itemBlockClass) {
+        registerBlock(block);
+        try {
+            ItemBlock itemBlock;
+            itemBlock = (ItemBlock) itemBlockClass.getConstructors()[0].newInstance(block);
+            itemBlock.setUnlocalizedName(block.getUnlocalizedName());
+            itemBlock.setRegistryName(block.getRegistryName());
+            GameRegistry.register(itemBlock);
+            allItemBlocks.add(itemBlock);
+        } catch (Exception e) {
+            UMFLogger.logError("Unable to instantiate ItemBlock class " + itemBlockClass.toString());
+            e.printStackTrace();
+            throw new IllegalArgumentException("Supplied ItemBlock class is not supported", e);
+        }
+
         return block;
     }
 
