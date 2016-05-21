@@ -60,16 +60,16 @@ public class BlastFurnaceRecipe {
         if(reducingAgentMultiplier > 1)
             reducingAgentMultiplier = 1 / reducingAgentMultiplier;
         reducingAgentMultiplier = 0.1f + 0.9f * reducingAgentMultiplier;
-        UMFLogger.logInfo(reducingAgentMultiplier);
+        UMFLogger.logDebug(reducingAgentMultiplier);
 
         float limeMultiplier = (limeInserted / limePerOre) / oreInserted;
         if(limeMultiplier > 1)
             limeMultiplier = 1 / limeMultiplier;
         limeMultiplier = 0.8f + 0.2f * limeMultiplier;
-        UMFLogger.logInfo(limeMultiplier);
+        UMFLogger.logDebug(limeMultiplier);
 
         float ironQuality = maxIronQuality * reducingAgentMultiplier * limeMultiplier;
-        UMFLogger.logInfo(ironQuality);
+        UMFLogger.logDebug(ironQuality);
 
         return new float[] {getIngotCount(oreInserted), ironQuality };
     }

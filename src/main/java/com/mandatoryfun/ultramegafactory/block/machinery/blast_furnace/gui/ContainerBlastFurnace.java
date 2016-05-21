@@ -1,6 +1,8 @@
 package com.mandatoryfun.ultramegafactory.block.machinery.blast_furnace.gui;
 
 import com.mandatoryfun.ultramegafactory.block.machinery.blast_furnace.BlastFurnaceMultiblock;
+import com.mandatoryfun.ultramegafactory.lib.FieldsNullDummy;
+import com.mandatoryfun.ultramegafactory.lib.IFieldsSuck;
 import com.mandatoryfun.ultramegafactory.tileentity.TileEntityBlastFurnaceController;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -26,7 +28,7 @@ public class ContainerBlastFurnace extends Container {
     public ContainerBlastFurnace(InventoryPlayer playerInventory, TileEntityBlastFurnaceController blastFurnaceController) {
         this.tileEntity = blastFurnaceController;
 
-        // generate main ores inventory
+        // generate main input inventory
         for (int row = 0; row < 3; ++row) {
             for (int col = 0; col < 9; ++col) {
                 this.addSlotToContainer(new SlotItemHandler(tileEntity.getHandlerInput(), col + row * 9, 8 + col * 18, 18 + row * 18));
@@ -56,14 +58,14 @@ public class ContainerBlastFurnace extends Container {
 
     public void onCraftGuiOpened(ICrafting icrafting) {
         super.onCraftGuiOpened(icrafting);
-        BlastFurnaceMultiblock.Data data = tileEntity.getData();
-        if (data != null) {
-            icrafting.sendProgressBarUpdate(this, 0, data.getField(0));
-            icrafting.sendProgressBarUpdate(this, 1, data.getField(1));
-            icrafting.sendProgressBarUpdate(this, 2, data.getField(2));
-            icrafting.sendProgressBarUpdate(this, 3, data.getField(3));
-            icrafting.sendProgressBarUpdate(this, 4, data.getField(4));
-        }
+        IFieldsSuck data = tileEntity.getData();
+        if (data == null)
+            data = new FieldsNullDummy();
+        icrafting.sendProgressBarUpdate(this, 0, data.getField(0));
+        icrafting.sendProgressBarUpdate(this, 1, data.getField(1));
+        icrafting.sendProgressBarUpdate(this, 2, data.getField(2));
+        icrafting.sendProgressBarUpdate(this, 3, data.getField(3));
+        icrafting.sendProgressBarUpdate(this, 4, data.getField(4));
     }
 
     /**
@@ -71,35 +73,34 @@ public class ContainerBlastFurnace extends Container {
      */
     public void detectAndSendChanges() {
         super.detectAndSendChanges();
-        BlastFurnaceMultiblock.Data data = tileEntity.getData();
-        if (data != null) {
-            for (int i = 0; i < this.crafters.size(); ++i) {
-                ICrafting icrafting = this.crafters.get(i);
+        IFieldsSuck data = tileEntity.getData();
+        if (data == null)
+            data = new FieldsNullDummy();
+        for (int i = 0; i < this.crafters.size(); ++i) {
+            ICrafting icrafting = this.crafters.get(i);
 
-                if (this.currentTemperature != data.getField(0)) {
-                    icrafting.sendProgressBarUpdate(this, 0, data.getField(0));
-                }
-                if (this.burnTimeLeft != data.getField(1)) {
-                    icrafting.sendProgressBarUpdate(this, 1, data.getField(1));
-                }
-                if (this.burnTimeOrig != data.getField(2)) {
-                    icrafting.sendProgressBarUpdate(this, 2, data.getField(2));
-                }
-                if (this.reactionTimeLeft != data.getField(3)) {
-                    icrafting.sendProgressBarUpdate(this, 3, data.getField(3));
-                }
-                if (this.reactionTimeOrig != data.getField(4)) {
-                    icrafting.sendProgressBarUpdate(this, 4, data.getField(4));
-                }
-
+            if (this.currentTemperature != data.getField(0)) {
+                icrafting.sendProgressBarUpdate(this, 0, data.getField(0));
             }
-
-            this.currentTemperature = data.getField(0);
-            this.burnTimeLeft = data.getField(1);
-            this.burnTimeOrig = data.getField(2);
-            this.reactionTimeLeft = data.getField(3);
-            this.reactionTimeOrig = data.getField(4);
+            if (this.burnTimeLeft != data.getField(1)) {
+                icrafting.sendProgressBarUpdate(this, 1, data.getField(1));
+            }
+            if (this.burnTimeOrig != data.getField(2)) {
+                icrafting.sendProgressBarUpdate(this, 2, data.getField(2));
+            }
+            if (this.reactionTimeLeft != data.getField(3)) {
+                icrafting.sendProgressBarUpdate(this, 3, data.getField(3));
+            }
+            if (this.reactionTimeOrig != data.getField(4)) {
+                icrafting.sendProgressBarUpdate(this, 4, data.getField(4));
+            }
         }
+
+        this.currentTemperature = data.getField(0);
+        this.burnTimeLeft = data.getField(1);
+        this.burnTimeOrig = data.getField(2);
+        this.reactionTimeLeft = data.getField(3);
+        this.reactionTimeOrig = data.getField(4);
     }
 
     @SideOnly(Side.CLIENT)
@@ -108,7 +109,6 @@ public class ContainerBlastFurnace extends Container {
         if (data != null)
             data.setField(id, value);
     }
-
 
     @Override
     public boolean canInteractWith(EntityPlayer playerIn) {

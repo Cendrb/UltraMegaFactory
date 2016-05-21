@@ -1,6 +1,5 @@
 package com.mandatoryfun.ultramegafactory.block.machinery;
 
-import com.mandatoryfun.ultramegafactory.block.machinery.BlockGenericTier;
 import com.mandatoryfun.ultramegafactory.lib.InvalidTierException;
 
 /**

@@ -17,6 +17,9 @@ tile.tetrahedrite_ore.name=Tetrahedrite Ore
 tile.chalcopyrite_ore.name=Chalcopyrite Ore
 tile.bauxite_ore.name=Bauxite Ore
 tile.kaoline_ore.name=Kaolinite
+tile.lignite_ore.name=Lignite Ore
+tile.bitumen_ore.name=Bitumen Ore
+tile.peat_ore.name=Peat
 
 # other resources
 tile.peat.name=Peat

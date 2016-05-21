@@ -70,7 +70,7 @@ public class ModBlocks {
         Ore.cassiterite = registerOre("cassiterite_ore", "SnO\u2082", constructArray("Major tin ore", "Can be found in exotic jungle places"), 3, 1);
         Ore.teallite = registerOre("teallite_ore", "PbSnS\u2082", constructArray("Minor tin ore", "Can be found everywhere"), 3, 1);
 
-        Ore.galena = registerOre("galena_ore", "PbS . n Ag", constructArray("Major lead ore, source of silver", "Toxic - Do not eat or drink!", "Can be found with sphalerite in mountain massifs"), 3, 1);
+        Ore.galena = registerOre("galena_ore", "PbS.nAg", constructArray("Major lead ore, source of silver", "Toxic - Do not eat or drink!", "Can be found with sphalerite in mountain massifs"), 3, 1);
 
         Ore.sphalerite = registerOre("sphalerite_ore", "ZnS", constructArray("Major zinc ore", "Can be found with galena in mountain massifs"), 3, 1);
 

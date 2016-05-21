@@ -88,7 +88,7 @@ public class TileEntityBlastFurnaceController extends TileEntity implements ITic
             dropAllItems();
         String result = multiblock.rebuild(facing, pos, world, tier);
         if(result != "SUCCESS")
-            multiblock.invalidate();
+            multiblock.invalidate(world);
         markDirty();
         return result;
     }
@@ -240,6 +240,7 @@ public class TileEntityBlastFurnaceController extends TileEntity implements ITic
 
         @Override
         protected void onContentsChanged(int slot) {
+            UMFLogger.logDebug(String.format("Called onContentsChanged() in slot %s", slot));
             super.onContentsChanged(slot);
             int totalItems = 0;
             for (int x = ORE_CATEGORY_FIRST_SLOT; x < 27; x++)
@@ -250,22 +251,19 @@ public class TileEntityBlastFurnaceController extends TileEntity implements ITic
 
         @Override
         public void setStackInSlot(int slot, ItemStack stack) {
-            UMFLogger.logInfo("Running setStackInSlot()...");
-            ItemStack previous = getStackInSlot(slot);
+            UMFLogger.logDebug(String.format("Called setStackInSlot() with stack %s in slot %s", stack, slot));
             if (ItemStack.areItemStacksEqual(this.stacks[slot], stack)) // needs to be here too, the super one wont stop this method
                 return;
             super.setStackInSlot(slot, stack);
             if (stack != null) {
                 if (UMFRecipes.BlastFurnace.isValidOre(stack.getItem()))
                     currentOre = stack.getItem();
-                UMFLogger.logInfo("Setting " + stack.stackSize + "*" + stack.getItem().getRegistryName() + " into " + slot);
-                UMFLogger.logInfo("Current number of items: " + currentNumberOfItems);
             }
         }
 
         @Override
         public ItemStack insertItem(int slot, ItemStack stack, boolean simulate) {
-
+            UMFLogger.logDebug(String.format("Called insertItem() with stack %s in slot %s while simulate = %s", stack, slot, simulate));
             if (stack == null || stack.stackSize == 0)
                 return null;
 
@@ -290,6 +288,26 @@ public class TileEntityBlastFurnaceController extends TileEntity implements ITic
                     return stack;
             } else
                 return stack;
+        }
+
+        @Override
+        public ItemStack extractItem(int slot, int amount, boolean simulate) {
+            UMFLogger.logDebug(String.format("Called extractItem() %s in slot with amount = %s while simulate = %s", slot, amount, simulate));
+            ItemStack superReturned = super.extractItem(slot, amount, simulate);
+            if (!simulate && superReturned != null) {
+                if (slot >= ORE_CATEGORY_FIRST_SLOT && slot < REDUCING_AGENT_CATEGORY_FIRST_SLOT) {
+                    if (getStackInSlot(slot) == null) {
+                        // check all ore slots
+                        boolean slotsEmpty = true;
+                        for (int x = ORE_CATEGORY_FIRST_SLOT; x < REDUCING_AGENT_CATEGORY_FIRST_SLOT; x++)
+                            if (getStackInSlot(x) != null)
+                                slotsEmpty = false;
+                        if (slotsEmpty)
+                            currentOre = null;
+                    }
+                }
+            }
+            return superReturned;
         }
 
         public ItemStack[] clear() {
@@ -317,8 +335,6 @@ public class TileEntityBlastFurnaceController extends TileEntity implements ITic
                 // slot is not full and capacity not reached
                 int greaterLimitation = Math.max(superStackSize, itemsLeft);
 
-                UMFLogger.logInfo("Inserting " + stack.stackSize + "*" + stack.getItem().getRegistryName() + " to slot " + slot + " simulate " + simulate);
-
                 if (!simulate) {
                     ItemStack existing = stacks[slot];
                     if (existing == null) {
@@ -327,8 +343,8 @@ public class TileEntityBlastFurnaceController extends TileEntity implements ITic
                         existing.stackSize = existing.stackSize + (stack.stackSize - greaterLimitation);
                     }
                 }
-                UMFLogger.logInfo("Current number of items: " + currentNumberOfItems);
-
+                // might help with combining itemstacks
+                onContentsChanged(slot);
                 if (greaterLimitation > 0)
                     // if limited return the rest
                     return ItemHandlerHelper.copyStackWithSize(stack, greaterLimitation);
@@ -337,27 +353,6 @@ public class TileEntityBlastFurnaceController extends TileEntity implements ITic
                     return null;
             } else
                 return stack;
-        }
-
-        @Override
-        public ItemStack extractItem(int slot, int amount, boolean simulate) {
-            ItemStack superReturned = super.extractItem(slot, amount, simulate);
-            UMFLogger.logInfo("Extracting " + amount + " from " + slot + " simulate " + simulate);
-            if (!simulate && superReturned != null) {
-                if (slot >= ORE_CATEGORY_FIRST_SLOT && slot < REDUCING_AGENT_CATEGORY_FIRST_SLOT) {
-                    if (getStackInSlot(slot) == null) {
-                        // check all ore slots
-                        boolean slotsEmpty = true;
-                        for (int x = ORE_CATEGORY_FIRST_SLOT; x < REDUCING_AGENT_CATEGORY_FIRST_SLOT; x++)
-                            if (getStackInSlot(x) != null)
-                                slotsEmpty = false;
-                        if (slotsEmpty)
-                            currentOre = null;
-                    }
-                }
-            }
-            UMFLogger.logInfo("Current number of items: " + currentNumberOfItems);
-            return superReturned;
         }
 
         private int canInsert(int numberOfItems) {

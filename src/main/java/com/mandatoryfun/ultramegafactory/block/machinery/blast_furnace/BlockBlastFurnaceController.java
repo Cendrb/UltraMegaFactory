@@ -112,6 +112,7 @@ public class BlockBlastFurnaceController extends BlockGenericContainer implement
         if(tileEntity != null && tileEntity instanceof TileEntityBlastFurnaceController)
         {
             TileEntityBlastFurnaceController tileEntityBlastFurnaceController = (TileEntityBlastFurnaceController) tileEntity;
+            tileEntityBlastFurnaceController.invalidate();
             tileEntityBlastFurnaceController.dropAllItems();
         }
 
@@ -199,10 +200,5 @@ public class BlockBlastFurnaceController extends BlockGenericContainer implement
     @Override
     public TileEntity createNewTileEntity(World worldIn, int meta) {
         return new TileEntityBlastFurnaceController();
-    }
-
-    @Override
-    public BlockRenderLayer getBlockLayer() {
-        return BlockRenderLayer.SOLID;
     }
 }

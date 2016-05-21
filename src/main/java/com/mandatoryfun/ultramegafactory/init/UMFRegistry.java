@@ -1,16 +1,12 @@
 package com.mandatoryfun.ultramegafactory.init;
 
 import com.google.common.collect.ImmutableList;
-import com.mandatoryfun.ultramegafactory.block.machinery.BlockGenericTier;
-import com.mandatoryfun.ultramegafactory.init.recipe.BlastFurnaceRecipe;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.oredict.OreDictionary;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 /**

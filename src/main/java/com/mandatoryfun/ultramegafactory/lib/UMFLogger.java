@@ -10,6 +10,10 @@ public class UMFLogger {
         System.out.println(string);
     }
 
+    public static void logDebug(Object string) {
+        System.out.println(string);
+    }
+
     public static void logWarning(Object string) {
         System.out.println("WARNING: " + string.toString());
     }

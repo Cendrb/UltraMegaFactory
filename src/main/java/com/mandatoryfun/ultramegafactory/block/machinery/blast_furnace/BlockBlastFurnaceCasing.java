@@ -1,13 +1,13 @@
 package com.mandatoryfun.ultramegafactory.block.machinery.blast_furnace;
 
-import com.mandatoryfun.ultramegafactory.block.machinery.BlockGenericTier;
+import com.mandatoryfun.ultramegafactory.block.machinery.BlockGenericTierCasing;
 import com.mandatoryfun.ultramegafactory.block.machinery.IBlockHeatable;
 import com.mandatoryfun.ultramegafactory.lib.InvalidTierException;
 
 /**
  * Created by cendr_000 on 03.04.2016.
  */
-public class BlockBlastFurnaceCasing extends BlockGenericTier implements IBlockHeatable {
+public class BlockBlastFurnaceCasing extends BlockGenericTierCasing implements IBlockHeatable {
     public BlockBlastFurnaceCasing() {
         super("blast_furnace_casing");
     }

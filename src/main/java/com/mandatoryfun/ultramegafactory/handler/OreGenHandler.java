@@ -16,7 +16,7 @@ public class OreGenHandler
     {
         if(event.getType()== OreGenEvent.GenerateMinable.EventType.IRON||event.getType()== OreGenEvent.GenerateMinable.EventType.COAL)
         {
-            UMFLogger.logInfo("OreGenException Ruined");
+            UMFLogger.logDebug("OreGenException Ruined");
             event.setResult(Event.Result.DENY);
         }
     }

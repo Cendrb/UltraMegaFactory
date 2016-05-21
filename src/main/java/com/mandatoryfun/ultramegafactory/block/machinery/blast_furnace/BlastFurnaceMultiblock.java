@@ -1,6 +1,6 @@
 package com.mandatoryfun.ultramegafactory.block.machinery.blast_furnace;
 
-import com.mandatoryfun.ultramegafactory.block.machinery.BlockGenericTier;
+import com.mandatoryfun.ultramegafactory.block.machinery.BlockGenericTierCasing;
 import com.mandatoryfun.ultramegafactory.block.machinery.BlockHeater;
 import com.mandatoryfun.ultramegafactory.block.machinery.IBlockHeatable;
 import com.mandatoryfun.ultramegafactory.init.UMFRecipes;
@@ -18,6 +18,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
@@ -39,9 +40,15 @@ public class BlastFurnaceMultiblock {
 
     }
 
-    public void invalidate()
+    public void invalidate(World world)
     {
         data = null;
+        for(Map.Entry<BlockPos, IBlockState> pair : blocks.entrySet())
+        {
+            TileEntity tileEntity = world.getTileEntity(pair.getKey());
+            if(tileEntity instanceof TileEntityGenericTier)
+                ((TileEntityGenericTier)tileEntity).setControllerPos(null);
+        }
     }
 
     public String rebuild(EnumFacing facing, BlockPos controllerPos, World world, int controllerTier) {
@@ -274,7 +281,7 @@ public class BlastFurnaceMultiblock {
 
             for (Map.Entry<BlockPos, IBlockState> pair : blocks.entrySet()) {
                 IBlockState state = pair.getValue();
-                BlockGenericTier block = (BlockGenericTier) state.getBlock();
+                BlockGenericTierCasing block = (BlockGenericTierCasing) state.getBlock();
                 int tier = state.getValue(block.getTier());
 
                 joulesPerDegreeThermalCapacity += ((IBlockHeatable) block).getThermalCapacityJoulePerDegree(tier);
