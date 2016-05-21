@@ -84,10 +84,10 @@ public class TileEntityBlastFurnaceController extends TileEntity implements ITic
     }
 
     public String rebuildMultiblock(EnumFacing facing, BlockPos pos, World world, int tier) {
-        if(multiblock.getData() != null)
+        if (multiblock.getData() != null)
             dropAllItems();
         String result = multiblock.rebuild(facing, pos, world, tier);
-        if(result != "SUCCESS")
+        if (result != "SUCCESS")
             multiblock.invalidate(world);
         markDirty();
         return result;
@@ -190,7 +190,7 @@ public class TileEntityBlastFurnaceController extends TileEntity implements ITic
         int lastStackSize = handlerOutput.currentNumberOfItems % 64;
         if (lastStackSize > 0)
             WorldHelper.spawnItemStack(worldObj, new ItemStack(handlerOutput.currentItem.getItem(), lastStackSize, handlerOutput.currentItem.getItemDamage()), dropX, dropY, dropZ);
-        for(int remainingStacks = fullStacks; remainingStacks > 0; remainingStacks--)
+        for (int remainingStacks = fullStacks; remainingStacks > 0; remainingStacks--)
             WorldHelper.spawnItemStack(worldObj, new ItemStack(handlerOutput.currentItem.getItem(), 64, handlerOutput.currentItem.getItemDamage()), dropX, dropY, dropZ);
         handlerOutput.clear();
     }
@@ -372,12 +372,16 @@ public class TileEntityBlastFurnaceController extends TileEntity implements ITic
 
         @Override
         public NBTTagCompound serializeNBT() {
-            return super.serializeNBT();
+            NBTTagCompound superReturned = super.serializeNBT();
+            superReturned.setInteger("currentNumberOfItems", currentNumberOfItems);
+            return superReturned;
         }
 
         @Override
         public void deserializeNBT(NBTTagCompound nbt) {
             super.deserializeNBT(nbt);
+            if (nbt.hasKey("currentNumberOfItems"))
+                currentNumberOfItems = nbt.getInteger("currentNumberOfItems");
         }
     }
 
